@@ -62,4 +62,9 @@ Para la misma red WiFi :
 "ADB_IP" : Especifica la direccion IP del dispositivo mobile cuyo sistema operativo es Android.  
 "REACT_NATIVE_PACKAGER_HOSTNAME" : Especifica la direccion IP de la PC donde se esta ejecutando el docker.  
 
+Para que se puedan editar desde afuera los archivos creados desde el docker hay que correr desde dentro del docker el siguiente comando:
+ 
+````
+chmod a+rwx -R .
+````
 
