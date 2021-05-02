@@ -11,3 +11,4 @@ WORKDIR /workspace
 COPY ["package.json", "./"]
 # Instalar Expo globalmente.
 RUN npm install -g expo-cli@4.4.3
+RUN npm install --prefix ./SeedyFiubaApp

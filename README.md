@@ -67,4 +67,12 @@ Para que se puedan editar desde afuera los archivos creados desde el docker hay 
 ````
 chmod a+rwx -R .
 ````
+## Test
 
+Utilizamos Jest para implementar los test
+
+Para ejecutar los test correr dentro del docker el siguiente comando:
+
+````
+npm test
+````
