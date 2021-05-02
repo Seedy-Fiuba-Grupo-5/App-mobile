@@ -1,5 +1,5 @@
-node_modules/
-.expo/
+SeedyFiubaApp/node_modules/
+SeedyFiubaApp/.expo/
 npm-debug.*
 *.jks
 *.p8
@@ -8,6 +8,8 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+SeedyFiubaApp/package-lock.json
+.env
 
 # macOS
 .DS_Store
