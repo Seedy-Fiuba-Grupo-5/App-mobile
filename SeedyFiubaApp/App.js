@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import {ProjectView} from './src/view/ProjectView';
 import axios from 'axios';
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
+import { Card,Header} from 'react-native-elements'
 
 export default class App extends Component{
     constructor(props) {
@@ -27,17 +27,25 @@ export default class App extends Component{
     render(){
         return(
         <View style={styles.container}>
-            <Card>
-                <Card.Title>HELLO WORLD</Card.Title>
-                <Text>Hello world!</Text>
-            </Card>
-            <ProjectView> Projecs: </ProjectView>
-            {this.state.projects.map((project, index) => {
-                return (
-                    <Text key = {project.id}>{project.name}</Text>
-                );
-            })}
-            <StatusBar style="auto" />
+            <View >
+                <Header
+                    placement="center"
+                    backgroundColor={'green'}
+                    leftComponent={{ icon: 'menu', color: '#fff' }}
+                    centerComponent={{ text: 'SEEDYFIUBA', style: { color: '#fff',paddingTop:4} }}
+                    rightComponent={{ icon: 'home', color: '#fff' }}
+                />
+            </View>
+            <View style={styleBody.container}>
+                <ProjectView> Projecs: </ProjectView>
+                {this.state.projects.map((project, index) => {
+                    return (
+                        <Card key = {project.id}>
+                            <Card.Title>{project.name}</Card.Title>
+                        </Card>
+                    );
+                })}
+            </View>
         </View>
         )
     }
@@ -46,9 +54,12 @@ export default class App extends Component{
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+      alignItems: 'center'
   },
 });
+const styleBody = StyleSheet.create({
+    container:{
+        alignItems: 'flex-start'
+    }
+})
