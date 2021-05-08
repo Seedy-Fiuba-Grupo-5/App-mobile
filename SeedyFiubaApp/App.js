@@ -1,33 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import 'react-native-gesture-handler';
 import ProjectView from './src/view/ProjectView';
-import axios from 'axios';
-import { Card,Header} from 'react-native-elements'
+import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-export default class App extends Component{
-    render(){
-        return(
-        <View style={styles.container}>
-            <View >
-                <Header
-                    placement="center"
-                    backgroundColor={'green'}
-                    leftComponent={{ icon: 'menu', color: '#fff' }}
-                    centerComponent={{ text: 'SEEDYFIUBA', style: { color: '#fff',paddingTop:4} }}
-                    rightComponent={{ icon: 'home', color: '#fff' }}
-                />
-            </View>
-            <ProjectView/>
-        </View>
-        )
-    }
-
+const Tab = createMaterialTopTabNavigator();
+const App = () => {
+    return(
+        <NavigationContainer>
+            <Tab.Navigator>
+                <Tab.Screen name="Home" component={ProjectView} />
+            </Tab.Navigator>
+        </NavigationContainer>
+    )
 }
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#fff',
-        alignSelf: 'center'
-    },
-});
+export default App;
+
 

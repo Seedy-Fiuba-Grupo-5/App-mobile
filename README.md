@@ -67,6 +67,18 @@ Para que se puedan editar desde afuera los archivos creados desde el docker hay 
 ````
 chmod a+rwx -R .
 ````
+
+### Seteo de URL
+
+Dentro de la carpeta SeedyFiubaApp se tiene
+que crear un .env con el siguiente dato:
+
+````
+URL_LOCAL=http://<IP de la Compu>
+````
+Esto para poder realizar las peticiones a los distintos
+microservicios.
+
 ## Test
 
 Utilizamos Jest para implementar los test
