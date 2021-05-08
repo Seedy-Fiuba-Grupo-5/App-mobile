@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import ProjectCard from "./ProjectCard";
 import {Button, ScrollView} from "react-native";
-import NewProjectView from "./NewProjectView";
 import {URL_LOCAL} from '@env'
 const ProjectView = () => {
     const [projects, setProjects] = useState([]);
@@ -25,7 +24,6 @@ const ProjectView = () => {
                     )
                 }
             </ScrollView>
-            <NewProjectView/>
         </>
     )
 
