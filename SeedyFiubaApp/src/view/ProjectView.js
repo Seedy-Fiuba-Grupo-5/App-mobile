@@ -19,7 +19,7 @@ const ProjectView = () => {
                 {
                     projects.map((project, index) => {
                             return (
-                                <ProjectCard projectName={project}/>
+                                <ProjectCard projectName={project.name}/>
                             )
                         }
                     )
