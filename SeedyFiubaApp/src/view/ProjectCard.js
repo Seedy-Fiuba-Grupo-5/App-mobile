@@ -11,11 +11,12 @@ const ProjectCard = (props) => {
         elevation:5
     }
     const  navigation = useNavigation()
+    const projectName = {name: props.projectName}
 
     return(
         <View>
             <Card containerStyle={styleCard}>
-                <TouchableOpacity onPress={() => navigation.navigate('ProjectDetails')}>
+                <TouchableOpacity onPress={() => navigation.navigate('ProjectDetails', {projectName})}>
                     <Card.Title>
                         {props.projectName}
                     </Card.Title>

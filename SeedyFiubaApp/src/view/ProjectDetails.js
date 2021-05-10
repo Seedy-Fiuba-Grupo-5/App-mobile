@@ -1,14 +1,12 @@
 import {Text, View} from "react-native";
 import React from "react";
+import {useNavigation} from "@react-navigation/native";
 
-const ProjectDetails = (navigation) => {
-    const pressHandler = () => {
-        navigation.goBack();
-    }
+const ProjectDetails = () => {
 
     return (
         <View>
-            <Text>ReviewDetails Screen</Text>
+            <Text>NOMBRE DEL PROYECTO</Text>
         </View>
     );
 }
