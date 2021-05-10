@@ -1,5 +1,7 @@
 import React from 'react';
 import { Card} from 'react-native-elements'
+import {View, TouchableOpacity} from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
 const ProjectCard = (props) => {
     const styleCard ={
@@ -8,12 +10,18 @@ const ProjectCard = (props) => {
         borderRadius: 20,
         elevation:5
     }
+    const  navigation = useNavigation()
+
     return(
-        <Card containerStyle={styleCard}>
-            <Card.Title>
-                {props.projectName}
-            </Card.Title>
-        </Card>
+        <View>
+            <Card containerStyle={styleCard}>
+                <TouchableOpacity onPress={() => navigation.navigate('ProjectDetails')}>
+                    <Card.Title>
+                        {props.projectName}
+                    </Card.Title>
+                </TouchableOpacity>
+            </Card>
+        </View>
     )
 }
 export default ProjectCard;
