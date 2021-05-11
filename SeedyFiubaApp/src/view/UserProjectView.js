@@ -4,10 +4,7 @@ import NewProjectView from "./NewProjectView";
 
 const UserProjectView = () => {
     return(
-        <>
-            <Text>My Projects</Text>
             <NewProjectView/>
-        </>
     )
 }
 export default UserProjectView

@@ -3,10 +3,11 @@ import axios from "axios";
 import ProjectCard from "./ProjectCard";
 import {Button, ScrollView} from "react-native";
 import {URL_LOCAL} from '@env'
-const ProjectView = () => {
+
+const ProjectView = ({navigation}) => {
     const [projects, setProjects] = useState([]);
     useEffect(() => {
-        axios.get(URL_LOCAL+'/projects')
+        axios.get(URL_LOCAL + '/projects')
             .then(respuesta => respuesta.data)
             .then((data) => {
                 setProjects(data);
@@ -16,12 +17,11 @@ const ProjectView = () => {
         <>
             <ScrollView>
                 {
-                    projects.map((project, index) => {
-                            return (
-                                <ProjectCard projectName={project.name}/>
-                            )
-                        }
-                    )
+                    projects.map((project) => {
+                        return (<ProjectCard key={project.id} projectName={project.name}
+                                             onPress={() => navigation.push("Project", {project: project})
+                                             }/>)
+                    })
                 }
             </ScrollView>
         </>

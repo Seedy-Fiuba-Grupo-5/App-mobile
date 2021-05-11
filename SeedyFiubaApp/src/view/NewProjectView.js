@@ -6,8 +6,10 @@ import {URL_LOCAL} from '@env'
 const NewProjectView = () => {
     const [name, setName] = useState("");
     const newProject = () =>{
-        if(name!==""){
-            axios.post(URL_LOCAL+'/projects',{'name': name});
+        if(name !== ""){
+            axios.post(URL_LOCAL+'/projects',{'name': name}).catch((error)=>{
+                console.log(error);
+            });
         }
     }
     return (
