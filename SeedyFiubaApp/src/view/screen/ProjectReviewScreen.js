@@ -1,13 +1,14 @@
 import React from "react";
 import {Text} from "react-native";
+import styles from "../Styles/StyleSheet";
 
 const ProjectReviewScreen = ({route}) => {
     return (
         <>
-            <Text>
+            <Text style={styles.titleText}>
                 {route.params.project.name}
             </Text>
-            <Text>
+            <Text style={styles.baseText}>
                 {route.params.project.id}
             </Text>
         </>
