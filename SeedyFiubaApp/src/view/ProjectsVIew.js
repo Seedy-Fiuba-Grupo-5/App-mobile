@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import ProjectCard from "./ProjectCard";
+import ProjectCard from "./component/ProjectCard";
 import {Button, ScrollView} from "react-native";
 import ApiProject from "../model/ApiProject";
 
-const ProjectView = ({navigation}) => {
+const ProjectsVIew = ({navigation}) => {
     const [projects, setProjects] = useState([]);
     useEffect(() => {
         const apiProjects = new ApiProject();
@@ -24,4 +24,4 @@ const ProjectView = ({navigation}) => {
     )
 
 }
-export default ProjectView
+export default ProjectsVIew

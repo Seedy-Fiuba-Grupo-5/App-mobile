@@ -11,7 +11,7 @@ class ApiProject {
     async get() {
         const url = this.baseUrl + '/projects';
         const response = await axios.get(url);
-        if (response.status !== 201) {
+        if (response.status !== 200) {
             return new Projects([]);
         }
         const jsonData = response.data;
