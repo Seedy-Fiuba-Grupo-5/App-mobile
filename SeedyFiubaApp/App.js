@@ -1,21 +1,53 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {NavigationContainer} from "@react-navigation/native";
+import {createStackNavigator} from "@react-navigation/stack";
+import HomeScreen from "./src/view/screen/HomeScreen";
+import ProjectReviewScreen from "./src/view/screen/ProjectReviewScreen";
+import {useFonts, Capriola_400Regular} from '@expo-google-fonts/capriola';
+import {Text} from "react-native";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+
+const homeStack = createStackNavigator();
+
+const App = () => {
+    let [fontsLoaded] = useFonts({
+        Capriola_400Regular,
+    });
+    if (!fontsLoaded) {
+        return (<Text>
+            Loading
+        </Text>);
+    } else {
+        return (
+            <NavigationContainer>
+                <homeStack.Navigator initialRouteName="Home" screenOptions={
+                    {
+                        headerStyle: {
+                            backgroundColor: '#303F9F'
+                        },
+                        headerTitleAlign: 'center',
+                        headerTitleStyle: {
+                            color: '#fff',
+                            fontFamily: 'Capriola_400Regular'
+                        }
+                    }
+                }>
+                    <homeStack.Screen name="Home" component={HomeScreen}
+                                      options={{
+                                          title: 'SeedyFiuba'
+                                      }}/>
+                    <homeStack.Screen name="Project" component={ProjectReviewScreen}
+                                      options={({route}) => {
+                                          return ({
+                                              title: route.params.project.name
+                                          })
+                                      }}/>
+                </homeStack.Navigator>
+            </NavigationContainer>
+        )
+
+    }
 }
+export default App;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+

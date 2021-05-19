@@ -10,6 +10,8 @@ npm-debug.*
 web-build/
 SeedyFiubaApp/package-lock.json
 .env
-
+.idea
+node_modules
+.expo
 # macOS
 .DS_Store
