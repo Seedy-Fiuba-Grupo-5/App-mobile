@@ -10,9 +10,14 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     button: {
-        width: "40%",
-        justifyContent: 'center',
-        alignSelf: 'center',
+        backgroundColor: '#3F51B5',
+        borderRadius: 15,
+        width: '80%',
+        alignSelf: 'center'
+    },
+    formContainerStyle: {
+        width: '80%',
+        alignSelf: 'center'
     }
 });
 export default styles
