@@ -18,6 +18,13 @@ const styles = StyleSheet.create({
     formContainerStyle: {
         width: '80%',
         alignSelf: 'center'
-    }
+    },
+    errorText: {
+        color: 'crimson',
+        fontWeight: 'bold',
+        marginBottom: 10,
+        marginTop: 6,
+        textAlign: 'center',
+    },
 });
 export default styles
