@@ -69,8 +69,8 @@ const NewProjectForm = (props) => {
                                onChangeText={props.handleChange('name')}
                                value={props.values.name}
                                leftIcon={{ type: 'font-awesome-5', name: 'project-diagram' }}
-                               errorMessage={props.errors.name}
-                               renderErrorMessage={props.touched.name}/>
+                               onBlur={props.handleBlur('name')}
+                               errorMessage={props.touched.name && props.errors.name}/>
 
                         <Input label={"Project Description"}
                                placeholder='The most holesome project'
@@ -79,8 +79,8 @@ const NewProjectForm = (props) => {
                                onChangeText={props.handleChange('description')}
                                value={props.values.description}
                                leftIcon={{ type: 'font-awesome-5', name: 'scroll' }}
-                               errorMessage={props.errors.description}
-                               renderErrorMessage={props.touched.description}/>
+                               onBlur={props.handleBlur('description')}
+                               errorMessage={props.touched.description && props.errors.description}/>
 
                         <Input label={"Hashtags"}
                                placeholder='LEGENDARY'
@@ -88,6 +88,7 @@ const NewProjectForm = (props) => {
                                onChangeText={props.handleChange('hashtags')}
                                leftIcon={{ type: 'font-awesome', name: 'hashtag' }}
                                value={props.values.hashtags}/>
+
                         <Text style={styles.labelText}>Proyect Type</Text>
                         <RNPickerSelect
                             Icon={() => {
@@ -97,7 +98,7 @@ const NewProjectForm = (props) => {
                                 label: 'Select a Proyect Type...',
                                 value: "",
                             }}
-
+                            onBlur={props.handleBlur('type')}
                             style={{ ...pickerStyle,
                                 iconContainer: {
                                     top: 10,
@@ -119,7 +120,7 @@ const NewProjectForm = (props) => {
                                 { label: "C", value: "C" },
                             ]}
                         />
-                        <Text style={styles.errorText}>{props.errors.type}</Text>
+                        <Text style={styles.errorText}>{props.touched.type && props.errors.type}</Text>
 
                         <Input label={"Goal"}
                                placeholder='125550'
@@ -127,9 +128,9 @@ const NewProjectForm = (props) => {
                                containerStyle={styles.formContainerStyle}
                                onChangeText={props.handleChange('goal')}
                                value={props.values.goal}
+                               onBlur={props.handleBlur('goal')}
                                leftIcon={{ type: 'font-awesome', name: 'dollar' }}
-                               errorMessage={props.errors.goal}
-                               renderErrorMessage={props.touched.goal}/>
+                               errorMessage={props.touched.goal && props.errors.goal}/>
 
                         <Input label={"End Date"}
                                placeholder='14/05/2022'
