@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Input} from 'react-native-elements'
 import {KeyboardAvoidingView, Text, ToastAndroid, View} from "react-native";
 import styles from "../Styles/StyleSheet";
@@ -6,6 +6,8 @@ import ApiProject from "../../model/ApiProject";
 import {Formik} from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import * as yup from 'yup';
+import moment from "moment";
+import RNPickerSelect from "react-native-picker-select";
 
 const projectSchema = yup.object({
     name: yup.string()
@@ -17,6 +19,8 @@ const projectSchema = yup.object({
         .test('is-valid-num', 'Must be at least AR$ 100', (val) => {
             return parseInt(val) >= 100;
         }),
+    type: yup.string()
+        .required(),
 });
 
 
@@ -36,6 +40,11 @@ const NewProjectForm = (props) => {
                 .catch((error) => {});
         }
     }
+
+    const pickerStyle = {
+        inputIOS: styles.pickerStyle,
+        inputAndroid: styles.pickerStyle,
+    };
     return(
         <View>
             <Formik initialValues={{
@@ -79,13 +88,38 @@ const NewProjectForm = (props) => {
                                onChangeText={props.handleChange('hashtags')}
                                leftIcon={{ type: 'font-awesome', name: 'hashtag' }}
                                value={props.values.hashtags}/>
+                        <Text style={styles.labelText}>Proyect Type</Text>
+                        <RNPickerSelect
+                            Icon={() => {
+                                return <Icon name="lightbulb" size={24} color="black" />;
+                            }}
+                            placeholder={{
+                                label: 'Select a Proyect Type...',
+                                value: "",
+                            }}
 
-                        <Input label={"Proyect Type"}
-                               placeholder='Awesome Type'
-                               containerStyle={styles.formContainerStyle}
-                               onChangeText={props.handleChange('type')}
-                               leftIcon={{ type: 'font-awesome-5', name: 'lightbulb' }}
-                               value={props.values.type}/>
+                            style={{ ...pickerStyle,
+                                iconContainer: {
+                                    top: 10,
+                                    left:47,
+                                },
+                                placeholder: {
+                                    color: "#86939e",
+                                    fontSize: 18,
+                                },
+                            }}
+                            selectedValue={props.values.type}
+                            onValueChange={props.handleChange('type')}
+                            items={[
+                                { label: "JavaScript", value: "JavaScript" },
+                                { label: "TypeStript", value: "TypeStript" },
+                                { label: "Python", value: "Python" },
+                                { label: "Java", value: "Java" },
+                                { label: "C++", value: "C++" },
+                                { label: "C", value: "C" },
+                            ]}
+                        />
+                        <Text style={styles.errorText}>{props.errors.type}</Text>
 
                         <Input label={"Goal"}
                                placeholder='125550'
