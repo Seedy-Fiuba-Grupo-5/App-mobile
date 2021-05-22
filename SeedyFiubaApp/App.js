@@ -5,6 +5,7 @@ import HomeScreen from "./src/view/screen/HomeScreen";
 import ProjectReviewScreen from "./src/view/screen/ProjectReviewScreen";
 import {useFonts, Capriola_400Regular} from '@expo-google-fonts/capriola';
 import {Text} from "react-native";
+import LoginScreen from "./src/view/screen/LoginScreen";
 
 
 const homeStack = createStackNavigator();
@@ -19,7 +20,7 @@ const App = () => {
         </Text>);
     } else {
         return (
-            <NavigationContainer>
+            /*<NavigationContainer>
                 <homeStack.Navigator initialRouteName="Home" screenOptions={
                     {
                         headerStyle: {
@@ -43,7 +44,8 @@ const App = () => {
                                           })
                                       }}/>
                 </homeStack.Navigator>
-            </NavigationContainer>
+            </NavigationContainer>*/
+            <LoginScreen/>
         )
 
     }
