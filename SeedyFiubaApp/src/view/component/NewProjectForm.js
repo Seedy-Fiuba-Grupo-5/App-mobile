@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, Text, ToastAndroid, View} from "react-native";
+import {Alert, KeyboardAvoidingView, Text, View} from "react-native";
 import ApiProject from "../../model/ApiProject";
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -14,7 +14,7 @@ const NewProjectForm = (props) => {
 
     const [datePickerShow, datePickerSetShow] = useState(false);
     const showMessage = (message) => {
-        ToastAndroid.show(message, ToastAndroid.SHORT);
+        Alert.alert(message)
     }
 
     const newProject = (project) =>{
@@ -23,10 +23,12 @@ const NewProjectForm = (props) => {
             apiProjects.post(project)
                 .then((data) => {
                     if(data){
-                        showMessage("Project Create");
+                        showMessage('The Project Was Successfully Created');
                     }
                 })
-                .catch((error) => {});
+                .catch((error) => {
+                    showMessage('Failed To Create Project')
+                });
         }
     }
 
@@ -49,7 +51,7 @@ const NewProjectForm = (props) => {
             }),
         hashtags: yup.string()
             .test('valid-hashtags', '' +
-                'Plaese enter hashtags in format: #Hayasaka #ChisaSuperWaifu', (val) => {
+                'Please enter hashtags in format: #Hayasaka #ChisaSuperWaifu', (val) => {
                 let hashtagsArray = String(val).split(" ")
                 return validateHashtags(hashtagsArray)
             })
