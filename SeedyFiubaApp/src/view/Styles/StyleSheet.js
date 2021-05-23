@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
         width: '80%',
         alignSelf: 'center'
     },
+
     errorText: {
         color: 'red',
         fontSize: 12,
@@ -49,15 +50,24 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
         paddingLeft: 22, // to ensure the text is never behind the icon
     },
+
     placeholder: {
         color: "#86939e",
         fontSize: 18,
     },
+
     placeholderText: {
         color: "#86939e",
         fontSize: 18,
         paddingLeft: 5,
     },
+
+    enteredDataText: {
+        color: "black",
+        fontSize: 18,
+        paddingLeft: 5,
+    },
+
     formOnTouchableOpacity: {
         paddingVertical: 12,
         paddingHorizontal: 10,

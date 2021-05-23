@@ -6,8 +6,8 @@ import ApiProject from "../../model/ApiProject";
 import {Formik} from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import moment from "moment";
+import * as yup from 'yup';
 import RNPickerSelect from "react-native-picker-select";
-import projectSchema from "./ProjectFormSchema";
 import DateTimePickerModal from "@react-native-community/datetimepicker";
 
 const NewProjectForm = (props) => {
@@ -26,22 +26,39 @@ const NewProjectForm = (props) => {
                 .catch((error) => {});
         }
     }
+    let projectSchema = yup.object({
+        name: yup.string()
+            .required(),
+        description: yup.string()
+            .required(),
+        goal: yup.string()
+            .required()
+            .test('is-valid-num', 'Must be at least AR$ 100', (val) => {
+                return parseInt(val) >= 100;
+            }),
+        type: yup.string()
+            .required(),
+        endDate: yup.string()
+            .required()
+            .test('is-endDate-confirmed', 'Please Confirm an End Date', () => {
+                return !show
+            }),
+    });
 
     const [date, setDate] = useState(moment().add(8,'days').toDate());
-    const [show, setShow] = useState(false);
     const [dateButtonText, setDateButtonText] = useState('Select an End Date...')
-
-    const onChange = (event, selectedDate) => {
-    };
-
+    const [dateTextStyle, setDateTextStyle] = useState(styles.placeholderText)
+    const [show, setShow] = useState(false);
 
     const showDatepicker = () => {
         if (show){
             setShow(false);
-            setDateButtonText(date.toString());
+            setDateButtonText(date.toDateString());
+            setDateTextStyle(styles.enteredDataText);
         } else {
             setShow(true);
             setDateButtonText('Confirm End Date');
+            setDateTextStyle(styles.placeholderText);
         }
     };
 
@@ -49,6 +66,7 @@ const NewProjectForm = (props) => {
         inputIOS: styles.pickerStyle,
         inputAndroid: styles.pickerStyle,
     };
+
     return(
         <View>
             <Formik initialValues={{
@@ -145,7 +163,7 @@ const NewProjectForm = (props) => {
                                 }}>
                                 <Icon name={'calendar-week'} size={26}/>
                                 <Text
-                                    style={styles.placeholderText}>
+                                    style={dateTextStyle}>
                                     {dateButtonText}
                                 </Text>
                             </View>
@@ -160,7 +178,7 @@ const NewProjectForm = (props) => {
                                     display="default"
                                     onChange={ (event, value) => {
                                         setDate(value);
-                                        props.setFieldValue('endDate', value.toString());
+                                        props.setFieldValue('endDate', value.toDateString());
                                     }}
                                 />
                             </View>
