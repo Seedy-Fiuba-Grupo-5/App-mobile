@@ -1,28 +1,14 @@
 import React, {useState} from 'react';
 import {Button, Input} from 'react-native-elements'
-import {KeyboardAvoidingView, Text, ToastAndroid, View} from "react-native";
+import {KeyboardAvoidingView, Text, ToastAndroid, TouchableOpacity, View} from "react-native";
 import styles from "../Styles/StyleSheet";
 import ApiProject from "../../model/ApiProject";
 import {Formik} from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import * as yup from 'yup';
 import moment from "moment";
 import RNPickerSelect from "react-native-picker-select";
-
-const projectSchema = yup.object({
-    name: yup.string()
-        .required(),
-    description: yup.string()
-        .required(),
-    goal: yup.string()
-        .required()
-        .test('is-valid-num', 'Must be at least AR$ 100', (val) => {
-            return parseInt(val) >= 100;
-        }),
-    type: yup.string()
-        .required(),
-});
-
+import projectSchema from "./ProjectFormSchema";
+import DateTimePickerModal from "@react-native-community/datetimepicker";
 
 const NewProjectForm = (props) => {
     const showMessage = (message) => {
@@ -40,6 +26,24 @@ const NewProjectForm = (props) => {
                 .catch((error) => {});
         }
     }
+
+    const [date, setDate] = useState(moment().add(8,'days').toDate());
+    const [show, setShow] = useState(false);
+    const [dateButtonText, setDateButtonText] = useState('Select an End Date...')
+
+    const onChange = (event, selectedDate) => {
+    };
+
+
+    const showDatepicker = () => {
+        if (show){
+            setShow(false);
+            setDateButtonText(date.toString());
+        } else {
+            setShow(true);
+            setDateButtonText('Confirm End Date');
+        }
+    };
 
     const pickerStyle = {
         inputIOS: styles.pickerStyle,
@@ -73,7 +77,7 @@ const NewProjectForm = (props) => {
                                errorMessage={props.touched.name && props.errors.name}/>
 
                         <Input label={"Project Description"}
-                               placeholder='The most holesome project'
+                               placeholder='The most wholesome project'
                                multiline={true}
                                containerStyle={styles.formContainerStyle}
                                onChangeText={props.handleChange('description')}
@@ -89,13 +93,13 @@ const NewProjectForm = (props) => {
                                leftIcon={{ type: 'font-awesome', name: 'hashtag' }}
                                value={props.values.hashtags}/>
 
-                        <Text style={styles.labelText}>Proyect Type</Text>
+                        <Text style={styles.labelText}>Project Type</Text>
                         <RNPickerSelect
                             Icon={() => {
                                 return <Icon name="lightbulb" size={24} color="black" />;
                             }}
                             placeholder={{
-                                label: 'Select a Proyect Type...',
+                                label: 'Select a Project Type...',
                                 value: "",
                             }}
                             onBlur={props.handleBlur('type')}
@@ -104,10 +108,7 @@ const NewProjectForm = (props) => {
                                     top: 10,
                                     left:47,
                                 },
-                                placeholder: {
-                                    color: "#86939e",
-                                    fontSize: 18,
-                                },
+                                placeholder: styles.placeholder,
                             }}
                             selectedValue={props.values.type}
                             onValueChange={props.handleChange('type')}
@@ -132,12 +133,39 @@ const NewProjectForm = (props) => {
                                leftIcon={{ type: 'font-awesome', name: 'dollar' }}
                                errorMessage={props.touched.goal && props.errors.goal}/>
 
-                        <Input label={"End Date"}
-                               placeholder='14/05/2022'
-                               containerStyle={styles.formContainerStyle}
-                               onChangeText={props.handleChange('endDate')}
-                               leftIcon={{ type: 'font-awesome-5', name: 'calendar-week' }}
-                               value={props.values.endDate}/>
+                        <Text style={styles.labelText}>End Date</Text>
+                        <TouchableOpacity
+                            onPress={showDatepicker}
+                            style={styles.formOnTouchableOpacity}>
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    alignItems: 'flex-start',
+                                    justifyContent: 'flex-start'
+                                }}>
+                                <Icon name={'calendar-week'} size={26}/>
+                                <Text
+                                    style={styles.placeholderText}>
+                                    {dateButtonText}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                        {show && (
+                            <View>
+                                <DateTimePickerModal
+                                    testID="dateTimePicker"
+                                    value={date}
+                                    minimumDate={moment().add(8,'days').toDate()}
+                                    mode={'date'}
+                                    display="default"
+                                    onChange={ (event, value) => {
+                                        setDate(value);
+                                        props.setFieldValue('endDate', value.toString());
+                                    }}
+                                />
+                            </View>
+                        )}
+                        <Text style={styles.errorText}>{props.touched.endDate && props.errors.endDate}</Text>
 
                         <Input label={"Location"}
                                placeholder='Buenos Aires, Argentina'
