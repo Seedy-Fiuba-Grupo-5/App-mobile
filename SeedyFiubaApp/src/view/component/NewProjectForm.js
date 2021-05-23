@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, ToastAndroid, View} from "react-native";
+import {KeyboardAvoidingView, Text, ToastAndroid, View} from "react-native";
 import ApiProject from "../../model/ApiProject";
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -72,6 +72,10 @@ const NewProjectForm = (props) => {
 
     return(
         <View>
+            <Text
+                style={{paddingBottom: 5}}>
+
+            </Text>
             <Formik initialValues={{
                 name: "",
                 description: "",

@@ -5,9 +5,12 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     titleText: {
-        fontSize: 20,
+        borderTopWidth: 5,
+        fontSize: 30,
+        paddingVertical:12,
+        paddingLeft: 45,
         fontWeight: "bold",
-        textAlign: "center",
+        textAlign: "left",
     },
     button: {
         backgroundColor: '#3F51B5',
@@ -19,6 +22,12 @@ const styles = StyleSheet.create({
         width: '80%',
         alignSelf: 'center'
     },
+
+    image: {
+        flex: 1,
+        width: 70,
+        height: 70,
+        resizeMode: 'contain' },
 
     errorText: {
         color: 'red',
@@ -87,6 +96,14 @@ const styles = StyleSheet.create({
 
     formButtonTitle : {
         fontSize: 20
+    },
+
+    projectCard: {
+        borderWidth: 2,
+        backgroundColor: "#FFFFFF",
+        borderColor: "#6f6e6e",
+        borderRadius: 20,
+        elevation:5
     }
 
 });
