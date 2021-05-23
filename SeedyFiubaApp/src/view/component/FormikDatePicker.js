@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {Input} from 'react-native-elements'
 import styles from "../Styles/StyleSheet";
 import {Text, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -11,23 +10,23 @@ const FormikDatePicker = (props) => {
     const [dateButtonText, setDateButtonText] = useState('Select an End Date...')
     const [dateTextStyle, setDateTextStyle] = useState(styles.placeholderText)
 
-    const showDatepicker = () => {
-        if (props.show[0]){
-            props.show[1](false);
-            setDateButtonText(date.toDateString());
-            setDateTextStyle(styles.enteredDataText);
-        } else {
-            props.show[1](true);
-            setDateButtonText('Confirm End Date');
-            setDateTextStyle(styles.placeholderText);
-        }
-    };
-
     return(
         <>
             <Text style={styles.labelText}>End Date</Text>
             <TouchableOpacity
-                onPress={showDatepicker}
+                onPress={() =>{
+                    if (props.show[0]){
+                        props.show[1](false);
+                        setDateButtonText(date.toDateString());
+                        setDateTextStyle(styles.enteredDataText);
+                        props.formikProps.setFieldValue('endDate', date);
+                        props.formikProps.validateField('endDate');
+                    } else {
+                        props.show[1](true);
+                        setDateButtonText('Confirm End Date');
+                        setDateTextStyle(styles.placeholderText);
+                    }
+                }}
                 style={styles.formOnTouchableOpacity}>
                 <View
                     style={{
@@ -46,13 +45,13 @@ const FormikDatePicker = (props) => {
                 <View>
                     <DateTimePickerModal
                         testID="dateTimePicker"
-                        value={date}
+                        value={props.formikProps.values.endDate}
                         minimumDate={moment().add(8,'days').toDate()}
                         mode={'date'}
                         display="default"
                         onChange={ (event, value) => {
                             setDate(value);
-                            props.formikProps.setFieldValue('endDate', value.toDateString());
+                            props.formikProps.setFieldValue('endDate', value);
                         }}
                     />
                 </View>

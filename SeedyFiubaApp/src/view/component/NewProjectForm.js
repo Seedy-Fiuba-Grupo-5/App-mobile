@@ -9,6 +9,7 @@ import FormikDatePicker from "./FormikDatePicker";
 import FormikButton from "./FormikButton";
 import icons from "../Styles/IconSheet";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import moment from "moment";
 
 const NewProjectForm = (props) => {
 
@@ -32,22 +33,43 @@ const NewProjectForm = (props) => {
 
     let projectSchema = yup.object({
         name: yup.string()
-            .required(),
+            .required('Please Enter A Name'),
         description: yup.string()
-            .required(),
+            .required('Please Enter A Description'),
         goal: yup.string()
-            .required()
-            .test('is-valid-num', 'Must be at least AR$ 100', (val) => {
+            .required('Please Enter A Goal')
+            .test('is-valid-num', 'Must Be At Least AR$ 100', (val) => {
                 return parseInt(val) >= 100;
             }),
         type: yup.string()
-            .required(),
-        endDate: yup.string()
-            .required()
-            .test('is-endDate-confirmed', 'Please Confirm an End Date', () => {
+            .required('Please Select A Type'),
+        endDate: yup.date()
+            .required('Please Select An End Date')
+            .test('is-endDate-confirmed', 'Please Confirm An End Date', () => {
                 return !datePickerShow
             }),
+        hashtags: yup.string()
+            .test('valid-hashtags', '' +
+                'Plaese enter hashtags in format: #Hayasaka, #ChisaSuperWaifu', (val) => {
+                let hashtagsArray = String(val).split(", ")
+                return validateHashtags(hashtagsArray)
+            })
     });
+
+    const validateHashtags = (hashtagsArray) => {
+        let currentHashtag = 0
+        let returnValue = true
+        let currentValue
+        while ((currentHashtag < hashtagsArray.length) && returnValue){
+            currentValue = /(^|\B)#(?![_]+\b)([a-zA-Z0-9_])(\b|\r)/g.test(hashtagsArray[currentHashtag])
+            if (!currentValue) {
+                returnValue = currentValue
+            }
+            currentHashtag = currentHashtag + 1
+        }
+        return currentValue
+    }
+
 
     return(
         <View>
@@ -57,12 +79,13 @@ const NewProjectForm = (props) => {
                 hashtags: "",
                 type: "",
                 goal: "",
-                endDate: "",
+                endDate: moment().add(8,'days').toDate(),
                 location: ""}
             }
                     validationSchema={projectSchema}
                     onSubmit={(values, actions) => {
                 actions.resetForm();
+                props.setFieldValue('endDate', moment().add(8,'days').toDate())
                 newProject(values.name);
             }}>
                 {props => (

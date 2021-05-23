@@ -25,6 +25,7 @@ const FormikPicker = (props) => {
                     iconContainer: styles.pickerIconContainerStyle,
                     placeholder: styles.placeholder,
                 }}
+                value={props.formikProps[1]}
                 selectedValue={props.formikProps[1]}
                 onValueChange={props.formikProps[0].handleChange(props.formField)}
                 items={[
