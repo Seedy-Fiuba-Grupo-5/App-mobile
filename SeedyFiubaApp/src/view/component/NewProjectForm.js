@@ -1,19 +1,22 @@
 import React, {useState} from 'react';
-import {Button, Input} from 'react-native-elements'
-import {KeyboardAvoidingView, Text, ToastAndroid, TouchableOpacity, View} from "react-native";
-import styles from "../Styles/StyleSheet";
+import {KeyboardAvoidingView, ToastAndroid, View} from "react-native";
 import ApiProject from "../../model/ApiProject";
 import {Formik} from 'formik';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import moment from "moment";
 import * as yup from 'yup';
-import RNPickerSelect from "react-native-picker-select";
-import DateTimePickerModal from "@react-native-community/datetimepicker";
+import FormikTextInput from "./FormikTextInput";
+import FormikPicker from "./FormikPicker";
+import FormikDatePicker from "./FormikDatePicker";
+import FormikButton from "./FormikButton";
+import icons from "../Styles/IconSheet";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const NewProjectForm = (props) => {
+
+    const [datePickerShow, datePickerSetShow] = useState(false);
     const showMessage = (message) => {
         ToastAndroid.show(message, ToastAndroid.SHORT);
     }
+
     const newProject = (projectName) =>{
         if(projectName){
             const apiProjects = new ApiProject();
@@ -26,6 +29,7 @@ const NewProjectForm = (props) => {
                 .catch((error) => {});
         }
     }
+
     let projectSchema = yup.object({
         name: yup.string()
             .required(),
@@ -41,31 +45,9 @@ const NewProjectForm = (props) => {
         endDate: yup.string()
             .required()
             .test('is-endDate-confirmed', 'Please Confirm an End Date', () => {
-                return !show
+                return !datePickerShow
             }),
     });
-
-    const [date, setDate] = useState(moment().add(8,'days').toDate());
-    const [dateButtonText, setDateButtonText] = useState('Select an End Date...')
-    const [dateTextStyle, setDateTextStyle] = useState(styles.placeholderText)
-    const [show, setShow] = useState(false);
-
-    const showDatepicker = () => {
-        if (show){
-            setShow(false);
-            setDateButtonText(date.toDateString());
-            setDateTextStyle(styles.enteredDataText);
-        } else {
-            setShow(true);
-            setDateButtonText('Confirm End Date');
-            setDateTextStyle(styles.placeholderText);
-        }
-    };
-
-    const pickerStyle = {
-        inputIOS: styles.pickerStyle,
-        inputAndroid: styles.pickerStyle,
-    };
 
     return(
         <View>
@@ -85,123 +67,65 @@ const NewProjectForm = (props) => {
             }}>
                 {props => (
                     <KeyboardAvoidingView behavior={'padding'}>
-                        <Input label={"Project Name"}
-                               placeholder="My Awesome Project"
-                               containerStyle={styles.formContainerStyle}
-                               onChangeText={props.handleChange('name')}
-                               value={props.values.name}
-                               leftIcon={{ type: 'font-awesome-5', name: 'project-diagram' }}
-                               onBlur={props.handleBlur('name')}
-                               errorMessage={props.touched.name && props.errors.name}/>
+                        <FormikTextInput formikProps={[props, props.values.name,
+                            props.touched.name, props.errors.name]}
+                            formField={"name"}
+                            label={"Project Name"}
+                            placeholder={"My Awesome Project"}
+                            icon={icons.project}
+                            keyboard={'default'}
+                            multiline={false}/>
 
-                        <Input label={"Project Description"}
-                               placeholder='The most wholesome project'
-                               multiline={true}
-                               containerStyle={styles.formContainerStyle}
-                               onChangeText={props.handleChange('description')}
-                               value={props.values.description}
-                               leftIcon={{ type: 'font-awesome-5', name: 'scroll' }}
-                               onBlur={props.handleBlur('description')}
-                               errorMessage={props.touched.description && props.errors.description}/>
+                        <FormikTextInput formikProps={[props, props.values.description,
+                            props.touched.description, props.errors.description]}
+                                         formField={"description"}
+                                         label={"Project Description"}
+                                         placeholder={"The most wholesome project"}
+                                         icon={icons.projectDescription}
+                                         keyboard={'default'}
+                                         multiline={true}/>
 
-                        <Input label={"Hashtags"}
-                               placeholder='LEGENDARY'
-                               containerStyle={styles.formContainerStyle}
-                               onChangeText={props.handleChange('hashtags')}
-                               leftIcon={{ type: 'font-awesome', name: 'hashtag' }}
-                               value={props.values.hashtags}/>
+                        <FormikTextInput formikProps={[props, props.values.hashtags,
+                               props.touched.hashtags, props.errors.hashtags]}
+                                         formField={"hashtags"}
+                                         label={"Hashtags"}
+                                         placeholder={"LEGENDARY"}
+                                         icon={icons.hashtags}
+                                         keyboard={'default'}
+                                         multiline={false}/>
 
-                        <Text style={styles.labelText}>Project Type</Text>
-                        <RNPickerSelect
-                            Icon={() => {
-                                return <Icon name="lightbulb" size={24} color="black" />;
-                            }}
-                            placeholder={{
-                                label: 'Select a Project Type...',
-                                value: "",
-                            }}
-                            onBlur={props.handleBlur('type')}
-                            style={{ ...pickerStyle,
-                                iconContainer: {
-                                    top: 10,
-                                    left:47,
-                                },
-                                placeholder: styles.placeholder,
-                            }}
-                            selectedValue={props.values.type}
-                            onValueChange={props.handleChange('type')}
-                            items={[
-                                { label: "JavaScript", value: "JavaScript" },
-                                { label: "TypeStript", value: "TypeStript" },
-                                { label: "Python", value: "Python" },
-                                { label: "Java", value: "Java" },
-                                { label: "C++", value: "C++" },
-                                { label: "C", value: "C" },
-                            ]}
-                        />
-                        <Text style={styles.errorText}>{props.touched.type && props.errors.type}</Text>
+                        <FormikPicker formikProps={[props, props.values.type,
+                                props.touched.type, props.errors.type]}
+                                formField={"type"}
+                                label={"Select a Project Type..."}
+                                icon={() => {
+                                    return <Icon name="lightbulb" size={24} color="black" />;
+                                }}/>
 
-                        <Input label={"Goal"}
-                               placeholder='125550'
-                               keyboardType={'numeric'}
-                               containerStyle={styles.formContainerStyle}
-                               onChangeText={props.handleChange('goal')}
-                               value={props.values.goal}
-                               onBlur={props.handleBlur('goal')}
-                               leftIcon={{ type: 'font-awesome', name: 'dollar' }}
-                               errorMessage={props.touched.goal && props.errors.goal}/>
+                        <FormikTextInput formikProps={[props, props.values.goal,
+                            props.touched.goal, props.errors.goal]}
+                                         formField={"goal"}
+                                         label={"Goal"}
+                                         placeholder={"1984"}
+                                         icon={icons.goal}
+                                         keyboard={'numeric'}
+                                         multiline={false}/>
 
-                        <Text style={styles.labelText}>End Date</Text>
-                        <TouchableOpacity
-                            onPress={showDatepicker}
-                            style={styles.formOnTouchableOpacity}>
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    alignItems: 'flex-start',
-                                    justifyContent: 'flex-start'
-                                }}>
-                                <Icon name={'calendar-week'} size={26}/>
-                                <Text
-                                    style={dateTextStyle}>
-                                    {dateButtonText}
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                        {show && (
-                            <View>
-                                <DateTimePickerModal
-                                    testID="dateTimePicker"
-                                    value={date}
-                                    minimumDate={moment().add(8,'days').toDate()}
-                                    mode={'date'}
-                                    display="default"
-                                    onChange={ (event, value) => {
-                                        setDate(value);
-                                        props.setFieldValue('endDate', value.toDateString());
-                                    }}
-                                />
-                            </View>
-                        )}
-                        <Text style={styles.errorText}>{props.touched.endDate && props.errors.endDate}</Text>
+                        <FormikDatePicker formikProps={props}
+                            show={[datePickerShow, datePickerSetShow]}/>
 
-                        <Input label={"Location"}
-                               placeholder='Buenos Aires, Argentina'
-                               autoFocus={true}
-                               containerStyle={styles.formContainerStyle}
-                               onChangeText={props.handleChange('location')}
-                               leftIcon={{ type: 'font-awesome-5', name: 'map-marker-alt' }}
-                               value={props.values.location}/>
+                        <FormikTextInput formikProps={[props, props.values.location,
+                            props.touched.location, props.errors.location]}
+                                         formField={"location"}
+                                         label={"Location"}
+                                         placeholder={"Buenos Aires, Argentina"}
+                                         icon={icons.location}
+                                         keyboard={'default'}
+                                         multiline={false}/>
 
-                        <Button title="Create Project"
-                                buttonStyle={styles.button}
-                                titleStyle={
-                                    {
-                                        fontSize: 20
-                                    }
-                                }
-                                onPress={props.handleSubmit}
-                        />
+                        <FormikButton
+                            title={"Create Project"}
+                            formikProps={props}/>
                     </KeyboardAvoidingView>
                 )}
             </Formik>

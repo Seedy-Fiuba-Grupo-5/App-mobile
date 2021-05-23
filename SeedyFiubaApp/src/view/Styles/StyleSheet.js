@@ -51,6 +51,11 @@ const styles = StyleSheet.create({
         paddingLeft: 22, // to ensure the text is never behind the icon
     },
 
+    pickerIconContainerStyle: {
+        top: 10,
+        left:47,
+    },
+
     placeholder: {
         color: "#86939e",
         fontSize: 18,
@@ -79,6 +84,10 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
         paddingLeft: 1, // to ensure the text is never behind the icon
     },
+
+    formButtonTitle : {
+        fontSize: 20
+    }
 
 });
 export default styles
