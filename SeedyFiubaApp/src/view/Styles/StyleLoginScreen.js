@@ -10,7 +10,6 @@ const loginStyles = StyleSheet.create({
         fontWeight: "bold"
     },
     inputContainer:{
-        paddingBottom: 10,
         width: '80%',
         alignSelf: 'center'
     }
