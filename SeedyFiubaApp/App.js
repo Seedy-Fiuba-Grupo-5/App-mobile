@@ -6,9 +6,12 @@ import ProjectReviewScreen from "./src/view/screen/ProjectReviewScreen";
 import {useFonts, Capriola_400Regular} from '@expo-google-fonts/capriola';
 import {Text} from "react-native";
 import LoginScreen from "./src/view/screen/LoginScreen";
+import AuthScreen from "./src/view/screen/AuthScreen";
+import RegisterScreen from "./src/view/screen/RegisterScreen";
 
 
-const homeStack = createStackNavigator();
+//const homeStack = createStackNavigator();
+const stack = createStackNavigator();
 
 const App = () => {
     let [fontsLoaded] = useFonts({
@@ -45,9 +48,14 @@ const App = () => {
                                       }}/>
                 </homeStack.Navigator>
             </NavigationContainer>*/
-            <LoginScreen/>
+            <NavigationContainer>
+                <stack.Navigator screenOptions={{headerShown:false}}>
+                    <stack.Screen name='Main' component={AuthScreen} />
+                    <stack.Screen name='Login' component={LoginScreen}/>
+                    <stack.Screen name='Register' component={RegisterScreen}/>
+                </stack.Navigator>
+            </NavigationContainer>
         )
-
     }
 }
 export default App;
