@@ -9,7 +9,6 @@ import FormikDatePicker from "./FormikDatePicker";
 import FormikButton from "./FormikButton";
 import icons from "../Styles/IconSheet";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import moment from "moment";
 
 const NewProjectForm = (props) => {
 
@@ -18,10 +17,10 @@ const NewProjectForm = (props) => {
         ToastAndroid.show(message, ToastAndroid.SHORT);
     }
 
-    const newProject = (projectName) =>{
-        if(projectName){
+    const newProject = (project) =>{
+        if(project.name){
             const apiProjects = new ApiProject();
-            apiProjects.post(projectName)
+            apiProjects.post(project)
                 .then((data) => {
                     if(data){
                         showMessage("Project Create");
@@ -43,7 +42,7 @@ const NewProjectForm = (props) => {
             }),
         type: yup.string()
             .required('Please Select A Type'),
-        endDate: yup.date()
+        endDate: yup.string()
             .required('Please Select An End Date')
             .test('is-endDate-confirmed', 'Please Confirm An End Date', () => {
                 return !datePickerShow
@@ -61,13 +60,13 @@ const NewProjectForm = (props) => {
         let returnValue = true
         let currentValue
         while ((currentHashtag < hashtagsArray.length) && returnValue){
-            currentValue = /(^|\B)#(?![_]+\b)([a-zA-Z0-9_])(\b|\r)/g.test(hashtagsArray[currentHashtag])
+            currentValue = /(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g.test(hashtagsArray[currentHashtag])
             if (!currentValue) {
                 returnValue = currentValue
             }
             currentHashtag = currentHashtag + 1
         }
-        return currentValue
+        return returnValue
     }
 
 
@@ -79,14 +78,13 @@ const NewProjectForm = (props) => {
                 hashtags: "",
                 type: "",
                 goal: "",
-                endDate: moment().add(8,'days').toDate(),
+                endDate: "",
                 location: ""}
             }
                     validationSchema={projectSchema}
                     onSubmit={(values, actions) => {
                 actions.resetForm();
-                props.setFieldValue('endDate', moment().add(8,'days').toDate())
-                newProject(values.name);
+                newProject(values);
             }}>
                 {props => (
                     <KeyboardAvoidingView behavior={'padding'}>

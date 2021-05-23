@@ -19,7 +19,7 @@ const FormikDatePicker = (props) => {
                         props.show[1](false);
                         setDateButtonText(date.toDateString());
                         setDateTextStyle(styles.enteredDataText);
-                        props.formikProps.setFieldValue('endDate', date);
+                        props.formikProps.setFieldValue('endDate', date.toDateString());
                         props.formikProps.validateField('endDate');
                     } else {
                         props.show[1](true);
@@ -45,13 +45,13 @@ const FormikDatePicker = (props) => {
                 <View>
                     <DateTimePickerModal
                         testID="dateTimePicker"
-                        value={props.formikProps.values.endDate}
+                        value={date}
                         minimumDate={moment().add(8,'days').toDate()}
                         mode={'date'}
                         display="default"
                         onChange={ (event, value) => {
                             setDate(value);
-                            props.formikProps.setFieldValue('endDate', value);
+                            props.formikProps.setFieldValue('endDate', value.toDateString());
                         }}
                     />
                 </View>
