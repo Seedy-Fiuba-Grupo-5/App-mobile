@@ -49,8 +49,8 @@ const NewProjectForm = (props) => {
             }),
         hashtags: yup.string()
             .test('valid-hashtags', '' +
-                'Plaese enter hashtags in format: #Hayasaka, #ChisaSuperWaifu', (val) => {
-                let hashtagsArray = String(val).split(", ")
+                'Plaese enter hashtags in format: #Hayasaka #ChisaSuperWaifu', (val) => {
+                let hashtagsArray = String(val).split(" ")
                 return validateHashtags(hashtagsArray)
             })
     });
@@ -61,6 +61,9 @@ const NewProjectForm = (props) => {
         let currentValue
         while ((currentHashtag < hashtagsArray.length) && returnValue){
             currentValue = /(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g.test(hashtagsArray[currentHashtag])
+            if (hashtagsArray[currentHashtag] === ""){
+                currentValue =true
+            }
             if (!currentValue) {
                 returnValue = currentValue
             }
