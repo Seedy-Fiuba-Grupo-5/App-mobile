@@ -1,13 +1,9 @@
 import React from "react";
 import {Text, View} from "react-native";
-import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";
 
 const ProjectCardFinancialInfo = (props) => {
     return (
         <View>
-            <LinearProgress value={0.5}
-                            color={'#009688'}
-                            variant={"determinate"}/>
             <View
                 style={{
                     flexDirection: "row",

@@ -7,7 +7,7 @@ const ProjectCardBottomItem = (props) => {
         <>
             <Icon
                 raised
-                name='tag'
+                name='lightbulb'
                 type='font-awesome-5'
                 color='grey'/>
             <Text>

@@ -5,6 +5,7 @@ import styles from "../Styles/StyleSheet";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import ProjectCardFinancialInfo from "./ProjectCardFinancialInfo";
 import ProjectCardBottomItem from "./ProjectCardBottomItem";
+import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";
 
 const ProjectCard = (props) => {
     return(
@@ -30,11 +31,12 @@ const ProjectCard = (props) => {
                         </Card.Title>
                         <Text ellipsizeMode="tail"
                               numberOfLines={2}
-                              style={{paddingBottom:5,
-                                  color: '#757575',}}>
+                              style={styles.projectDescription}>
                             {props.project.description}
                         </Text>
-
+                        <LinearProgress value={0.5}
+                                        color={'#009688'}
+                                        variant={"determinate"}/>
                         <ProjectCardFinancialInfo project={props.project}/>
 
                         <View

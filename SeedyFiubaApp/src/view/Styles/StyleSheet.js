@@ -7,8 +7,7 @@ const styles = StyleSheet.create({
     titleText: {
         borderTopWidth: 5,
         fontSize: 30,
-        paddingVertical:12,
-        paddingLeft: 45,
+        paddingVertical:2.5,
         fontWeight: "bold",
         textAlign: "left",
     },
@@ -102,7 +101,13 @@ const styles = StyleSheet.create({
         backgroundColor: "transparent",
         borderColor: "#6f6e6e",
         elevation:5
+    },
+
+    projectDescription: {
+        paddingBottom:5,
+        color: '#757575',
     }
+
 
 });
 export default styles
