@@ -106,7 +106,23 @@ const styles = StyleSheet.create({
     projectDescription: {
         paddingBottom:5,
         color: '#757575',
-    }
+    },
+
+    projectCardItemsView: {
+        borderColor: '#BDBDBD',
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderBottomWidth: 0.5,
+        paddingHorizontal: 2.5,
+    },
+
+    projectCardTitle: {
+        fontSize: 20,
+    },
+
+    projectCardText: {
+        color: '#757575',
+    },
 
 
 });

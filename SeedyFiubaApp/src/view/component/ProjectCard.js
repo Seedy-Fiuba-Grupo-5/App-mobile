@@ -15,18 +15,8 @@ const ProjectCard = (props) => {
                     <Card.Image source={require('../images/default.jpg')}
                                 style={styles.image}>
                     </Card.Image>
-                    <View
-                    style={{
-                        borderColor: '#BDBDBD',
-                        borderLeftWidth: 0.5,
-                        borderRightWidth: 0.5,
-                        borderBottomWidth: 0.5,
-                        paddingLeft: 2.5,
-                    }}>
-                        <Card.Title
-                            style={{
-                                fontSize: 20,
-                            }}>
+                    <View style={styles.projectCardItemsView}>
+                        <Card.Title style={styles.projectCardTitle}>
                             {props.project.name}
                         </Card.Title>
                         <Text ellipsizeMode="tail"
@@ -43,16 +33,15 @@ const ProjectCard = (props) => {
                             style={{ flex: 1,
                                 flexDirection: 'row',
                                 justifyContent: 'space-between',
-                                paddingTop:10,}}>
-                            <ProjectCardBottomItem project={props.project}/>
-                            <Icon
-                                raised
-                                name='map-marker-alt'
-                                type='font-awesome-5'
-                                color='grey'/>
-                            <Text>
-                                {props.project.location}
-                            </Text>
+                                paddingVertical: 10,
+                                paddingLeft:1,
+                                paddingRight: 10}}>
+                            <ProjectCardBottomItem projectField={props.project.type}
+                                iconName={'lightbulb'}
+                                iconFamily={'font-awesome-5'}/>
+                            <ProjectCardBottomItem projectField={props.project.location}
+                                                   iconName={'map-marker-alt'}
+                                                   iconFamily={'font-awesome-5'}/>
                         </View>
                     </View>
 
