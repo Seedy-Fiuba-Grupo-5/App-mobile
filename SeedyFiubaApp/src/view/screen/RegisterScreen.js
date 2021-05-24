@@ -1,13 +1,23 @@
 import React from "react";
-import {ScrollView, Text, View} from "react-native";
+import {Text, View} from "react-native";
 import {Formik} from "formik";
 import * as Yup from "yup";
 import loginStyles from "../Styles/StyleLoginScreen";
 import {Icon, Input} from "react-native-elements";
 import SeedyFiubaButton from "../component/SeedyFiubaButton";
+import ApiUser from "../../model/ApiUser";
 const RegisterScreen = () => {
-    const signUpHandler = (values) => {
-        console.log(values)
+    const signUpHandler = (values,actions) => {
+        const apiUser = new ApiUser();
+        console.log(values);
+        apiUser.register(values.firstName,values.lastName,values.email,values.password)
+            .then((data) => {
+                if(data){
+                    console.log(data);
+                }
+            })
+            .catch((error) => {});
+        actions.resetForm();
     }
     return (
         <View
@@ -38,19 +48,13 @@ const RegisterScreen = () => {
                     email: Yup.string()
                         .email('Invalid email address')
                         .required('Required'),
-                    age:Yup.number()
-                        .min(18,'You must be of legal age')
-                        .max(99,'You are very old'),
                     password: Yup.string()
-                        .min(8, 'Password is too short - should be 8 chars minimum.')
-                        .required('Required'),
-                    repeatPassword: Yup.string()
-                        .min(8, 'Password is too short - should be 8 chars minimum.')
+                        .min(6, 'Password is too short - should be 8 chars minimum.')
                         .required('Required')
                 })}
             >
                 {props => (
-                    <ScrollView>
+                    <View>
                         <Text style={loginStyles.textLabel}>
                             First Name
                         </Text>
@@ -92,21 +96,6 @@ const RegisterScreen = () => {
 
                         />
                         <Text style={loginStyles.textLabel}>
-                            Age
-                        </Text>
-                        <Input value={props.values.age}
-                               onChangeText={props.handleChange('age')}
-                               keyboardType={'number-pad'}
-                               onBlur={props.handleBlur('age')}
-                               errorMessage={props.touched.age && props.errors.age}
-                               leftIcon={<Icon name='cake'
-                                               type='material'
-                                               size={20}
-                                               color='#BEBEBE'/>}
-                               containerStyle={loginStyles.inputContainer}
-
-                        />
-                        <Text style={loginStyles.textLabel}>
                             Password
                         </Text>
                         <Input secureTextEntry={true}
@@ -120,7 +109,7 @@ const RegisterScreen = () => {
                                containerStyle={loginStyles.inputContainer}
                         />
                         <SeedyFiubaButton title='Sign Up' onPress={props.handleSubmit}/>
-                    </ScrollView>
+                    </View>
                 )
                 }
             </Formik>

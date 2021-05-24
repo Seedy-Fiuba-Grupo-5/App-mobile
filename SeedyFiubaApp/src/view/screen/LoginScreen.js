@@ -5,10 +5,20 @@ import {Formik} from "formik";
 import {Icon, Input} from "react-native-elements";
 import * as Yup from 'yup';
 import loginStyles from "../Styles/StyleLoginScreen";
+import ApiUser from "../../model/ApiUser";
 
 const LoginScreen = ({navigation}) => {
-    const signInHandler = (values) => {
+    const signInHandler = (values,actions) => {
+        const apiUser = new ApiUser();
         console.log(values);
+        apiUser.login(values.email,values.password)
+            .then((data) => {
+                if(data){
+                    console.log(data);
+                }
+            })
+            .catch((error) => {});
+        actions.resetForm();
     }
     const signUpHandler = () => {
         navigation.navigate('Register');
