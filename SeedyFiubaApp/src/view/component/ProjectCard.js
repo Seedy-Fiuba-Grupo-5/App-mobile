@@ -2,88 +2,58 @@ import React from 'react';
 import { Card} from 'react-native-elements'
 import {Text, TouchableOpacity, View} from "react-native";
 import styles from "../Styles/StyleSheet";
-import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import ProjectCardFinancialInfo from "./ProjectCardFinancialInfo";
+import ProjectCardBottomItem from "./ProjectCardBottomItem";
 
 const ProjectCard = (props) => {
-    const styleCard = styles.projectCard
     return(
         <>
             <TouchableOpacity onPress={props.onPress}>
-                <Card containerStyle={styleCard}>
-                    <Card.Image source={require('../images/appLogo.png')}
+                <Card containerStyle={styles.projectCard}>
+                    <Card.Image source={require('../images/default.jpg')}
                                 style={styles.image}>
                     </Card.Image>
-                    <Card.Title>
-                        {props.project.name}
-                    </Card.Title>
-                    <Text ellipsizeMode="tail"
-                        numberOfLines={2}
-                    style={{paddingBottom:5}}>
-                        {props.project.description}
-                    </Text>
-                    <LinearProgress value={0.5}
-                    color={'green'}
-                    variant={"determinate"}/>
                     <View
-                        style={{
-                            flexDirection: "row",
-                            alignItems: 'flex-start',
-                            justifyContent: 'flex-start',
-                            paddingTop:10,
-                        }}>
+                    style={{
+                        borderColor: '#BDBDBD',
+                        borderLeftWidth: 0.5,
+                        borderRightWidth: 0.5,
+                        borderBottomWidth: 0.5,
+                        paddingLeft: 2.5,
+                    }}>
+                        <Card.Title
+                            style={{
+                                fontSize: 20,
+                            }}>
+                            {props.project.name}
+                        </Card.Title>
+                        <Text ellipsizeMode="tail"
+                              numberOfLines={2}
+                              style={{paddingBottom:5,
+                                  color: '#757575',}}>
+                            {props.project.description}
+                        </Text>
+
+                        <ProjectCardFinancialInfo project={props.project}/>
+
                         <View
-                            style={{paddingRight: 7}}>
+                            style={{ flex: 1,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                paddingTop:10,}}>
+                            <ProjectCardBottomItem project={props.project}/>
+                            <Icon
+                                raised
+                                name='map-marker-alt'
+                                type='font-awesome-5'
+                                color='grey'/>
                             <Text>
-                                Ends on:
-                            </Text>
-                            <Text>
-                                {props.project.endDate}
-                            </Text>
-                        </View>
-                        <View
-                            style={{paddingRight: 7}}>
-                            <Text>
-                                AR$ 0
-                            </Text>
-                            <Text>
-                                pledged of AR$ {props.project.goal}
-                            </Text>
-                        </View>
-                        <View
-                            style={{paddingRight: 7}}>
-                            <Text>
-                                0
-                            </Text>
-                            <Text>
-                                Supporters
+                                {props.project.location}
                             </Text>
                         </View>
                     </View>
-                    <View
-                        style={{
-                            flexDirection: "row",
-                            alignItems: 'flex-start',
-                            justifyContent: 'flex-start',
-                            paddingTop:10,
-                        }}>
-                        <Icon
-                            raised
-                            name='tag'
-                            type='font-awesome-5'
-                            color='grey'/>
-                        <Text>
-                            {props.project.type}
-                        </Text>
-                        <Icon
-                            raised
-                            name='map-marker-alt'
-                            type='font-awesome-5'
-                            color='grey'/>
-                        <Text>
-                            {props.project.location}
-                        </Text>
-                    </View>
+
 
                 </Card>
             </TouchableOpacity>

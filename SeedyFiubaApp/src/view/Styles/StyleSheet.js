@@ -24,10 +24,7 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        flex: 1,
-        width: 70,
-        height: 70,
-        resizeMode: 'contain' },
+        resizeMode: 'cover'},
 
     errorText: {
         color: 'red',
@@ -99,12 +96,11 @@ const styles = StyleSheet.create({
     },
 
     projectCard: {
-        width: '95%',
+        width: '100%',
         alignSelf: 'center',
-        borderWidth: 2,
-        backgroundColor: "#FFFFFF",
+        borderWidth: 0,
+        backgroundColor: "transparent",
         borderColor: "#6f6e6e",
-        borderRadius: 20,
         elevation:5
     }
 
