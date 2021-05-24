@@ -2,7 +2,6 @@ import React from 'react';
 import { Card} from 'react-native-elements'
 import {Text, TouchableOpacity, View} from "react-native";
 import styles from "../Styles/StyleSheet";
-import Icon from "react-native-vector-icons/FontAwesome5";
 import ProjectCardFinancialInfo from "./ProjectCardFinancialInfo";
 import ProjectCardBottomItem from "./ProjectCardBottomItem";
 import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";

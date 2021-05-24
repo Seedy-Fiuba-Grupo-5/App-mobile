@@ -29,12 +29,22 @@ const FormikPicker = (props) => {
                 selectedValue={props.formikProps[1]}
                 onValueChange={props.formikProps[0].handleChange(props.formField)}
                 items={[
-                    { label: "JavaScript", value: "JavaScript" },
-                    { label: "TypeStript", value: "TypeStript" },
-                    { label: "Python", value: "Python" },
-                    { label: "Java", value: "Java" },
-                    { label: "C++", value: "C++" },
-                    { label: "C", value: "C" },
+                    { label: "Art", value: "Art" },
+                    { label: "Comics", value: "Comics" },
+                    { label: "Crafts", value: "Crafts" },
+                    { label: "Dance", value: "Dance" },
+                    { label: "Design", value: "Design" },
+                    { label: "Fashion", value: "Fashion" },
+                    { label: "Film & Video", value: "Film & Video" },
+                    { label: "Food", value: "Food" },
+                    { label: "Games", value: "Games" },
+                    { label: "Journalism", value: "Journalism" },
+                    { label: "Music", value: "Music" },
+                    { label: "Photography", value: "Photography" },
+                    { label: "Publishing", value: "Publishing" },
+                    { label: "Technology", value: "Technology" },
+                    { label: "Theater", value: "Theater" },
+                    { label: "Other", value: "Other" },
                 ]}
             />
             <Text style={styles.errorText}>{props.formikProps[2] && props.formikProps[3]}</Text>

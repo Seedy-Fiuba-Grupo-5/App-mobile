@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         backgroundColor: "transparent",
         borderColor: "#6f6e6e",
-        elevation:5
     },
 
     projectDescription: {

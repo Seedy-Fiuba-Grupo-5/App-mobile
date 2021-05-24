@@ -34,16 +34,16 @@ const NewProjectForm = (props) => {
 
     let projectSchema = yup.object({
         name: yup.string()
-            .required('Please Enter A Name'),
+            .required('Please Enter A Project Name'),
         description: yup.string()
-            .required('Please Enter A Description'),
+            .required('Please Enter A Project Description'),
         goal: yup.string()
             .required('Please Enter A Goal')
             .test('is-valid-num', 'Must Be At Least AR$ 100', (val) => {
                 return parseInt(val) >= 100;
             }),
         type: yup.string()
-            .required('Please Select A Type'),
+            .required('Please Select A Project Type'),
         endDate: yup.string()
             .required('Please Select An End Date')
             .test('is-endDate-confirmed', 'Please Confirm An End Date', () => {
@@ -54,7 +54,9 @@ const NewProjectForm = (props) => {
                 'Please enter hashtags in format: #Hayasaka #ChisaSuperWaifu', (val) => {
                 let hashtagsArray = String(val).split(" ")
                 return validateHashtags(hashtagsArray)
-            })
+            }),
+        location: yup.string()
+            .required('Please Enter A Location')
     });
 
     const validateHashtags = (hashtagsArray) => {
