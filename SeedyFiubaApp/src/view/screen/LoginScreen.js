@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Text, View} from "react-native";
 import SeedyFiubaButton from "../component/SeedyFiubaButton";
 import {Formik} from "formik";
@@ -6,18 +6,22 @@ import {Icon, Input} from "react-native-elements";
 import * as Yup from 'yup';
 import loginStyles from "../Styles/StyleLoginScreen";
 import ApiUser from "../../model/ApiUser";
+import AuthContext from "../component/AuthContext";
 
 const LoginScreen = ({navigation}) => {
+    const {singIn} = useContext(AuthContext);
     const signInHandler = (values,actions) => {
         const apiUser = new ApiUser();
         console.log(values);
-        apiUser.login(values.email,values.password)
+        singIn();
+        /*apiUser.login(values.email,values.password)
             .then((data) => {
                 if(data){
                     console.log(data);
+                    singIn();
                 }
             })
-            .catch((error) => {});
+            .catch((error) => {});*/
         actions.resetForm();
     }
     const signUpHandler = () => {
