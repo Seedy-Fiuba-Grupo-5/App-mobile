@@ -17,8 +17,11 @@ const stack = createStackNavigator();
 const App = () => {
     const [token,setToken] = useState(null);
     const auth = {
-        singIn: () => {
-            setToken('ASD');
+        signIn: (newToken) => {
+            setToken(newToken);
+        },
+        signUp: (newToken) => {
+            setToken(newToken);
         }
     }
     let [fontsLoaded] = useFonts({

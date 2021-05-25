@@ -9,20 +9,16 @@ import ApiUser from "../../model/ApiUser";
 import AuthContext from "../component/AuthContext";
 
 const LoginScreen = ({navigation}) => {
-    const {singIn} = useContext(AuthContext);
+    const {signIn} = useContext(AuthContext);
     const signInHandler = (values,actions) => {
         const apiUser = new ApiUser();
-        console.log(values);
-        singIn();
-        /*apiUser.login(values.email,values.password)
+        apiUser.login(values.email,values.password)
             .then((data) => {
                 if(data){
-                    console.log(data);
-                    singIn();
+                    signIn(data.id);
                 }
             })
-            .catch((error) => {});*/
-        actions.resetForm();
+            .catch((error) => {});
     }
     const signUpHandler = () => {
         navigation.navigate('Register');
