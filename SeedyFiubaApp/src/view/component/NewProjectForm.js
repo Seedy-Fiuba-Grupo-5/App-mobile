@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, KeyboardAvoidingView, Text, View} from "react-native";
+import {ActivityIndicator, Alert, Button, KeyboardAvoidingView, ScrollView, Text, TextInput, View} from "react-native";
 import ApiProject from "../../model/ApiProject";
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -9,6 +9,9 @@ import FormikDatePicker from "./FormikDatePicker";
 import FormikButton from "./FormikButton";
 import icons from "../Styles/IconSheet";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
+import styles from "../Styles/StyleSheet";
+import GooglePlacePicker from "./GooglePlacePicker";
 
 const NewProjectForm = (props) => {
 
@@ -78,11 +81,10 @@ const NewProjectForm = (props) => {
 
 
     return(
-        <View>
-            <Text
-                style={{paddingBottom: 5}}>
-
-            </Text>
+        <View
+            style={{
+            paddingVertical:15}
+            }>
             <Formik initialValues={{
                 name: "",
                 description: "",
@@ -155,6 +157,23 @@ const NewProjectForm = (props) => {
                                          keyboard={'default'}
                                          multiline={false}/>
 
+                        <Text style={styles.labelText}>Location</Text>
+                        <View
+                            style={{
+                                width: '75%',
+                                alignSelf: 'center',
+                                flexDirection: "row",
+                                alignItems: 'flex-start',
+                                justifyContent: 'flex-start',
+                                borderBottomWidth: 1,
+                                flex: 1,
+                                paddingVertical: 2,
+                                borderColor: 'grey',
+                            }}>
+                            <Icon name={'map-marker-alt'} size={24}/>
+                            <GooglePlacePicker/>
+                        </View>
+                        <Text style={styles.errorText}>{props.touched.location && props.errors.location}</Text>
                         <FormikButton
                             title={"Create Project"}
                             formikProps={props}/>

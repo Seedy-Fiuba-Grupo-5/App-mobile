@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         width: '80%',
         paddingLeft: "14.5%",
     },
+
     labelText: {
         width: '80%',
         paddingLeft: "12.5%",

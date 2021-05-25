@@ -4,7 +4,7 @@ import styles from "../Styles/StyleSheet";
 import ProjectCardFinancialInfo from "../component/ProjectCardFinancialInfo";
 import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";
 
-import ProjectReviewImage from "../component/ProjectRevieImage";
+import ProjectReviewImage from "./ProjectReviewImage";
 import ProjectCardBottomItem from "./ProjectCardBottomItem";
 
 const ProjectReview = (props) => {
