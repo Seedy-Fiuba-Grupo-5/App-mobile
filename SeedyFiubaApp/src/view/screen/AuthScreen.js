@@ -22,7 +22,8 @@ const AuthScreen = ({navigation}) => {
             <Text style={
                 {
                     alignSelf:'center',
-                    padding:20
+                    padding:20,
+                    fontSize:30
                 }
             }>
                 SeedyFiuba

@@ -47,10 +47,8 @@ const LoginScreen = ({navigation}) => {
             >
                 {props => (
                     <View>
-                        <Text style={loginStyles.textLabel}>
-                            Email
-                        </Text>
                         <Input value={props.values.email}
+                               label={'Email'}
                                onChangeText={props.handleChange('email')}
                                onBlur={props.handleBlur('email')}
                                errorMessage={props.touched.email && props.errors.email}
@@ -61,11 +59,8 @@ const LoginScreen = ({navigation}) => {
                                containerStyle={loginStyles.inputContainer}
 
                         />
-
-                        <Text style={loginStyles.textLabel}>
-                            Password
-                        </Text>
                         <Input secureTextEntry={true}
+                               label={'Password'}
                                value={props.values.password}
                                onChangeText={props.handleChange('password')}
                                errorMessage={props.touched.password && props.errors.password}
@@ -88,7 +83,10 @@ const LoginScreen = ({navigation}) => {
                     }
                 }>
                 {'Dont have account?      '}
-                <Text onPress={signUpHandler} style={{color:'#0828f1',textDecorationLine: 'underline'}}>
+                <Text
+                    onPress={signUpHandler}
+                    style={{color:'#0828f1',textDecorationLine: 'underline'}
+                    }>
                     {'Sign Up'}
                 </Text>
             </Text>

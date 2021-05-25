@@ -34,9 +34,7 @@ const RegisterScreen = () => {
                     firstName:'',
                     lastName:'',
                     email: '',
-                    age:'',
-                    password: '',
-
+                    password: ''
                 }}
                 onSubmit={signUpHandler}
                 validationSchema={Yup.object({
@@ -50,16 +48,14 @@ const RegisterScreen = () => {
                         .email('Invalid email address')
                         .required('Required'),
                     password: Yup.string()
-                        .min(6, 'Password is too short - should be 8 chars minimum.')
+                        .min(6, 'Password is too short - should be 6 chars minimum.')
                         .required('Required')
                 })}
             >
                 {props => (
                     <View>
-                        <Text style={loginStyles.textLabel}>
-                            First Name
-                        </Text>
                         <Input value={props.values.firstName}
+                               label={'First Name'}
                                onChangeText={props.handleChange('firstName')}
                                onBlur={props.handleBlur('firstName')}
                                errorMessage={props.touched.firstName && props.errors.firstName}
@@ -70,11 +66,10 @@ const RegisterScreen = () => {
                                containerStyle={loginStyles.inputContainer}
 
                         />
-                        <Text style={loginStyles.textLabel}>
-                            Last Name
-                        </Text>
                         <Input value={props.values.lastName}
+                               label={'Last Name'}
                                onChangeText={props.handleChange('lastName')}
+                               onBlur={props.handleBlur('lastName')}
                                errorMessage={props.touched.lastName && props.errors.lastName}
                                leftIcon={<Icon name='person-outline'
                                                type='material'
@@ -82,10 +77,8 @@ const RegisterScreen = () => {
                                                color='#BEBEBE'/>}
                                containerStyle={loginStyles.inputContainer}
                         />
-                        <Text style={loginStyles.textLabel}>
-                            Email
-                        </Text>
                         <Input value={props.values.email}
+                               label={'Email'}
                                onChangeText={props.handleChange('email')}
                                onBlur={props.handleBlur('email')}
                                errorMessage={props.touched.email && props.errors.email}
@@ -96,11 +89,9 @@ const RegisterScreen = () => {
                                containerStyle={loginStyles.inputContainer}
 
                         />
-                        <Text style={loginStyles.textLabel}>
-                            Password
-                        </Text>
                         <Input secureTextEntry={true}
                                value={props.values.password}
+                               label={'Password'}
                                onChangeText={props.handleChange('password')}
                                errorMessage={props.touched.password && props.errors.password}
                                leftIcon={<Icon name='lock-outline'
