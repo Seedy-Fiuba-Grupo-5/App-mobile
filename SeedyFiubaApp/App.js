@@ -22,6 +22,9 @@ const App = () => {
         },
         signUp: (newToken) => {
             setToken(newToken);
+        },
+        signOut:()=>{
+            setToken(null);
         }
     }
     let [fontsLoaded] = useFonts({
