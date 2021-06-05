@@ -1,0 +1,17 @@
+SeedyFiubaApp/node_modules/
+SeedyFiubaApp/.expo/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+SeedyFiubaApp/package-lock.json
+.env
+.idea
+node_modules
+.expo
+# macOS
+.DS_Store
