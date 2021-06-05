@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {Alert, Image, Platform, Text, ToastAndroid, View} from "react-native";
+import {Alert, Image, Text, View} from "react-native";
 import AuthButton from "../component/AuthButton";
 import {Formik} from "formik";
 import {Icon, Input} from "react-native-elements";
@@ -35,11 +35,17 @@ const LoginScreen = ({navigation}) => {
                 marginTop:24,
             }
         }>
+            <Text style={authStyle.titleText}>
+                Welcome to SeedyFiuba
+            </Text>
+
                 <Image source={require('../images/logo.png')} style={{
-                    width: 220,
-                    height: 220,
-                    alignSelf:"center"
+                    width: 130,
+                    height: 130,
+                    alignSelf:"center",
+                    margin:10
                 }}/>
+
                 <Formik
                     initialValues={{
                         email: '',
@@ -51,7 +57,7 @@ const LoginScreen = ({navigation}) => {
                             .email('Invalid email address')
                             .required('Required'),
                         password: Yup.string()
-                            .min(8, 'Password is too short - should be 8 chars minimum.')
+                            .min(6, 'Password is too short - should be 6 chars minimum.')
                             .required('Required')
                     })}
                 >

@@ -2,8 +2,6 @@ import {StyleSheet} from "react-native";
 
 const loginStyles = StyleSheet.create({
     titleText:{
-        width: '80%',
-        paddingLeft: "19%",
         paddingTop:'15%',
         color: "#4b1e4d",
         fontSize: 25,

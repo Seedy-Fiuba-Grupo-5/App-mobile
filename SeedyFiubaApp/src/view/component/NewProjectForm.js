@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ActivityIndicator, Alert, Button, KeyboardAvoidingView, ScrollView, Text, TextInput, View} from "react-native";
+import {Alert, KeyboardAvoidingView, Text, View} from "react-native";
 import ApiProject from "../../model/ApiProject";
 import {Formik} from 'formik';
 import * as yup from 'yup';
