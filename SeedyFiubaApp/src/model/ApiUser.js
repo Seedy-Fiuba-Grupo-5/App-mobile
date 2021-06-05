@@ -14,9 +14,6 @@ class ApiUser {
             email : email,
             password : password
         });
-        if (response.status !== 201) {
-            return false;
-        }
         const jsonData = response.data;
         return new User(jsonData);
     }
@@ -26,9 +23,6 @@ class ApiUser {
             email:email,
             password:password
         });
-        if (response.status !== 200) {
-            return false;
-        }
         const jsonData = response.data;
         return new User(jsonData);
     }

@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {Text} from "react-native";
-import SeedyFiubaButton from "./component/SeedyFiubaButton";
+import AuthButton from "./component/AuthButton";
 import AuthContext from "./component/AuthContext";
 
 const MyProjectsView = () => {
@@ -8,7 +8,7 @@ const MyProjectsView = () => {
     return(
         <>
             <Text>Aca Tenemos que tenes otra llamada a la Api</Text>
-            <SeedyFiubaButton title={'Sign Out'} onPress={signOut}/>
+            <AuthButton title={'Sign Out'} onPress={signOut}/>
         </>
     )
 }
