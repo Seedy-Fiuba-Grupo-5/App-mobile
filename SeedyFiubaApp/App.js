@@ -6,7 +6,6 @@ import ProjectReviewScreen from "./src/view/screen/ProjectReviewScreen";
 import {useFonts, Capriola_400Regular} from '@expo-google-fonts/capriola';
 import {Text} from "react-native";
 import LoginScreen from "./src/view/screen/LoginScreen";
-import AuthScreen from "./src/view/screen/AuthScreen";
 import RegisterScreen from "./src/view/screen/RegisterScreen";
 import AuthContext from "./src/view/component/AuthContext";
 
