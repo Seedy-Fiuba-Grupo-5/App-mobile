@@ -2,9 +2,9 @@ import React, {useContext} from "react";
 import {Text, View} from "react-native";
 import {Formik} from "formik";
 import * as Yup from "yup";
-import loginStyles from "../Styles/StyleLoginScreen";
+import authStyle from "../Styles/AuthStyleSheet";
 import {Icon, Input} from "react-native-elements";
-import SeedyFiubaButton from "../component/SeedyFiubaButton";
+import AuthButton from "../component/AuthButton";
 import ApiUser from "../../model/ApiUser";
 import AuthContext from "../component/AuthContext";
 const RegisterScreen = () => {
@@ -63,7 +63,7 @@ const RegisterScreen = () => {
                                                type='material'
                                                size={20}
                                                color='#BEBEBE'/>}
-                               containerStyle={loginStyles.inputContainer}
+                               containerStyle={authStyle.inputContainer}
 
                         />
                         <Input value={props.values.lastName}
@@ -75,7 +75,7 @@ const RegisterScreen = () => {
                                                type='material'
                                                size={20}
                                                color='#BEBEBE'/>}
-                               containerStyle={loginStyles.inputContainer}
+                               containerStyle={authStyle.inputContainer}
                         />
                         <Input value={props.values.email}
                                label={'Email'}
@@ -86,7 +86,7 @@ const RegisterScreen = () => {
                                                type='material'
                                                size={20}
                                                color='#BEBEBE'/>}
-                               containerStyle={loginStyles.inputContainer}
+                               containerStyle={authStyle.inputContainer}
 
                         />
                         <Input secureTextEntry={true}
@@ -98,9 +98,9 @@ const RegisterScreen = () => {
                                                type='material'
                                                size={20}
                                                color='#BEBEBE'/>}
-                               containerStyle={loginStyles.inputContainer}
+                               containerStyle={authStyle.inputContainer}
                         />
-                        <SeedyFiubaButton title='Sign Up' onPress={props.handleSubmit}/>
+                        <AuthButton title='Sign Up' onPress={props.handleSubmit} style={authStyle.registerButton}/>
                     </View>
                 )
                 }

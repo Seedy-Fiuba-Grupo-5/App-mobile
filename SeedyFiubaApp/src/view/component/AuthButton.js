@@ -1,11 +1,11 @@
-import styles from "../Styles/StyleSheet";
+import loginStyle from "../Styles/AuthStyleSheet";
 import {Button} from "react-native-elements";
 import React from "react";
 
-const SeedyFiubaButton = ({title,onPress}) => {
+const AuthButton = ({title,onPress,style}) => {
     return (
         <Button title={title}
-                buttonStyle={styles.button}
+                buttonStyle={style}
                 titleStyle={
                     {
                         fontSize: 20
@@ -16,4 +16,4 @@ const SeedyFiubaButton = ({title,onPress}) => {
     )
 
 }
-export default SeedyFiubaButton
+export default AuthButton

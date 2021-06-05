@@ -12,6 +12,20 @@ const loginStyles = StyleSheet.create({
     inputContainer:{
         width: '80%',
         alignSelf: 'center'
+    },
+    loginButton: {
+        margin:5,
+        backgroundColor: '#4b1e4d',
+        borderRadius: 15,
+        width: '80%',
+        alignSelf: 'center'
+    },
+    registerButton: {
+        margin:5,
+        backgroundColor: '#86939e',
+        borderRadius: 15,
+        width: '80%',
+        alignSelf: 'center'
     }
 });
 export default loginStyles

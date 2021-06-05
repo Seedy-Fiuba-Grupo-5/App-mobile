@@ -1,10 +1,10 @@
 import React, {useContext} from "react";
-import {Text, View} from "react-native";
-import SeedyFiubaButton from "../component/SeedyFiubaButton";
+import {Image, Text, View} from "react-native";
+import AuthButton from "../component/AuthButton";
 import {Formik} from "formik";
 import {Icon, Input} from "react-native-elements";
 import * as Yup from 'yup';
-import loginStyles from "../Styles/StyleLoginScreen";
+import authStyle from "../Styles/AuthStyleSheet";
 import ApiUser from "../../model/ApiUser";
 import AuthContext from "../component/AuthContext";
 
@@ -30,6 +30,11 @@ const LoginScreen = ({navigation}) => {
                 flex: 1
             }
         }>
+            <Image source={require('../images/logo.png')} style={{
+                width: 220,
+                height: 220,
+                alignSelf: 'center'
+            }}/>
             <Formik
                 initialValues={{
                     email: '',
@@ -56,7 +61,7 @@ const LoginScreen = ({navigation}) => {
                                                type='material'
                                                size={20}
                                                color='#BEBEBE'/>}
-                               containerStyle={loginStyles.inputContainer}
+                               containerStyle={authStyle.inputContainer}
 
                         />
                         <Input secureTextEntry={true}
@@ -68,28 +73,14 @@ const LoginScreen = ({navigation}) => {
                                                type='material'
                                                size={20}
                                                color='#BEBEBE'/>}
-                               containerStyle={loginStyles.inputContainer}
+                               containerStyle={authStyle.inputContainer}
                         />
-                        <SeedyFiubaButton title='Sign In' onPress={props.handleSubmit}/>
+                        <AuthButton title='Sign In' onPress={props.handleSubmit} style={authStyle.loginButton}/>
                     </View>
                 )
                 }
             </Formik>
-            <Text
-                style={
-                    {
-                        alignSelf: 'center',
-                        fontSize: 14
-                    }
-                }>
-                {'Dont have account?      '}
-                <Text
-                    onPress={signUpHandler}
-                    style={{color:'#0828f1',textDecorationLine: 'underline'}
-                    }>
-                    {'Sign Up'}
-                </Text>
-            </Text>
+            <AuthButton title='Sign Up' onPress={signUpHandler} style={authStyle.registerButton}/>
         </View>
     )
 }

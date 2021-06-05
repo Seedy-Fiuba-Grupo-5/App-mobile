@@ -64,7 +64,6 @@ const App = () => {
                         </homeStack.Navigator>
                     ) : (
                         <stack.Navigator screenOptions={{headerShown: false}}>
-                            <stack.Screen name='Main' component={AuthScreen}/>
                             <stack.Screen name='Login' component={LoginScreen}/>
                             <stack.Screen name='Register' component={RegisterScreen}/>
                         </stack.Navigator>
