@@ -16,13 +16,11 @@ const ProjectScreen = ({navigation}) => {
                 color='#fff'
                 onPress={() => {
                     navigation.openDrawer();
-                    console.log('hello');
                 }}/>}
                     centerComponent={{
                         text: 'SeedyFiuba',
                         style: {
                             color: '#fff',
-                            fontFamily: 'Capriola_400Regular',
                             alignContent: 'center'
                         }
                     }}/>

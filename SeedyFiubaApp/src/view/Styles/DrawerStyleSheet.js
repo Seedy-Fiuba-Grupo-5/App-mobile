@@ -8,8 +8,9 @@ const drawerStyles = StyleSheet.create({
             borderTopColor: '#4b1e4d'
         },
         drawerText: {
-            fontSize: 15,
-            fontWeight: "bold"
+            fontSize: 18,
+            fontWeight: "bold",
+            alignSelf:'center'
         },
         divider:{
             borderTopWidth: 0.8,
