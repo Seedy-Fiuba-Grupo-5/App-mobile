@@ -8,6 +8,7 @@ import AuthContext from "./src/view/component/AuthContext";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import HomeScreen from "./src/view/screen/HomeScreen";
 import DrawerContent from "./src/view/component/DrawerContent";
+import AccountScreen from "./src/view/screen/AccountScreen";
 
 
 const authStack = createStackNavigator();
@@ -32,6 +33,7 @@ const App = () => {
                 {token !== null ? (
                     <accountDrawer.Navigator drawerContent={ props=> <DrawerContent {...props}/> }>
                         <accountDrawer.Screen name ='Main' component={HomeScreen}/>
+                        <accountDrawer.Screen name ='Account' component={AccountScreen}/>
                     </accountDrawer.Navigator>
                 ) : (
                     <authStack.Navigator screenOptions={{headerShown: false}}>

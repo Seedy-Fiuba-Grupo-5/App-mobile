@@ -7,16 +7,20 @@ import drawerStyles from "../Styles/DrawerStyleSheet";
 
 const DrawerContent = (props) => {
     const {signOut} = useContext(AuthContext);
-    const printMessage = () => {
-        console.log('message');
-    }
     return (
         <View style={{flex: 1}}>
             <DrawerContentScrollView>
-                <Icon name='account-circle'
-                      type='material'
-                      size={80}/>
                 <Divider style={drawerStyles.divider}/>
+                <DrawerItem
+                    icon={({color, size}) => (
+                        <Icon name='list'
+                              type='material'
+                              size={size}
+                              color={color}/>)
+                    }
+                    label={'Main'}
+                    onPress={()=>{props.navigation.navigate('Main')}}
+                    labelStyle={drawerStyles.drawerText}/>
                 <DrawerItem
                     icon={({color, size}) => (
                         <Icon name='person-outline'
@@ -24,8 +28,8 @@ const DrawerContent = (props) => {
                               size={size}
                               color={color}/>)
                     }
-                    label={'Profile'}
-                    onPress={printMessage}
+                    label={'Account'}
+                    onPress={()=>{props.navigation.navigate('Account')}}
                     labelStyle={drawerStyles.drawerText}/>
             </DrawerContentScrollView>
             <DrawerItem

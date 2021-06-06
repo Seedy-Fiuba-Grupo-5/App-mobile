@@ -10,7 +10,7 @@ const drawerStyles = StyleSheet.create({
         drawerText: {
             fontSize: 18,
             fontWeight: "bold",
-            alignSelf:'center'
+            //alignSelf:'center'
         },
         divider:{
             borderTopWidth: 0.8,
