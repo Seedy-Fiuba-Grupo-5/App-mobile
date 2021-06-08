@@ -9,6 +9,7 @@ import {createDrawerNavigator} from "@react-navigation/drawer";
 import HomeScreen from "./src/view/screen/HomeScreen";
 import DrawerContent from "./src/view/component/DrawerContent";
 import AccountScreen from "./src/view/screen/AccountScreen";
+import EditAccountScreen from "./src/view/screen/EditAccountScreen";
 
 
 const authStack = createStackNavigator();
@@ -34,6 +35,7 @@ const App = () => {
                     <accountDrawer.Navigator drawerContent={ props=> <DrawerContent {...props}/> }>
                         <accountDrawer.Screen name ='Main' component={HomeScreen}/>
                         <accountDrawer.Screen name ='Account' component={AccountScreen}/>
+                        <accountDrawer.Screen name ='EditAccount' component={EditAccountScreen}/>
                     </accountDrawer.Navigator>
                 ) : (
                     <authStack.Navigator screenOptions={{headerShown: false}}>

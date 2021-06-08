@@ -5,7 +5,10 @@ const accountStyles = StyleSheet.create({
         backgroundColor: '#4b1e4d'
     },
     text: {
-        alignItems: 'center', fontSize: 20, color: 'white'
+        fontSize: 20,
+        color: 'white',
+        fontWeight: 'bold',
+        alignSelf:'center'
     }
 });
 export default accountStyles

@@ -42,7 +42,12 @@ const DrawerContent = (props) => {
                             color={color}/>)
                 }
                 label={'Sign Out'}
-                onPress={()=>{signOut()}}
+                onPress={()=>{
+                    props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Main' }]
+                    });
+                    signOut();}}
                 labelStyle={drawerStyles.drawerText}/>
         </View>
     )
