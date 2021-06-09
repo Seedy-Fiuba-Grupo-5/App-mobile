@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card} from 'react-native-elements'
+import {Button, Card} from 'react-native-elements'
 import {Text, TouchableOpacity, View} from "react-native";
 import styles from "../Styles/StyleSheet";
 import ProjectCardFinancialInfo from "./ProjectCardFinancialInfo";
@@ -42,6 +42,15 @@ const ProjectCard = (props) => {
                                                    iconName={'map-marker-alt'}
                                                    iconFamily={'font-awesome-5'}/>
                         </View>
+                        {props.editable && (
+                            <Button title={'Edit'}
+                                    buttonStyle={styles.button}
+                                    titleStyle={styles.formButtonTitle}
+                                    onPress={
+                                        () => props.navigation.push("EditProject", {project: props.project})
+                                    }
+                            />
+                        )}
                     </View>
 
 

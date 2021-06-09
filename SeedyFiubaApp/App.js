@@ -4,10 +4,11 @@ import {createStackNavigator} from "@react-navigation/stack";
 import HomeScreen from "./src/view/screen/HomeScreen";
 import ProjectReviewScreen from "./src/view/screen/ProjectReviewScreen";
 import {useFonts, Capriola_400Regular} from '@expo-google-fonts/capriola';
-import {Text} from "react-native";
+import {Text, AsyncStorage} from "react-native";
 import LoginScreen from "./src/view/screen/LoginScreen";
 import RegisterScreen from "./src/view/screen/RegisterScreen";
 import AuthContext from "./src/view/component/AuthContext";
+import EditProjectScreen from "./src/view/screen/EditProjectScreen";
 
 
 const homeStack = createStackNavigator();
@@ -18,6 +19,14 @@ const App = () => {
     const auth = {
         signIn: (newToken) => {
             setToken(newToken);
+            try {
+                 AsyncStorage.setItem(
+                    'userId',
+                     newToken.toString()
+                );
+            } catch (error) {
+                console.log('rompio')
+            }
         },
         signUp: (newToken) => {
             setToken(newToken);
@@ -55,6 +64,12 @@ const App = () => {
                                                   title: 'SeedyFiuba'
                                               }}/>
                             <homeStack.Screen name="Project" component={ProjectReviewScreen}
+                                              options={({route}) => {
+                                                  return ({
+                                                      title: route.params.project.name
+                                                  })
+                                              }}/>
+                            <homeStack.Screen name="EditProject" component={EditProjectScreen}
                                               options={({route}) => {
                                                   return ({
                                                       title: route.params.project.name

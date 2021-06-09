@@ -57,7 +57,6 @@ const LoginScreen = ({navigation}) => {
                             .email('Invalid email address')
                             .required('Required'),
                         password: Yup.string()
-                            .min(6, 'Password is too short - should be 6 chars minimum.')
                             .required('Required')
                     })}
                 >

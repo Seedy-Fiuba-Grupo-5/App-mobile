@@ -6,7 +6,7 @@ import MyProjectsView from "../MyProjectsView";
 import NewProjectView from "../NewProjectView";
 
 const Tab = createMaterialTopTabNavigator();
-const HomeScreen = () => {
+const HomeScreen = (props) => {
     return(
         <Tab.Navigator>
             <Tab.Screen name="Projects" component={ProjectsView} />

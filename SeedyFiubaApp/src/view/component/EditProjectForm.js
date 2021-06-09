@@ -12,7 +12,7 @@ import styles from "../Styles/StyleSheet";
 import GooglePlacePicker from "./GooglePlacePicker";
 import ApiUser from "../../model/ApiUser";
 
-const NewProjectForm = () => {
+const EditProjectForm = (props) => {
 
     const [datePickerShow, datePickerSetShow] = useState(false);
     const [userId, setUserId] = useState('');
@@ -87,76 +87,76 @@ const NewProjectForm = () => {
     return(
         <View
             style={{
-            paddingVertical:15}
+                paddingVertical:15}
             }>
             <Formik initialValues={{
-                name: "",
-                description: "",
-                hashtags: "",
-                type: "",
-                goal: "",
-                endDate: "",
-                location: ""}
+                name: props.project.name,
+                description: props.project.description,
+                hashtags: props.project.hashtags,
+                type: props.project.type,
+                goal: props.project.goal,
+                endDate: props.project.endDate,
+                location: props.project.location}
             }
                     validationSchema={projectSchema}
                     onSubmit={(values, actions) => {
-                actions.resetForm();
-                newProject(values);
-            }}>
+                        actions.resetForm();
+                        newProject(values);
+                    }}>
                 {props => (
                     <KeyboardAvoidingView behavior={'padding'}>
                         <FormikTextInput formikProps={[props, props.values.name,
                             props.touched.name, props.errors.name]}
-                            formField={"name"}
-                            label={"Project Name"}
-                            placeholder={"My Awesome Project"}
-                            icon={icons.project}
-                            keyboard={'default'}
-                            multiline={false}/>
+                                         formField={"name"}
+                                         label={"Project Name"}
+                                         placeholder={"None"}
+                                         icon={icons.project}
+                                         keyboard={'default'}
+                                         multiline={false}/>
 
                         <FormikTextInput formikProps={[props, props.values.description,
                             props.touched.description, props.errors.description]}
                                          formField={"description"}
                                          label={"Project Description"}
-                                         placeholder={"The most wholesome project"}
+                                         placeholder={"None"}
                                          icon={icons.projectDescription}
                                          keyboard={'default'}
                                          multiline={true}/>
 
                         <FormikTextInput formikProps={[props, props.values.hashtags,
-                               props.touched.hashtags, props.errors.hashtags]}
+                            props.touched.hashtags, props.errors.hashtags]}
                                          formField={"hashtags"}
                                          label={"Hashtags"}
-                                         placeholder={"LEGENDARY"}
+                                         placeholder={"None"}
                                          icon={icons.hashtags}
                                          keyboard={'default'}
                                          multiline={false}/>
 
                         <FormikPicker formikProps={[props, props.values.type,
-                                props.touched.type, props.errors.type]}
-                                formField={"type"}
-                                label={"Select a Project Type..."}
-                                icon={() => {
-                                    return <Icon name="lightbulb" size={24} color="black" />;
-                                }}/>
+                            props.touched.type, props.errors.type]}
+                                      formField={"type"}
+                                      label={props.values.type}
+                                      icon={() => {
+                                          return <Icon name="lightbulb" size={24} color="black" />;
+                                      }}/>
 
                         <FormikTextInput formikProps={[props, props.values.goal,
                             props.touched.goal, props.errors.goal]}
                                          formField={"goal"}
                                          label={"Goal"}
-                                         placeholder={"1984"}
+                                         placeholder={"None"}
                                          icon={icons.goal}
                                          keyboard={'numeric'}
                                          multiline={false}/>
 
                         <FormikDatePicker formikProps={props}
-                            show={[datePickerShow, datePickerSetShow]}/>
+                                          show={[datePickerShow, datePickerSetShow]}/>
 
                         <FormikTextInput formikProps={[props, props.values.location,
                             props.touched.location, props.errors.location]}
                                          formField={"location"}
                                          label={"Location"}
-                                         placeholder={"Buenos Aires, Argentina"}
+                                         placeholder={"None"}
                                          icon={icons.location}
                                          keyboard={'default'}
                                          multiline={false}/>
@@ -177,6 +177,7 @@ const NewProjectForm = () => {
                             <Icon name={'map-marker-alt'} size={24}/>
                             <GooglePlacePicker/>
                         </View>
+
                         <Text style={styles.errorText}>{props.touched.location && props.errors.location}</Text>
                         <FormikButton
                             title={"Create Project"}
@@ -187,4 +188,4 @@ const NewProjectForm = () => {
         </View>
     )
 }
-export default NewProjectForm
+export default EditProjectForm
