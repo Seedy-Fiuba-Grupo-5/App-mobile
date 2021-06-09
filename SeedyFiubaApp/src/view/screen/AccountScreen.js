@@ -27,10 +27,14 @@ const AccountScreen = ({navigation}) => {
             <View style={{flex: 2, alignItems: 'center'}}>
                 <AccountAvatar name={'Kevin Mendoza'}/>
             </View>
-            <View style={{flex: 4,margin:20}}>
-                <AccountInformationCard firstName={'Kevin'} lastName={'Mendoza'} email={'test2@test2.com'}/>
+            <View style={{flex: 3,margin:20}}>
+                <AccountInformationCard firstName={'Kevin'}
+                                        lastName={'Mendoza'}
+                                        email={'test2@test2.com'}/>
             </View>
-            <AuthButton title={'Edit Information'} style={authStyle.secondButton} onPress={()=>{navigation.navigate('EditAccount')}}/>
+            <AuthButton title={'Edit Information'}
+                        style={authStyle.secondButton}
+                        onPress={()=>{navigation.navigate('EditAccount')}}/>
         </View>
     )
 }

@@ -14,6 +14,7 @@ const LoginScreen = ({navigation}) => {
         const apiUser = new ApiUser();
         apiUser.login(values.email, values.password)
             .then((data) => {
+                console.log(data);
                 signIn(data.id);
             })
             .catch((error) => {
