@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {Alert, Text, View} from "react-native";
+import {Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View} from "react-native";
 import {Formik} from "formik";
 import * as Yup from "yup";
 import authStyle from "../Styles/AuthStyleSheet";
@@ -7,51 +7,53 @@ import {Icon, Input} from "react-native-elements";
 import AuthButton from "../component/AuthButton";
 import ApiUser from "../../model/ApiUser";
 import AuthContext from "../component/AuthContext";
+
 const RegisterScreen = () => {
     const {signUp} = useContext(AuthContext);
-    const signUpHandler = (values,actions) => {
+    const signUpHandler = (values, actions) => {
         const apiUser = new ApiUser();
-        apiUser.register(values.firstName,values.lastName,values.email,values.password)
+        apiUser.register(values.firstName, values.lastName, values.email, values.password)
             .then((data) => {
-                if(data){
+                if (data) {
                     signUp(data.id);
                 }
             })
             .catch((error) => {
-                if(error.response.status === 401){
+                if (error.response.status === 401) {
                     Alert.alert('Account with this email already exists');
-                }else{
+                } else {
                     Alert.alert('Something went wrong ');
                 }
             });
     }
     return (
-        <View
+        <ScrollView
             style={
                 {
                     flex: 1,
-                    flexDirection:'column',
-                    marginTop:24,
-                    alignContent:"center"
+                    flexDirection: 'column',
+                    alignContent: "center"
                 }
-            }>
-            <View style={{flex:1}}>
+            }
+            keyboardShouldPersistTaps='handled'>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : null}
+                keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+            >
                 <Text style={authStyle.titleText}>
                     Create Account
                 </Text>
-            </View>
-            <View style={{flex:4}}>
                 <Formik
                     initialValues={{
-                        firstName:'',
-                        lastName:'',
+                        firstName: '',
+                        lastName: '',
                         email: '',
                         password: ''
                     }}
                     onSubmit={signUpHandler}
                     validationSchema={Yup.object({
                         firstName: Yup.string()
-                            .min(3,'Invalid First Name length')
+                            .min(3, 'Invalid First Name length')
                             .required('Required'),
                         lastName: Yup.string()
                             .min(3, 'Invalid Last Name length')
@@ -112,13 +114,14 @@ const RegisterScreen = () => {
                                                    color='#BEBEBE'/>}
                                    containerStyle={authStyle.inputContainer}
                             />
-                            <AuthButton title='Sign Up' onPress={props.handleSubmit} style={authStyle.principalButton}/>
+                            <AuthButton title='Sign Up' onPress={props.handleSubmit}
+                                        style={authStyle.principalButton}/>
                         </View>
                     )
                     }
                 </Formik>
-            </View>
-        </View>
+            </KeyboardAvoidingView>
+        </ScrollView>
     )
 }
 export default RegisterScreen

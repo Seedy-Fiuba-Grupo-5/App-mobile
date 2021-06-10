@@ -1,5 +1,5 @@
-import React, {useContext} from "react";
-import {Alert, Image, Text, View} from "react-native";
+import React, {useContext, useState} from "react";
+import {Alert, Image, KeyboardAvoidingView, Platform, ScrollView, Text, View} from "react-native";
 import AuthButton from "../component/AuthButton";
 import {Formik} from "formik";
 import {Icon, Input} from "react-native-elements";
@@ -10,17 +10,26 @@ import AuthContext from "../component/AuthContext";
 
 const LoginScreen = ({navigation}) => {
     const {signIn} = useContext(AuthContext);
-    const signInHandler = (values,actions) => {
+    const signInHandler = (values, actions) => {
         const apiUser = new ApiUser();
-        apiUser.login(values.email,values.password)
+        apiUser.login(values.email, values.password)
             .then((data) => {
                 signIn(data.id);
             })
             .catch((error) => {
-                if(error.response.status === 401){
-                    Alert.alert('Account doesnt exist ');
-                }else{
-                    Alert.alert('Something went wrong ');
+                switch (error.response.status){
+                    case 401:{
+                        Alert.alert('Invalid Password ');
+                        break;
+                    }
+                    case 404:{
+                        Alert.alert('Account doesnt exist ');
+                        break;
+                    }
+                    default:{
+                        Alert.alert('Something went wrong ');
+                        break;
+                    }
                 }
             });
     }
@@ -28,22 +37,23 @@ const LoginScreen = ({navigation}) => {
         navigation.navigate('Register');
     }
     return (
-        <View style={
+        <ScrollView style={
             {
                 flex: 1,
-                flexDirection:'column',
-                marginTop:24,
+                flexDirection: 'column'
             }
-        }>
-            <Text style={authStyle.titleText}>
-                Welcome to SeedyFiuba
-            </Text>
+        }  keyboardShouldPersistTaps='handled'>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}
+                                  keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}>
+                <Text style={authStyle.titleText}>
+                    Welcome to SeedyFiuba
+                </Text>
 
                 <Image source={require('../images/logo.png')} style={{
                     width: 130,
                     height: 130,
-                    alignSelf:"center",
-                    margin:10
+                    alignSelf: "center",
+                    margin: 10
                 }}/>
 
                 <Formik
@@ -62,7 +72,7 @@ const LoginScreen = ({navigation}) => {
                     })}
                 >
                     {props => (
-                        <View >
+                        <View>
                             <Input value={props.values.email}
                                    label={'Email'}
                                    onChangeText={props.handleChange('email')}
@@ -92,7 +102,8 @@ const LoginScreen = ({navigation}) => {
                     }
                 </Formik>
                 <AuthButton title='Sign Up' onPress={signUpHandler} style={authStyle.secondButton}/>
-        </View>
+            </KeyboardAvoidingView>
+        </ScrollView>
     )
 }
 export default LoginScreen
