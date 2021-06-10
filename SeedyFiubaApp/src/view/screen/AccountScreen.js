@@ -7,7 +7,8 @@ import AccountAvatar from "../component/AccountAvatar";
 import AuthButton from "../component/AuthButton";
 import authStyle from "../Styles/AuthStyleSheet";
 
-const AccountScreen = ({navigation}) => {
+const AccountScreen = ({navigation,route}) => {
+    const user2 = route.params.user;
     return (
         <View style={{flex: 1, alignContent: 'center'}}>
             <Header
@@ -25,12 +26,12 @@ const AccountScreen = ({navigation}) => {
                 containerStyle={accountStyles.header}
             />
             <View style={{flex: 2, alignItems: 'center'}}>
-                <AccountAvatar name={'Kevin Mendoza'}/>
+                <AccountAvatar name={user2.firstName+' '+user2.lastName}/>
             </View>
             <View style={{flex: 3,margin:20}}>
-                <AccountInformationCard firstName={'Kevin'}
-                                        lastName={'Mendoza'}
-                                        email={'test2@test2.com'}/>
+                <AccountInformationCard firstName={user2.firstName}
+                                        lastName={user2.lastName}
+                                        email={user2.email}/>
             </View>
             <AuthButton title={'Edit Information'}
                         style={authStyle.secondButton}

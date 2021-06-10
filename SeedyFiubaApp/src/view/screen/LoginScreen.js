@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import {Alert, Image, KeyboardAvoidingView, Platform, ScrollView, Text, View} from "react-native";
 import AuthButton from "../component/AuthButton";
 import {Formik} from "formik";
@@ -14,14 +14,22 @@ const LoginScreen = ({navigation}) => {
         const apiUser = new ApiUser();
         apiUser.login(values.email, values.password)
             .then((data) => {
-                console.log(data);
                 signIn(data.id);
             })
             .catch((error) => {
-                if (error.response.status === 401) {
-                    Alert.alert('Account doesnt exist ');
-                } else {
-                    Alert.alert('Something went wrong ');
+                switch (error.response.status){
+                    case 401:{
+                        Alert.alert('Invalid Password ');
+                        break;
+                    }
+                    case 404:{
+                        Alert.alert('Account doesnt exist ');
+                        break;
+                    }
+                    default:{
+                        Alert.alert('Something went wrong ');
+                        break;
+                    }
                 }
             });
     }

@@ -10,15 +10,24 @@ import HomeScreen from "./src/view/screen/HomeScreen";
 import DrawerContent from "./src/view/component/DrawerContent";
 import AccountScreen from "./src/view/screen/AccountScreen";
 import EditAccountScreen from "./src/view/screen/EditAccountScreen";
+import ApiUser from "./src/model/ApiUser";
 
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
 
 const App = () => {
+    const [user, setUser] = useState({});
     const [token,setToken] = useState(null);
     const auth = {
         signIn: (newToken) => {
+            const apiUser = new ApiUser();
+            apiUser.user(newToken)
+                .then((data)=>{
+                    setUser({id:data.id,firstName:data.firstName,lastName:data.lastName,email:data.email})
+                }).catch((error) => {
+                    console.log(error);
+            })
             setToken(newToken);
         },
         signUp: (newToken) => {
@@ -34,8 +43,12 @@ const App = () => {
                 {token !== null ? (
                     <accountDrawer.Navigator drawerContent={ props=> <DrawerContent {...props}/> }>
                         <accountDrawer.Screen name ='Main' component={HomeScreen}/>
-                        <accountDrawer.Screen name ='Account' component={AccountScreen}/>
-                        <accountDrawer.Screen name ='EditAccount' component={EditAccountScreen}/>
+                        <accountDrawer.Screen name ='Account'
+                                              component={AccountScreen}
+                                              initialParams={{user:user}}/>
+                        <accountDrawer.Screen name ='EditAccount'
+                                              component={EditAccountScreen}
+                                              initialParams={{user:user}}/>
                     </accountDrawer.Navigator>
                 ) : (
                     <authStack.Navigator screenOptions={{headerShown: false}}>

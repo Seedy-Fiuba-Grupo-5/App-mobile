@@ -1,12 +1,22 @@
 import React, {useRef} from "react";
-import {KeyboardAvoidingView, Platform, ScrollView, Text, View} from "react-native";
+import {Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View} from "react-native";
 import {Header, Icon, Input} from "react-native-elements";
 import accountStyles from "../Styles/AccountStyleSheet";
 import authStyle from "../Styles/AuthStyleSheet";
 import {Formik} from "formik";
 import * as Yup from "yup";
-const EditAccountScreen = ({navigation}) => {
+import ApiUser from "../../model/ApiUser";
+const EditAccountScreen = ({navigation,route}) => {
     const formRef = useRef();
+    const user3 = route.params.user;
+    const updateUser = (values) => {
+        const apiUser = new ApiUser();
+        apiUser.updateUser(user3.id,values.firstName,values.lastName,values.email)
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((error) => {});
+    }
     return (
         <View style={{flex: 1, alignContent: 'center'}}>
             <Header
@@ -42,11 +52,11 @@ const EditAccountScreen = ({navigation}) => {
                     <Formik
                         innerRef={formRef}
                         initialValues={{
-                            firstName: '',
-                            lastName: '',
-                            email: '',
+                            firstName: user3.firstName,
+                            lastName: user3.lastName,
+                            email: user3.email,
                         }}
-                        onSubmit={()=>{console.log('Holaaaa')}}
+                        onSubmit={updateUser}
                         validationSchema={Yup.object({
                             firstName: Yup.string()
                                 .min(3, 'Invalid First Name length'),

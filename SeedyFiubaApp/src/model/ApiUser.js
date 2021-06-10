@@ -26,5 +26,23 @@ class ApiUser {
         const jsonData = response.data;
         return new User(jsonData);
     }
+
+    async user(id) {
+        const url = this.baseUrl + '/users/'+id;
+        const response = await axios.get(url);
+        const jsonData = response.data;
+        return new User(jsonData);
+    }
+
+    async updateUser(id,firstName,lastName,email) {
+        const url = this.baseUrl + '/users/'+id;
+        const response = await axios.patch(url,{
+            name:firstName,
+            lastName:lastName,
+            email:email
+        });
+        const jsonData = response.data;
+        return new User(jsonData);
+    }
 }
 export default ApiUser
