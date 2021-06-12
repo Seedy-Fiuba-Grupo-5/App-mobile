@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
-import {Text, View} from "react-native";
+import {View} from "react-native";
 import {DrawerContentScrollView, DrawerItem} from "@react-navigation/drawer";
-import AuthContext from "../component/AuthContext";
 import {Divider, Icon} from "react-native-elements";
 import drawerStyles from "../Styles/DrawerStyleSheet";
+import UseAuth from "./UseAuth";
 
 const DrawerContent = (props) => {
-    const {signOut} = useContext(AuthContext);
+    const {signOut} = UseAuth();
     return (
         <View style={{flex: 1}}>
             <DrawerContentScrollView>
@@ -43,7 +43,7 @@ const DrawerContent = (props) => {
                 }
                 label={'Sign Out'}
                 onPress={()=>{
-                    signOut();}}
+                    signOut()}}
                 labelStyle={drawerStyles.drawerText}/>
         </View>
     )

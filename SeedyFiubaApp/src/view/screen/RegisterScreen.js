@@ -6,13 +6,12 @@ import authStyle from "../Styles/AuthStyleSheet";
 import {Icon, Input} from "react-native-elements";
 import AuthButton from "../component/AuthButton";
 import ApiUser from "../../model/ApiUser";
-import AuthContext from "../component/AuthContext";
+import UseAuth from "../component/UseAuth";
 
 const RegisterScreen = () => {
-    const {signUp} = useContext(AuthContext);
+    const {signUp} = UseAuth();
     const signUpHandler = (values, actions) => {
-        const apiUser = new ApiUser();
-        apiUser.register(values.firstName, values.lastName, values.email, values.password)
+        ApiUser.register(values.firstName, values.lastName, values.email, values.password)
             .then((data) => {
                 if (data) {
                     signUp(data.id);

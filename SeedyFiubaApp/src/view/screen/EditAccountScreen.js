@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View} from "react-native";
 import {Header, Icon, Input} from "react-native-elements";
 import accountStyles from "../Styles/AccountStyleSheet";
@@ -6,14 +6,15 @@ import authStyle from "../Styles/AuthStyleSheet";
 import {Formik} from "formik";
 import * as Yup from "yup";
 import ApiUser from "../../model/ApiUser";
+import UseAuth from "../component/UseAuth";
 const EditAccountScreen = ({navigation,route}) => {
+    const {jwt} = UseAuth();
+    const user = route.params.users;
+    console.log(user);
     const formRef = useRef();
-    const user3 = route.params.user;
     const updateUser = (values) => {
-        const apiUser = new ApiUser();
-        apiUser.updateUser(user3.id,values.firstName,values.lastName,values.email)
+        ApiUser.updateUser(jwt,values.firstName,values.lastName,values.email)
             .then((data) => {
-                console.log(data);
             })
             .catch((error) => {});
     }
@@ -52,9 +53,9 @@ const EditAccountScreen = ({navigation,route}) => {
                     <Formik
                         innerRef={formRef}
                         initialValues={{
-                            firstName: user3.firstName,
-                            lastName: user3.lastName,
-                            email: user3.email,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            email: user.email,
                         }}
                         onSubmit={updateUser}
                         validationSchema={Yup.object({

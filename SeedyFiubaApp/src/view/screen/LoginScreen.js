@@ -5,14 +5,13 @@ import {Formik} from "formik";
 import {Icon, Input} from "react-native-elements";
 import * as Yup from 'yup';
 import authStyle from "../Styles/AuthStyleSheet";
+import UseAuth from "../component/UseAuth";
 import ApiUser from "../../model/ApiUser";
-import AuthContext from "../component/AuthContext";
 
 const LoginScreen = ({navigation}) => {
-    const {signIn} = useContext(AuthContext);
+    const {signIn} = UseAuth();
     const signInHandler = (values, actions) => {
-        const apiUser = new ApiUser();
-        apiUser.login(values.email, values.password)
+        ApiUser.login(values.email, values.password)
             .then((data) => {
                 signIn(data.id);
             })
