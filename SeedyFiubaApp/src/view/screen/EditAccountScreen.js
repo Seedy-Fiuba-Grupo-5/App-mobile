@@ -15,8 +15,11 @@ const EditAccountScreen = ({navigation,route}) => {
     const updateUser = (values) => {
         ApiUser.updateUser(jwt,values.firstName,values.lastName,values.email)
             .then((data) => {
+                Alert.alert('Information Edited');
             })
-            .catch((error) => {});
+            .catch((error) => {
+                Alert.alert('Something went wrong');
+            });
     }
     return (
         <View style={{flex: 1, alignContent: 'center'}}>

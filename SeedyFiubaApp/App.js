@@ -10,6 +10,7 @@ import HomeScreen from "./src/view/screen/HomeScreen";
 import DrawerContent from "./src/view/component/DrawerContent";
 import AccountScreen from "./src/view/screen/AccountScreen";
 import EditAccountScreen from "./src/view/screen/EditAccountScreen";
+import UseAuth from "./src/view/component/UseAuth";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
