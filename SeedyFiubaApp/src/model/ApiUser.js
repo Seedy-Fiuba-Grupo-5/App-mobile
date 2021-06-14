@@ -3,11 +3,11 @@ import {URL_LOCAL_USER} from '@env'
 import User from "./User";
 
 class ApiUser {
+    static BASE_URL = URL_LOCAL_USER;
     constructor() {
-        this.baseUrl = URL_LOCAL_USER;
     }
-    async register(firsName, lastName, email, password) {
-        const url = this.baseUrl + '/users';
+    static async register(firsName, lastName, email, password) {
+        const url = ApiUser.BASE_URL + '/users';
         const response = await axios.post(url,{
             name : firsName,
             lastName : lastName,
@@ -17,8 +17,8 @@ class ApiUser {
         const jsonData = response.data;
         return new User(jsonData);
     }
-    async login(email,password) {
-        const url = this.baseUrl + '/users/login';
+    static async login(email,password) {
+        const url = ApiUser.BASE_URL + '/users/login';
         const response = await axios.post(url, {
             email:email,
             password:password
@@ -27,15 +27,15 @@ class ApiUser {
         return new User(jsonData);
     }
 
-    async user(id) {
-        const url = this.baseUrl + '/users/'+id;
+    static async user(id) {
+        const url = ApiUser.BASE_URL + '/users/'+id;
         const response = await axios.get(url);
         const jsonData = response.data;
         return new User(jsonData);
     }
 
-    async updateUser(id,firstName,lastName,email) {
-        const url = this.baseUrl + '/users/'+id;
+    static async updateUser(id,firstName,lastName,email) {
+        const url = ApiUser.BASE_URL + '/users/'+id;
         const response = await axios.patch(url,{
             name:firstName,
             lastName:lastName,

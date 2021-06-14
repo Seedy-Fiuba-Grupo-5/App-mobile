@@ -2,13 +2,8 @@ import React from "react";
 import {Avatar} from "react-native-elements";
 const AccountAvatar = ({name}) => {
     const avatarTitle= (name)=> {
-        let names = name.split(" ");
-        let title = '';
-        names.forEach((value)=>
-        {
-            title=title+value.charAt(0);
-        })
-        return title;
+        const title = name.firstName.charAt(0)+name.lastName.charAt(0);
+        return title.toUpperCase();
     }
     return (
         <Avatar

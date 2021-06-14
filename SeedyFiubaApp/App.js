@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 //import {useFonts, Capriola_400Regular} from '@expo-google-fonts/capriola';
@@ -10,45 +10,23 @@ import HomeScreen from "./src/view/screen/HomeScreen";
 import DrawerContent from "./src/view/component/DrawerContent";
 import AccountScreen from "./src/view/screen/AccountScreen";
 import EditAccountScreen from "./src/view/screen/EditAccountScreen";
-import ApiUser from "./src/model/ApiUser";
-
+import UseAuth from "./src/view/component/UseAuth";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
 
 const App = () => {
-    const [user, setUser] = useState({});
-    const [token,setToken] = useState(null);
-    const auth = {
-        signIn: (newToken) => {
-            const apiUser = new ApiUser();
-            apiUser.user(newToken)
-                .then((data)=>{
-                    setUser({id:data.id,firstName:data.firstName,lastName:data.lastName,email:data.email})
-                }).catch((error) => {
-                    console.log(error);
-            })
-            setToken(newToken);
-        },
-        signUp: (newToken) => {
-            setToken(newToken);
-        },
-        signOut:()=>{
-            setToken(null);
-        }
-    }
+    const [jwt, setJWT] = useState(null);
     return (
-        <AuthContext.Provider value={auth}>
+        <AuthContext.Provider value={{jwt,setJWT}}>
             <NavigationContainer>
-                {token !== null ? (
+                {jwt !== null ? (
                     <accountDrawer.Navigator drawerContent={ props=> <DrawerContent {...props}/> }>
                         <accountDrawer.Screen name ='Main' component={HomeScreen}/>
                         <accountDrawer.Screen name ='Account'
-                                              component={AccountScreen}
-                                              initialParams={{user:user}}/>
+                                              component={AccountScreen}/>
                         <accountDrawer.Screen name ='EditAccount'
-                                              component={EditAccountScreen}
-                                              initialParams={{user:user}}/>
+                                              component={EditAccountScreen}/>
                     </accountDrawer.Navigator>
                 ) : (
                     <authStack.Navigator screenOptions={{headerShown: false}}>
@@ -61,6 +39,6 @@ const App = () => {
         </AuthContext.Provider>
     )
 }
-export default App;
+export default App
 
 
