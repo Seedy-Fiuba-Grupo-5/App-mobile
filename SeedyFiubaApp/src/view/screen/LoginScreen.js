@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Alert, Image, KeyboardAvoidingView, Platform, ScrollView, Text, View} from "react-native";
 import AuthButton from "../component/AuthButton";
 import {Formik} from "formik";
@@ -7,6 +7,9 @@ import * as Yup from 'yup';
 import authStyle from "../Styles/AuthStyleSheet";
 import UseAuth from "../component/UseAuth";
 import AuthLoading from "../component/AuthLoading";
+import {ANDROID_CLIENT} from '@env'
+import * as Google from 'expo-google-app-auth';
+import AuthText from "../component/AuthText";
 
 const LoginScreen = ({navigation}) => {
     const {signIn,isLoading} = UseAuth();
@@ -15,6 +18,19 @@ const LoginScreen = ({navigation}) => {
     }
     const signUpHandler = () => {
         navigation.navigate('Register');
+    }
+
+
+    const testGoogle = () => {
+        const config = {
+            androidClientId:ANDROID_CLIENT,
+            scopes:['profile','email']
+        }
+        Google.logInAsync(config).then((results) => {
+            console.log(results)
+        }).catch((error) => {
+            console.log(error)
+        })
     }
     console.log(isLoading);
     if(isLoading){
@@ -32,14 +48,12 @@ const LoginScreen = ({navigation}) => {
                     <Text style={authStyle.titleText}>
                         Welcome to SeedyFiuba
                     </Text>
-
                     <Image source={require('../images/logo.png')} style={{
-                        width: 130,
-                        height: 130,
+                        width: 110,
+                        height: 110,
                         alignSelf: "center",
                         margin: 10
                     }}/>
-
                     <Formik
                         initialValues={{
                             email: '',
@@ -85,8 +99,14 @@ const LoginScreen = ({navigation}) => {
                         )
                         }
                     </Formik>
-                    <AuthButton title='Sign Up' onPress={signUpHandler} style={authStyle.secondButton}/>
+                    <AuthButton icon={<Icon
+                        name='google'
+                        style={{paddingRight:15}}
+                        type='font-awesome-5'
+                        size={25}
+                        color='#4b1e4d'/>} title='Sign in with Google' onPress={testGoogle} style={authStyle.googleButton} titleStyle={authStyle.googleTitleButton}/>
                 </KeyboardAvoidingView>
+                <AuthText onPress={signUpHandler}/>
             </ScrollView>
         )
     }

@@ -26,6 +26,16 @@ const loginStyles = StyleSheet.create({
         borderRadius: 15,
         width: '80%',
         alignSelf: 'center'
+    },
+    googleButton:{
+        margin:5,
+        backgroundColor: '#ffffff',
+        borderRadius: 15,
+        width: '80%',
+        alignSelf: 'center'
+    },
+    googleTitleButton:{
+        color:'#4b1e4d'
     }
 });
 export default loginStyles
