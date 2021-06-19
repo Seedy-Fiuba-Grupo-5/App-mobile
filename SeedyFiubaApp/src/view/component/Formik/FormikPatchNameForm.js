@@ -17,7 +17,7 @@ const FormikPatchNameForm = (props) => {
 
     const newProject = (project) =>{
         const apiProject = new ApiProject();
-        apiProject.patch(props.project.id, project)
+        apiProject.patch(props.id, project)
             .then((data) => {
                 showMessage('The Field Was Successfully Modified');
             })

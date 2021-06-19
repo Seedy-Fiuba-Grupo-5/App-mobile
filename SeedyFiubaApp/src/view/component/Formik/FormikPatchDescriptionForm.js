@@ -17,9 +17,8 @@ const FormikPatchDescriptionForm = (props) => {
 
     const newProject = (project) =>{
         const apiProject = new ApiProject();
-        apiProject.patch(props.project.id, project)
+        apiProject.patch(props.id, project)
             .then((data) => {
-                props.project = data;
                 showMessage('The Field Was Successfully Modified');
             })
             .catch((error) => {
