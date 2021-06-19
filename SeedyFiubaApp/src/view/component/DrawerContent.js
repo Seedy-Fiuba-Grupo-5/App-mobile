@@ -6,7 +6,7 @@ import drawerStyles from "../Styles/DrawerStyleSheet";
 import UseAuth from "./UseAuth";
 
 const DrawerContent = (props) => {
-    const {signOut} = UseAuth();
+    const {signOut,signOutGoogle,google} = UseAuth();
     return (
         <View style={{flex: 1}}>
             <DrawerContentScrollView>
@@ -42,8 +42,13 @@ const DrawerContent = (props) => {
                             color={color}/>)
                 }
                 label={'Sign Out'}
-                onPress={()=>{
-                    signOut()}}
+                onPress={() => {
+                    if (google) {
+                        signOutGoogle();
+                    } else {
+                        signOut();
+                    }
+                }}
                 labelStyle={drawerStyles.drawerText}/>
         </View>
     )

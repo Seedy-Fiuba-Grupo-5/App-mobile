@@ -1,7 +1,6 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
-//import {useFonts, Capriola_400Regular} from '@expo-google-fonts/capriola';
 import LoginScreen from "./src/view/screen/LoginScreen";
 import RegisterScreen from "./src/view/screen/RegisterScreen";
 import AuthContext from "./src/view/component/AuthContext";
@@ -10,15 +9,15 @@ import HomeScreen from "./src/view/screen/HomeScreen";
 import DrawerContent from "./src/view/component/DrawerContent";
 import AccountScreen from "./src/view/screen/AccountScreen";
 import EditAccountScreen from "./src/view/screen/EditAccountScreen";
-import UseAuth from "./src/view/component/UseAuth";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
 
 const App = () => {
     const [jwt, setJWT] = useState(null);
+    const [google,setGoogle] = useState(false);
     return (
-        <AuthContext.Provider value={{jwt,setJWT}}>
+        <AuthContext.Provider value={{jwt,setJWT,google,setGoogle}}>
             <NavigationContainer>
                 {jwt !== null ? (
                     <accountDrawer.Navigator drawerContent={ props=> <DrawerContent {...props}/> }>

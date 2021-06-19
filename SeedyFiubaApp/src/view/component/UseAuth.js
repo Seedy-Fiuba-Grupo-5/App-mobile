@@ -2,10 +2,43 @@ import React, {useCallback, useContext, useState} from "react";
 import AuthContext from "./AuthContext";
 import ApiUser from "../../model/ApiUser";
 import {Alert} from "react-native";
+import * as Google from "expo-google-app-auth";
+import {ANDROID_CLIENT} from '@env'
 
 const UseAuth = () => {
-    const {jwt,setJWT} = useContext(AuthContext);
+    const {jwt,google,setJWT,setGoogle} = useContext(AuthContext);
     const [isLoading,setLoading] = useState(false);
+
+    const signInGoogle = useCallback( () => {
+        /*const config = {
+            androidClientId:ANDROID_CLIENT,
+            scopes:['profile','email']
+        }
+        Google.logInAsync(config).then((results) => {
+            console.log(results)
+        }).catch((error) => {
+            console.log(error)
+        })*/
+        setGoogle(true);
+        setJWT('1');
+    },[] );
+
+    const signOutGoogle = useCallback(
+        () => {
+            /*const config = {
+                androidClientId:ANDROID_CLIENT,
+                scopes:['profile','email']
+            }
+            Google.logInAsync(config).then((results) => {
+                console.log(results)
+            }).catch((error) => {
+                console.log(error)
+            })*/
+            setGoogle(false);
+            setJWT(null);
+        },[]
+    );
+
     const signIn = useCallback((email, password) => {
         setLoading(true);
         ApiUser.login(email,password)
@@ -14,6 +47,7 @@ const UseAuth = () => {
                 setJWT(data.id);
             })
             .catch((error) => {
+                setLoading(false);
                 switch (error.response.status){
                     case 401:{
                         Alert.alert('Invalid Password');
@@ -43,6 +77,7 @@ const UseAuth = () => {
                 }
             })
             .catch((error) => {
+                setLoading(false);
                 if (error.response.status === 401) {
                     Alert.alert('Account with this email already exists');
                 } else {
@@ -51,7 +86,7 @@ const UseAuth = () => {
             });
 
     },[])
-    return {jwt,signIn,signOut,signUp,isLoading}
+    return {jwt,signIn,signOut,signInGoogle,signOutGoogle,signUp,isLoading,google}
 }
 
 export default UseAuth
