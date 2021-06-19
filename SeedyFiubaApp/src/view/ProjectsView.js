@@ -16,8 +16,7 @@ const ProjectsView = ({navigation}) => {
                 {
                     projects.map((project) => {
                         return (<ProjectCard key={project.id} project={project}
-                                             editable={false}
-                                             onPress={() => navigation.push("Project", {project: project})
+                                             onPress={() => navigation.push("Project", {project: project, editable: false})
                                              }/>)
                     })
                 }

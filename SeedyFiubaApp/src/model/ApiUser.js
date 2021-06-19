@@ -1,16 +1,16 @@
 import axios from 'axios';
-import {URL_LOCAL} from '@env'
+import {URL_LOCAL_GATEWAY} from '@env'
 import User from "./User";
 import Project from "./Project";
 import Projects from "./Projects";
 
 class ApiUser {
     constructor() {
-        this.baseUrl = URL_LOCAL;
+        this.baseUrl = URL_LOCAL_GATEWAY;
     }
 
     async postProject(user_id, project) {
-        const url = URL_LOCAL + '/users/' + user_id +'/projects';
+        const url = this.baseUrl  + '/users/' + user_id +'/projects';
         const response = await axios.post(url,{name:project.name,
             description:project.description, hashtags: project.hashtags, type: project.type,
             goal: parseInt(project.goal), endDate: project.endDate,
@@ -35,7 +35,7 @@ class ApiUser {
     }
 
     async getMyProjects(user_id) {
-        const url = URL_LOCAL + '/users/' + user_id +'/projects';
+        const url = this.baseUrl  + '/users/' + user_id +'/projects';
         const response = await axios.get(url);
         if (response.status !== 200) {
             return new Projects([]);

@@ -50,7 +50,7 @@ const App = () => {
                         <homeStack.Navigator initialRouteName="Home" screenOptions={
                             {
                                 headerStyle: {
-                                    backgroundColor: '#303F9F'
+                                    backgroundColor: "#4b1e4d"
                                 },
                                 headerTitleAlign: 'center',
                                 headerTitleStyle: {
