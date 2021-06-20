@@ -16,6 +16,7 @@ const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
 
 const App = () => {
+
     const [jwt, setJWT] = useState(null);
     return (
         <AuthContext.Provider value={{jwt,setJWT}}>

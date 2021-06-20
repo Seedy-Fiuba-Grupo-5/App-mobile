@@ -1,13 +1,31 @@
-import React, {useContext} from "react";
-import {Text} from "react-native";
-import AuthButton from "./component/AuthButton";
-import AuthContext from "./component/AuthContext";
+import React, {useEffect, useState} from "react";
+import ProjectCard from "./component/ProjectCard";
+import {AsyncStorage, ScrollView} from "react-native";
+import ApiUser from "../model/ApiUser";
 
-const MyProjectsView = () => {
+const MyProjectsView = ({navigation}) => {
+    const [projects, setProjects] = useState([]);
+    const [userId, setUserId ] = useState('');
+    useEffect(() => {
+        AsyncStorage.getItem('userId', (err, result) => {
+            setUserId(result.toString());
+        });
+        const apiUser = new ApiUser();
+        apiUser.getMyProjects(userId)
+            .then((data) => {setProjects(data.allProjects)})
+            .catch((error) => {});
+    });
+
     return(
-        <>
-            <Text>Aca Tenemos que tenes otra llamada a la Api</Text>
-        </>
+        <ScrollView>
+            {
+                projects.map((project) => {
+                    return (<ProjectCard key={project.id} project={project}
+                                         onPress={() => navigation.push("Project", {project: project, editable: true})
+                                         }/>)
+                })
+            }
+        </ScrollView>
     )
 }
 export default MyProjectsView
