@@ -1,6 +1,6 @@
 import React from 'react';
 import {Input} from 'react-native-elements'
-import styles from "../../Styles/StyleSheet";
+import styles from "../Styles/StyleSheet";
 
 const FormikTextInput  = (props) => {
     // FormikProps vec =[props, props.values.name, props.touched.name, props.errors.name]

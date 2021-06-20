@@ -1,31 +1,15 @@
-import React, {useEffect, useState} from "react";
-import ProjectCard from "./component/ProjectCard";
-import {AsyncStorage, ScrollView} from "react-native";
-import ApiUser from "../model/ApiUser";
+import React, {useContext} from "react";
+import {Text} from "react-native";
+import SeedyFiubaButton from "./component/SeedyFiubaButton";
+import AuthContext from "./component/AuthContext";
 
-const MyProjectsView = ({navigation}) => {
-    const [projects, setProjects] = useState([]);
-    const [userId, setUserId ] = useState('');
-    useEffect(() => {
-        AsyncStorage.getItem('userId', (err, result) => {
-            setUserId(result.toString());
-        });
-        const apiUser = new ApiUser();
-        apiUser.getMyProjects(userId)
-            .then((data) => {setProjects(data.allProjects)})
-            .catch((error) => {});
-    });
-
+const MyProjectsView = () => {
+    const {signOut} = useContext(AuthContext);
     return(
-        <ScrollView>
-            {
-                projects.map((project) => {
-                    return (<ProjectCard key={project.id} project={project}
-                                         onPress={() => navigation.push("Project", {project: project, editable: true})
-                                         }/>)
-                })
-            }
-        </ScrollView>
+        <>
+            <Text>Aca Tenemos que tenes otra llamada a la Api</Text>
+            <SeedyFiubaButton title={'Sign Out'} onPress={signOut}/>
+        </>
     )
 }
 export default MyProjectsView
