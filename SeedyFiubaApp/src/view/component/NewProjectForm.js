@@ -12,8 +12,7 @@ import styles from "../Styles/StyleSheet";
 import GooglePlacePicker from "./GooglePlacePicker";
 import ApiUser from "../../model/ApiUser";
 
-const NewProjectForm = () => {
-
+const NewProjectForm = (props) => {
     const [datePickerShow, datePickerSetShow] = useState(false);
     const [userId, setUserId] = useState('');
     const showMessage = (message) => {
@@ -31,6 +30,7 @@ const NewProjectForm = () => {
         apiUser.postProject(userId, project)
             .then((data) => {
                 showMessage('The Project Was Successfully Created');
+                props.navigation.pop();
             })
             .catch((error) => {
                 showMessage('Failed To Create Project')

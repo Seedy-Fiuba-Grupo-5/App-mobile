@@ -2,11 +2,12 @@ import React from "react";
 import {ScrollView, View} from "react-native";
 import NewProjectForm from "./component/NewProjectForm";
 
-const NewProjectView = () => {
+const NewProjectView = ({navigation}) => {
     return (
         <ScrollView
             keyboardShouldPersistTaps='always'>
-            <NewProjectForm/>
+            <NewProjectForm
+            navigation={navigation}/>
         </ScrollView>
     )
 }
