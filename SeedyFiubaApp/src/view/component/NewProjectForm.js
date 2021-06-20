@@ -30,9 +30,7 @@ const NewProjectForm = () => {
         const apiUser = new ApiUser();
         apiUser.postProject(userId, project)
             .then((data) => {
-                if(data){
-                    showMessage('The Project Was Successfully Created');
-                }
+                showMessage('The Project Was Successfully Created');
             })
             .catch((error) => {
                 showMessage('Failed To Create Project')
