@@ -1,7 +1,7 @@
 import React, {useCallback, useContext, useState} from "react";
 import AuthContext from "./AuthContext";
 import ApiUser from "../../model/ApiUser";
-import {Alert} from "react-native";
+import {Alert, AsyncStorage} from "react-native";
 
 const UseAuth = () => {
     const {jwt,setJWT} = useContext(AuthContext);
@@ -9,9 +9,19 @@ const UseAuth = () => {
     const signIn = useCallback((email, password) => {
         setLoading(true);
         ApiUser.login(email,password)
-            .then((data) => {
+            .then(async (data) => {
                 setLoading(false);
                 setJWT(data.id);
+                console.log(data.id);
+                try {
+                    await AsyncStorage.setItem(
+                        'userId',
+                        data.id.toString()
+                    );
+                    console.log('exito');
+                } catch (error) {
+                    console.log('Error at saving ID')
+                }
             })
             .catch((error) => {
                 switch (error.response.status){
@@ -36,10 +46,19 @@ const UseAuth = () => {
     const signUp = useCallback((firstName, lastName, email, password) => {
         setLoading(true);
         ApiUser.register(firstName, lastName, email, password)
-            .then((data) => {
+            .then(async (data) => {
                 if (data) {
                     setLoading(false);
                     setJWT(data.id);
+                    try {
+                        await AsyncStorage.setItem(
+                            'userId',
+                            data.id.toString()
+                        );
+                        console.log('exito');
+                    } catch (error) {
+                        console.log('Error at saving ID')
+                    }
                 }
             })
             .catch((error) => {

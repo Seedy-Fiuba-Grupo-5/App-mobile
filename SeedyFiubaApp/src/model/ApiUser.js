@@ -10,7 +10,7 @@ class ApiUser {
     }
 
     async postProject(user_id, project) {
-        const url = this.baseUrl  + '/users/' + user_id +'/projects';
+        const url = URL_LOCAL_GATEWAY + '/users/' + user_id +'/projects';
         const response = await axios.post(url,{name:project.name,
             description:project.description, hashtags: project.hashtags, type: project.type,
             goal: parseInt(project.goal), endDate: project.endDate,
@@ -36,7 +36,7 @@ class ApiUser {
     }
 
     async getMyProjects(user_id) {
-        const url = this.baseUrl  + '/users/' + user_id +'/projects';
+        const url = URL_LOCAL_GATEWAY  + '/users/' + user_id +'/projects';
         const response = await axios.get(url);
         if (response.status !== 200) {
             return new Projects([]);
