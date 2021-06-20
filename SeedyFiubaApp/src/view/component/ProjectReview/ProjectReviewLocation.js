@@ -38,6 +38,8 @@ const ProjectReviewLocation = (props) => {
                          paddingHorizontal:0,
                          paddingVertical: 0}}>
                 <FormikPatchLocationForm label={'Project Description'}
+                                         setValue={setValue}
+                                         setVisible={setVisible}
                                      currentValue={value}
                                      id={props.id}/>
             </Overlay>

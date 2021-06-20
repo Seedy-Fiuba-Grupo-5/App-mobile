@@ -30,6 +30,8 @@ const ProjectReviewName = (props) => {
                          paddingHorizontal:0,
                          paddingVertical: 0}}>
                 <FormikPatchNameForm label={'Project Name'}
+                                     setValue={setValue}
+                                     setVisible={setVisible}
                                      currentValue={value}
                                      id={props.id}/>
             </Overlay>
