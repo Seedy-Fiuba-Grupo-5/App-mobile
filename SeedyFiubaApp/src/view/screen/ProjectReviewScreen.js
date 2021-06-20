@@ -1,5 +1,5 @@
 import React from "react";
-import ProjectReview from "../component/ProjectReview";
+import ProjectReview from "../component/ProjectReview/ProjectReview";
 
 const ProjectReviewScreen = ({route}) => {
     return (

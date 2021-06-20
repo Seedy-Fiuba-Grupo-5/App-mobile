@@ -1,9 +1,9 @@
 import React, {useState} from "react";
-import {Text, TouchableOpacity, View} from "react-native";
-import ApiProject from "../../model/ApiProject";
-import styles from "../Styles/StyleSheet";
+import {KeyboardAvoidingView, Text, TouchableOpacity, View} from "react-native";
+import ApiProject from "../../../model/ApiProject";
+import styles from "../../Styles/StyleSheet";
 import {Overlay} from "react-native-elements";
-import FormikPatchDescriptionForm from "./Formik/FormikPatchDescriptionForm";
+import FormikPatchDescriptionForm from "../Formik/FormikPatchDescriptionForm";
 
 const ProjectReviewDescription = (props) => {
     const [visible, setVisible] = useState(false);
@@ -18,15 +18,18 @@ const ProjectReviewDescription = (props) => {
     }
     return (
         <>
-            <TouchableOpacity onPress={() => {
+            <TouchableOpacity disabled={!props.editable}
+                              onPress={() => {
                 toggleOverlay();
             }}>
                 <Text style={styles.projectDescription}>
                     {value}
                 </Text>
             </TouchableOpacity>
-
-            <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+            <Overlay isVisible={visible} onBackdropPress={toggleOverlay}
+                     overlayStyle={{width: '96%',
+                     paddingHorizontal:0,
+                     paddingVertical: 0}}>
                 <FormikPatchDescriptionForm label={'Project Description'}
                                      currentValue={value}
                                      id={props.id}/>

@@ -8,7 +8,6 @@ import {Text, AsyncStorage} from "react-native";
 import LoginScreen from "./src/view/screen/LoginScreen";
 import RegisterScreen from "./src/view/screen/RegisterScreen";
 import AuthContext from "./src/view/component/AuthContext";
-import EditProjectScreen from "./src/view/screen/EditProjectScreen";
 
 
 const homeStack = createStackNavigator();
@@ -64,12 +63,6 @@ const App = () => {
                                                   title: 'SeedyFiuba'
                                               }}/>
                             <homeStack.Screen name="Project" component={ProjectReviewScreen}
-                                              options={({route}) => {
-                                                  return ({
-                                                      title: route.params.project.name
-                                                  })
-                                              }}/>
-                            <homeStack.Screen name="EditProject" component={EditProjectScreen}
                                               options={({route}) => {
                                                   return ({
                                                       title: route.params.project.name

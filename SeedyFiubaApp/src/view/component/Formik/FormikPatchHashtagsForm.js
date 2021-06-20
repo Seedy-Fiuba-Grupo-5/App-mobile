@@ -7,7 +7,7 @@ import FormikButton from "./FormikButton";
 import icons from "../../Styles/IconSheet";
 import ApiProject from "../../../model/ApiProject";
 
-const FormikPatchDescriptionForm = (props) => {
+const FormikPatchNameForm = (props) => {
 
     const [label] = useState(props.label);
 
@@ -26,9 +26,30 @@ const FormikPatchDescriptionForm = (props) => {
             });
     }
 
+    const validateHashtags = (hashtagsArray) => {
+        let currentHashtag = 0
+        let returnValue = true
+        let currentValue
+        while ((currentHashtag < hashtagsArray.length) && returnValue){
+            currentValue = /(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g.test(hashtagsArray[currentHashtag])
+            if (hashtagsArray[currentHashtag] === ""){
+                currentValue =true
+            }
+            if (!currentValue) {
+                returnValue = currentValue
+            }
+            currentHashtag = currentHashtag + 1
+        }
+        return returnValue
+    }
+
     let projectSchema = yup.object({
-        description: yup.string()
-            .required('Please Enter A Project Description'),
+        hashtags: yup.string()
+            .test('valid-hashtags', '' +
+                'Please enter hashtags in format: #Hayasaka #ChisaSuperWaifu', (val) => {
+                let hashtagsArray = String(val).split(" ")
+                return validateHashtags(hashtagsArray)
+            }),
     });
 
     return(
@@ -37,21 +58,21 @@ const FormikPatchDescriptionForm = (props) => {
                 width: '100%',
                 paddingVertical:15}
             }>
-            <Formik initialValues={ {description: props.currentValue}}
+            <Formik initialValues={ {hashtags: props.currentValue}}
                     validationSchema={projectSchema}
                     onSubmit={(values, actions) => {
                         newProject(values);
                     }}>
                 {props => (
                     <KeyboardAvoidingView behavior={'padding'}>
-                        <FormikTextInput formikProps={[props, props.values.description,
-                            props.touched.description, props.errors.description]}
-                                         formField={"description"}
+                        <FormikTextInput formikProps={[props, props.values.hashtags,
+                            props.touched.hashtags, props.errors.hashtags]}
+                                         formField={"hashtags"}
                                          label={label}
-                                         placeholder={"My Awesome Project"}
-                                         icon={icons.project}
+                                         placeholder={"LEGENDARY"}
+                                         icon={icons.hashtags}
                                          keyboard={'default'}
-                                         multiline={true}/>
+                                         multiline={false}/>
                         <FormikButton
                             title={"Save"}
                             formikProps={props}/>
@@ -61,4 +82,4 @@ const FormikPatchDescriptionForm = (props) => {
         </View>
     )
 }
-export default FormikPatchDescriptionForm
+export default FormikPatchNameForm

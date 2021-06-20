@@ -1,15 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {Alert, KeyboardAvoidingView, Text, View, AsyncStorage} from "react-native";
+import React, {useState} from 'react';
+import {Alert, KeyboardAvoidingView, View} from "react-native";
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import FormikTextInput from "./FormikTextInput";
 import FormikButton from "./FormikButton";
-import icons from "../../Styles/IconSheet";
 import ApiProject from "../../../model/ApiProject";
+import FormikPicker from "./FormikPicker";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
-const FormikPatchDescriptionForm = (props) => {
-
-    const [label] = useState(props.label);
+const FormikPatchTypeForm = (props) => {
 
     const showMessage = (message) => {
         Alert.alert(message)
@@ -27,8 +25,8 @@ const FormikPatchDescriptionForm = (props) => {
     }
 
     let projectSchema = yup.object({
-        description: yup.string()
-            .required('Please Enter A Project Description'),
+        type: yup.string()
+            .required('Please Select A Project Type'),
     });
 
     return(
@@ -37,23 +35,21 @@ const FormikPatchDescriptionForm = (props) => {
                 width: '100%',
                 paddingVertical:15}
             }>
-            <Formik initialValues={ {description: props.currentValue}}
+            <Formik initialValues={ {type: props.currentValue}}
                     validationSchema={projectSchema}
                     onSubmit={(values, actions) => {
                         newProject(values);
                     }}>
                 {props => (
                     <KeyboardAvoidingView behavior={'padding'}>
-                        <FormikTextInput formikProps={[props, props.values.description,
-                            props.touched.description, props.errors.description]}
-                                         formField={"description"}
-                                         label={label}
-                                         placeholder={"My Awesome Project"}
-                                         icon={icons.project}
-                                         keyboard={'default'}
-                                         multiline={true}/>
-                        <FormikButton
-                            title={"Save"}
+                        <FormikPicker formikProps={[props, props.values.type,
+                            props.touched.type, props.errors.type]}
+                                      formField={"type"}
+                                      label={"Select a Project Type..."}
+                                      icon={() => {
+                                          return <Icon name="lightbulb" size={24} color="black" />;
+                                      }}/>
+                        <FormikButton title={"Save"}
                             formikProps={props}/>
                     </KeyboardAvoidingView>
                 )}
@@ -61,4 +57,4 @@ const FormikPatchDescriptionForm = (props) => {
         </View>
     )
 }
-export default FormikPatchDescriptionForm
+export default FormikPatchTypeForm
