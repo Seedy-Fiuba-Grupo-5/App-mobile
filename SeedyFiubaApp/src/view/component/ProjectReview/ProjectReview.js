@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {View} from "react-native";
 import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";
 import ProjectReviewImage from "./ProjectReviewImage";

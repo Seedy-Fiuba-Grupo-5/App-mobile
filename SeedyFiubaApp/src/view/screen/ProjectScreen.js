@@ -38,7 +38,6 @@ const ProjectScreen = ({navigation}) => {
                 }}>
                 <Tab.Screen name="Projects" component={ProjectsView}/>
                 <Tab.Screen name="My Projects" component={MyProjectsView}/>
-                <Tab.Screen name="New Project" component={NewProjectView}/>
             </Tab.Navigator>
         </>
     )

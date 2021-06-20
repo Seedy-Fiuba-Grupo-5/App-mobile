@@ -3,6 +3,7 @@ import 'react-native-gesture-handler';
 import {createStackNavigator} from "@react-navigation/stack";
 import ProjectReviewScreen from "./ProjectReviewScreen";
 import ProjectScreen from "./ProjectScreen";
+import NewProjectView from "../NewProjectView";
 const homeStack = createStackNavigator();
 const HomeScreen = () => {
     return(
@@ -19,6 +20,7 @@ const HomeScreen = () => {
                                       title: route.params.project.name
                                   })
                               }}/>
+            <homeStack.Screen name="New Project" component={NewProjectView} options={{headerShown:true}}/>
         </homeStack.Navigator>
     )
 }
