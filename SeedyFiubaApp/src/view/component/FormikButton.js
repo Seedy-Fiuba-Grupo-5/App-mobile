@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button} from 'react-native-elements'
-import styles from "../../Styles/StyleSheet";
+import styles from "../Styles/StyleSheet";
 import {View} from "react-native";
 
 const FormikButton  = (props) => {

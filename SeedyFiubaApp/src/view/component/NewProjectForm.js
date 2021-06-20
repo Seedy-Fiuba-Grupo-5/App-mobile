@@ -1,40 +1,38 @@
-import React, {useEffect, useState} from 'react';
-import {Alert, KeyboardAvoidingView, Text, View, AsyncStorage} from "react-native";
+import React, {useState} from 'react';
+import {ActivityIndicator, Alert, Button, KeyboardAvoidingView, ScrollView, Text, TextInput, View} from "react-native";
+import ApiProject from "../../model/ApiProject";
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import FormikTextInput from "./Formik/FormikTextInput";
-import FormikPicker from "./Formik/FormikPicker";
-import FormikDatePicker from "./Formik/FormikDatePicker";
-import FormikButton from "./Formik/FormikButton";
+import FormikTextInput from "./FormikTextInput";
+import FormikPicker from "./FormikPicker";
+import FormikDatePicker from "./FormikDatePicker";
+import FormikButton from "./FormikButton";
 import icons from "../Styles/IconSheet";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import styles from "../Styles/StyleSheet";
 import GooglePlacePicker from "./GooglePlacePicker";
-import ApiUser from "../../model/ApiUser";
 
-const NewProjectForm = () => {
+const NewProjectForm = (props) => {
 
     const [datePickerShow, datePickerSetShow] = useState(false);
-    const [userId, setUserId] = useState('');
     const showMessage = (message) => {
         Alert.alert(message)
     }
 
-    useEffect(() => {
-        AsyncStorage.getItem('userId', (err, result) => {
-            setUserId(result.toString());
-        });
-    });
-
     const newProject = (project) =>{
-        const apiUser = new ApiUser();
-        apiUser.postProject(userId, project)
-            .then((data) => {
-                showMessage('The Project Was Successfully Created');
-            })
-            .catch((error) => {
-                showMessage('Failed To Create Project')
-            });
+        if(project.name){
+            const apiProjects = new ApiProject();
+            apiProjects.post(project)
+                .then((data) => {
+                    if(data){
+                        showMessage('The Project Was Successfully Created');
+                    }
+                })
+                .catch((error) => {
+                    showMessage('Failed To Create Project')
+                });
+        }
     }
 
     let projectSchema = yup.object({
