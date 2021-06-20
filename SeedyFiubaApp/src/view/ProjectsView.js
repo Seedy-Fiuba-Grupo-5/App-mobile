@@ -10,7 +10,7 @@ const ProjectsView = ({navigation}) => {
         apiProjects.get()
             .then((data) => {setProjects(data.allProjects)})
             .catch((error) => {});
-    });
+    },[]);
     return (
             <ScrollView>
                 {

@@ -80,10 +80,11 @@ const NewProjectForm = () => {
         }
         return returnValue
     }
-
-
+    
     return(
-        <View
+        <KeyboardAvoidingView
+            keyboardShouldPersistTaps='always'
+            behavior={'padding'}
             style={{
             paddingVertical:15}
             }>
@@ -102,7 +103,7 @@ const NewProjectForm = () => {
                 newProject(values);
             }}>
                 {props => (
-                    <KeyboardAvoidingView behavior={'padding'}>
+                    <View>
                         <FormikTextInput formikProps={[props, props.values.name,
                             props.touched.name, props.errors.name]}
                             formField={"name"}
@@ -150,15 +151,6 @@ const NewProjectForm = () => {
                         <FormikDatePicker formikProps={props}
                             show={[datePickerShow, datePickerSetShow]}/>
 
-                        <FormikTextInput formikProps={[props, props.values.location,
-                            props.touched.location, props.errors.location]}
-                                         formField={"location"}
-                                         label={"Location"}
-                                         placeholder={"Buenos Aires, Argentina"}
-                                         icon={icons.location}
-                                         keyboard={'default'}
-                                         multiline={false}/>
-
                         <Text style={styles.labelText}>Location</Text>
                         <View
                             style={{
@@ -173,16 +165,16 @@ const NewProjectForm = () => {
                                 borderColor: 'grey',
                             }}>
                             <Icon name={'map-marker-alt'} size={24}/>
-                            <GooglePlacePicker/>
+                            <GooglePlacePicker formikProps={props}/>
                         </View>
                         <Text style={styles.errorText}>{props.touched.location && props.errors.location}</Text>
                         <FormikButton
                             title={"Create Project"}
                             formikProps={props}/>
-                    </KeyboardAvoidingView>
+                    </View>
                 )}
             </Formik>
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 export default NewProjectForm

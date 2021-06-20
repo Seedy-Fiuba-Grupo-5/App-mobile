@@ -5,8 +5,8 @@ import Project from "./Project";
 import Projects from "./Projects";
 
 class ApiUser {
+    static BASE_URL = URL_LOCAL_GATEWAY;
     constructor() {
-        this.baseUrl = URL_LOCAL_GATEWAY;
     }
 
     async postProject(user_id, project) {
@@ -22,8 +22,9 @@ class ApiUser {
         return new Project(jsonData);
     }
 
-    async register(firsName, lastName, email, password) {
-        const url = this.baseUrl + '/users';
+
+    static async register(firsName, lastName, email, password) {
+        const url = ApiUser.BASE_URL + '/users';
         const response = await axios.post(url,{
             name : firsName,
             lastName : lastName,
@@ -44,11 +45,30 @@ class ApiUser {
         return new Projects(jsonData);
     }
 
-    async login(email,password) {
-        const url = this.baseUrl + '/users/login';
+
+    static async login(email,password) {
+        const url = ApiUser.BASE_URL + '/users/login';
         const response = await axios.post(url, {
             email:email,
             password:password
+        });
+        const jsonData = response.data;
+        return new User(jsonData);
+    }
+
+    static async user(id) {
+        const url = ApiUser.BASE_URL + '/users/'+id;
+        const response = await axios.get(url);
+        const jsonData = response.data;
+        return new User(jsonData);
+    }
+
+    static async updateUser(id,firstName,lastName,email) {
+        const url = ApiUser.BASE_URL + '/users/'+id;
+        const response = await axios.patch(url,{
+            name:firstName,
+            lastName:lastName,
+            email:email
         });
         const jsonData = response.data;
         return new User(jsonData);
