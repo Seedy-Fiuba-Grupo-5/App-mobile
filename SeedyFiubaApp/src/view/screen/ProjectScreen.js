@@ -1,7 +1,6 @@
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import ProjectsView from "../ProjectsView";
 import MyProjectsView from "../MyProjectsView";
-import NewProjectView from "../NewProjectView";
 import React from "react";
 import {Header, Icon} from "react-native-elements";
 
