@@ -32,6 +32,8 @@ const ProjectReviewHashtags = (props) => {
                          paddingHorizontal:0,
                          paddingVertical: 0}}>
                 <FormikPatchHashtagsForm label={'Project Description'}
+                                         setValue={setValue}
+                                         setVisible={setVisible}
                                             currentValue={value}
                                             id={props.id}/>
             </Overlay>

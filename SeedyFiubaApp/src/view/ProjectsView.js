@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from "react";
 import ProjectCard from "./component/ProjectCard";
-import {ScrollView} from "react-native";
+import {ScrollView, Text, View} from "react-native";
 import ApiProject from "../model/ApiProject";
+import {SpeedDial} from "react-native-elements";
+import SearchBar from "react-native-elements/dist/searchbar/SearchBar-android";
 
 const ProjectsView = ({navigation}) => {
     const [projects, setProjects] = useState([]);
@@ -12,6 +14,7 @@ const ProjectsView = ({navigation}) => {
             .catch((error) => {});
     },[]);
     return (
+        <View>
             <ScrollView>
                 {
                     projects.map((project) => {
@@ -21,6 +24,21 @@ const ProjectsView = ({navigation}) => {
                     })
                 }
             </ScrollView>
+            <View
+                style={{
+                    height: '9%',
+                    width: '100%',
+                    position: 'absolute',
+                    top: '0%',
+                    backgroundColor: 'white',
+                    right: 0.2,
+                    elevation: 2,
+                }}>
+                <SearchBar
+                    placeholder="Type Here..."
+                    value={'search'}/>
+            </View>
+        </View>
     )
 
 }

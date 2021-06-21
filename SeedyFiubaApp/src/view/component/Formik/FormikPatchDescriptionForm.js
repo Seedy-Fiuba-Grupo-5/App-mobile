@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, KeyboardAvoidingView, Text, View, AsyncStorage} from "react-native";
+import {Alert, KeyboardAvoidingView, Text, View, AsyncStorage, ScrollView} from "react-native";
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import FormikTextInput from "./FormikTextInput";
@@ -19,6 +19,8 @@ const FormikPatchDescriptionForm = (props) => {
         const apiProject = new ApiProject();
         apiProject.patch(props.id, project)
             .then((data) => {
+                props.setVisible(false);
+                props.setValue(project.description);
                 showMessage('The Field Was Successfully Modified');
             })
             .catch((error) => {
@@ -43,7 +45,7 @@ const FormikPatchDescriptionForm = (props) => {
                         newProject(values);
                     }}>
                 {props => (
-                    <KeyboardAvoidingView behavior={'padding'}>
+                    <ScrollView behavior={'padding'}>
                         <FormikTextInput formikProps={[props, props.values.description,
                             props.touched.description, props.errors.description]}
                                          formField={"description"}
@@ -55,7 +57,7 @@ const FormikPatchDescriptionForm = (props) => {
                         <FormikButton
                             title={"Save"}
                             formikProps={props}/>
-                    </KeyboardAvoidingView>
+                    </ScrollView>
                 )}
             </Formik>
         </View>

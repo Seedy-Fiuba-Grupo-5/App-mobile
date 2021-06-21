@@ -19,6 +19,8 @@ const FormikPatchNameForm = (props) => {
         const apiProject = new ApiProject();
         apiProject.patch(props.id, project)
             .then((data) => {
+                props.setVisible(false);
+                props.setValue(project.hashtags);
                 showMessage('The Field Was Successfully Modified');
             })
             .catch((error) => {

@@ -1,5 +1,5 @@
-import React from "react";
-import {View} from "react-native";
+import React, {useState} from "react";
+import {Alert, Text, TouchableOpacity, View} from "react-native";
 import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";
 import ProjectReviewImage from "./ProjectReviewImage";
 import ProjectReviewName from "./ProjectReviewName";
@@ -8,6 +8,11 @@ import ProjectReviewHashtags from "./ProjectReviewHashtags";
 import ProjectReviewType from "./ProjectReviewType";
 import ProjectReviewLocation from "./ProjectReviewLocation";
 import ProjectReviewFinancialInfo from "./ProjectReviewFinancialInfo";
+import styles from "../../Styles/StyleSheet";
+import {Button, Overlay} from "react-native-elements";
+import FormikPatchNameForm from "../Formik/FormikPatchNameForm";
+import ProjectCardBottomItem from "../ProjectCardBottomItem";
+import FormikPatchHashtagsForm from "../Formik/FormikPatchHashtagsForm";
 
 const ProjectReview = (props) => {
     return (
@@ -23,6 +28,11 @@ const ProjectReview = (props) => {
                 }}>
                 <ProjectReviewName name={props.project.name} id={props.project.id}
                                     editable={props.editable}/>
+
+                <ProjectCardBottomItem projectField={'/USER/'}
+                                       iconName={'user'}
+                                       iconFamily={'font-awesome-5'}/>
+
                 <ProjectReviewDescription name={props.project.description} id={props.project.id}
                                           editable={props.editable}/>
 
@@ -50,7 +60,17 @@ const ProjectReview = (props) => {
                 <ProjectReviewLocation name={props.project.location} id={props.project.id}
                                        editable={props.editable}/>
             </View>
-
+            <View
+                style={{paddingTop: 7,}}>
+                <Button title={'Support'}
+                        disabled={props.editable}
+                        buttonStyle={styles.button}
+                        titleStyle={styles.formButtonTitle}
+                        onPress={() => {
+                            Alert.alert('FUNCTION NOT IMPLEMENTED')
+                        }}
+                />
+            </View>
         </>
     )
 }

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, KeyboardAvoidingView, Text, View, AsyncStorage} from "react-native";
+import {Alert, KeyboardAvoidingView, Text, View, AsyncStorage, Button, Image} from "react-native";
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import FormikTextInput from "./Formik/FormikTextInput";
@@ -11,9 +11,9 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import styles from "../Styles/StyleSheet";
 import GooglePlacePicker from "./GooglePlacePicker";
 import ApiUser from "../../model/ApiUser";
+import FormikImagePicker from "./Formik/FormikImagePicker";
 
-const NewProjectForm = () => {
-
+const NewProjectForm = (props) => {
     const [datePickerShow, datePickerSetShow] = useState(false);
     const [userId, setUserId] = useState('');
     const showMessage = (message) => {
@@ -31,6 +31,7 @@ const NewProjectForm = () => {
         apiUser.postProject(userId, project)
             .then((data) => {
                 showMessage('The Project Was Successfully Created');
+                props.navigation.pop();
             })
             .catch((error) => {
                 showMessage('Failed To Create Project')
@@ -168,6 +169,7 @@ const NewProjectForm = () => {
                             <GooglePlacePicker formikProps={props}/>
                         </View>
                         <Text style={styles.errorText}>{props.touched.location && props.errors.location}</Text>
+                        <FormikImagePicker/>
                         <FormikButton
                             title={"Create Project"}
                             formikProps={props}/>
