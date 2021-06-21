@@ -11,11 +11,10 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import styles from "../Styles/StyleSheet";
 import GooglePlacePicker from "./GooglePlacePicker";
 import ApiUser from "../../model/ApiUser";
-import * as ImagePicker from 'expo-image-picker';
+import FormikImagePicker from "./Formik/FormikImagePicker";
 
 const NewProjectForm = (props) => {
     const [datePickerShow, datePickerSetShow] = useState(false);
-    const [image, setImage] = useState(null)
     const [userId, setUserId] = useState('');
     const showMessage = (message) => {
         Alert.alert(message)
@@ -26,17 +25,6 @@ const NewProjectForm = (props) => {
             setUserId(result.toString());
         });
     });
-
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-
-        })
-        if (!result.cancelled){
-            setImage(result.uri)
-        }
-    }
-
 
     const newProject = (project) =>{
         const apiUser = new ApiUser();
@@ -181,31 +169,7 @@ const NewProjectForm = (props) => {
                             <GooglePlacePicker formikProps={props}/>
                         </View>
                         <Text style={styles.errorText}>{props.touched.location && props.errors.location}</Text>
-
-                        <Text style={styles.labelText}>Cover Image</Text>
-                        <View
-                            style={{
-                                width: '75%',
-                                alignSelf: 'center',
-                                flexDirection: "row",
-                                alignItems: 'flex-start',
-                                justifyContent: 'flex-start',
-                                borderBottomWidth: 1,
-                                flex: 1,
-                                paddingVertical: 2,
-                                borderColor: 'grey',
-                            }}>
-                            <Icon name={'image'} size={24}/>
-                            <Button title={'imagen'} onPress={() => {
-                                pickImage().then(() => {
-                                    console.log("imagen")
-                                })
-                            }}/>
-                        </View>
-                        {image && <Image source={{uri: image} } style={{width: 200,
-                            height: 200}}/>}
-
-
+                        <FormikImagePicker/>
                         <FormikButton
                             title={"Create Project"}
                             formikProps={props}/>
