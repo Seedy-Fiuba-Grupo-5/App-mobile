@@ -13,8 +13,7 @@ const ProjectReviewLocation = (props) => {
 
     const toggleOverlay = () => {
         setVisible(!visible);
-        const apiProject = new ApiProject()
-        apiProject.getProject(props.id).then((data) => {
+        ApiProject.project(props.id).then((data) => {
             setValue(data.location);
         })
     }

@@ -8,8 +8,7 @@ import SearchBar from "react-native-elements/dist/searchbar/SearchBar-android";
 const ProjectsView = ({navigation}) => {
     const [projects, setProjects] = useState([]);
     useEffect(() => {
-        const apiProjects = new ApiProject();
-        apiProjects.get()
+        ApiProject.projects()
             .then((data) => {setProjects(data.allProjects)})
             .catch((error) => {});
     },[]);

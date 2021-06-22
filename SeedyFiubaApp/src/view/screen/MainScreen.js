@@ -1,11 +1,13 @@
 import React from "react";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import ProjectScreen from "./project/ProjectScreen";
+import AccountProjectScreen from "./project/AccountProjectScreen";
 const mainBottomTab = createBottomTabNavigator();
 const MainScreen = () => {
     return (
         <mainBottomTab.Navigator>
-            <mainBottomTab.Screen name="Home" component={HomeScreen} />
-            <mainBottomTab.Screen name="Settings" component={SettingsScreen} />
+            <mainBottomTab.Screen name="Projects" component={ProjectScreen}/>
+            <mainBottomTab.Screen name="My Projects" component={AccountProjectScreen}/>
         </mainBottomTab.Navigator>
     );
 

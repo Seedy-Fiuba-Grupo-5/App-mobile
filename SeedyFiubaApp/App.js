@@ -10,6 +10,7 @@ import HomeScreen from "./src/view/screen/HomeScreen";
 import DrawerContent from "./src/view/component/DrawerContent";
 import AccountScreen from "./src/view/screen/account/AccountScreen";
 import EditAccountScreen from "./src/view/screen/account/EditAccountScreen";
+import MainScreen from "./src/view/screen/MainScreen";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
@@ -21,8 +22,10 @@ const App = () => {
         <AuthContext.Provider value={{jwt,setJWT}}>
             <NavigationContainer>
                 {jwt !== null ? (
-                    <accountDrawer.Navigator drawerContent={ props=> <DrawerContent {...props}/> }>
-                        <accountDrawer.Screen name ='Main' component={HomeScreen}/>
+                    <accountDrawer.Navigator
+                        drawerContent={ props=> <DrawerContent {...props}/>}
+                        screenOptions={{swipeEnabled:false}}>
+                        <accountDrawer.Screen name ='Main' component={MainScreen}/>
                         <accountDrawer.Screen name ='Account'
                                               component={AccountScreen}/>
                         <accountDrawer.Screen name ='EditAccount'
