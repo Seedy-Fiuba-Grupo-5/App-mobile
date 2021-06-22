@@ -27,8 +27,7 @@ const NewProjectForm = (props) => {
     });
 
     const newProject = (project) =>{
-        const apiUser = new ApiUser();
-        apiUser.postProject(userId, project)
+        ApiUser.createProject(userId, project)
             .then((data) => {
                 showMessage('The Project Was Successfully Created');
                 props.navigation.pop();

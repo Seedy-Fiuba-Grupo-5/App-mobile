@@ -1,12 +1,12 @@
 import React, {useContext, useState} from "react";
 import {Alert, Image, KeyboardAvoidingView, Platform, ScrollView, Text, View} from "react-native";
-import AuthButton from "../component/AuthButton";
+import AuthButton from "../../component/AuthButton";
 import {Formik} from "formik";
 import {Icon, Input} from "react-native-elements";
 import * as Yup from 'yup';
-import authStyle from "../Styles/AuthStyleSheet";
-import UseAuth from "../component/UseAuth";
-import AuthLoading from "../component/AuthLoading";
+import authStyle from "../../Styles/AuthStyleSheet";
+import UseAuth from "../../component/UseAuth";
+import AuthLoading from "../../component/AuthLoading";
 
 const LoginScreen = ({navigation}) => {
     const {signIn,isLoading} = UseAuth();
@@ -33,7 +33,7 @@ const LoginScreen = ({navigation}) => {
                         Welcome to SeedyFiuba
                     </Text>
 
-                    <Image source={require('../images/logo.png')} style={{
+                    <Image source={require('../../images/logo.png')} style={{
                         width: 130,
                         height: 130,
                         alignSelf: "center",

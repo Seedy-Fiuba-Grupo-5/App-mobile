@@ -11,13 +11,12 @@ const MyProjectsView = ({navigation}) => {
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
-        AsyncStorage.getItem('userId', (err, result) => {
-            setUserId(result.toString());
-        });
-        const apiUser = new ApiUser();
-        apiUser.getMyProjects(userId)
-            .then((data) => {setProjects(data.allProjects)})
-            .catch((error) => {});
+        ApiUser.projects(userId)
+            .then((data) => {
+                setProjects(data.allProjects)
+            })
+            .catch((error) => {
+            });
     });
 
     return(

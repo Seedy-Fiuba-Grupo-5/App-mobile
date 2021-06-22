@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {Text, View} from "react-native";
 import {Header, Icon} from "react-native-elements";
-import accountStyles from "../Styles/AccountStyleSheet";
-import AccountInformationCard from "../component/AccountInformationCard";
-import AccountAvatar from "../component/AccountAvatar";
-import AuthButton from "../component/AuthButton";
-import authStyle from "../Styles/AuthStyleSheet";
-import UseAuth from "../component/UseAuth";
-import ApiUser from "../../model/ApiUser";
-import User from "../../model/User";
+import accountStyles from "../../Styles/AccountStyleSheet";
+import AccountInformationCard from "../../component/AccountInformationCard";
+import AccountAvatar from "../../component/AccountAvatar";
+import AuthButton from "../../component/AuthButton";
+import authStyle from "../../Styles/AuthStyleSheet";
+import UseAuth from "../../component/UseAuth";
+import ApiUser from "../../../model/ApiUser";
+import User from "../../../model/User";
 
 const AccountScreen = ({navigation}) => {
     const {jwt} = UseAuth();
