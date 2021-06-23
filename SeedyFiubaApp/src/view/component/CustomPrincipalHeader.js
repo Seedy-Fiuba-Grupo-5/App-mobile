@@ -3,7 +3,7 @@ import {Text} from "react-native";
 import accountStyles from "../Styles/AccountStyleSheet";
 import React from "react";
 
-const SeedyFiubaHeader = ({navigation}) => {
+const CustomPrincipalHeader = ({navigation,title}) => {
     return(
         <Header
             leftComponent={<Icon
@@ -12,13 +12,13 @@ const SeedyFiubaHeader = ({navigation}) => {
                 size={30}
                 color='#fff'
                 onPress={() => {
-                    navigation.openDrawer()
+                    navigation.openDrawer();
                 }}/>}
             centerComponent={<Text style={accountStyles.text}>
-                SeedyFiuba
+                {title}
             </Text>}
             containerStyle={accountStyles.header}
         />
     )
 }
-export default SeedyFiubaHeader
+export default CustomPrincipalHeader

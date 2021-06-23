@@ -9,6 +9,7 @@ import authStyle from "../../Styles/AuthStyleSheet";
 import UseAuth from "../../component/UseAuth";
 import ApiUser from "../../../model/ApiUser";
 import User from "../../../model/User";
+import CustomPrincipalHeader from "../../component/CustomPrincipalHeader";
 
 const AccountScreen = ({navigation}) => {
     const {jwt} = UseAuth();
@@ -28,20 +29,7 @@ const AccountScreen = ({navigation}) => {
     },[navigation]);
     return (
         <View style={{flex: 1, alignContent: 'center'}}>
-            <Header
-                leftComponent={<Icon
-                    name='menu'
-                    type='material'
-                    size={30}
-                    color='#fff'
-                    onPress={() => {
-                        navigation.openDrawer()
-                    }}/>}
-                centerComponent={<Text style={accountStyles.text}>
-                    Account
-                </Text>}
-                containerStyle={accountStyles.header}
-            />
+            <CustomPrincipalHeader navigation={navigation} title={"Account"}/>
             <View style={{flex: 2, alignItems: 'center'}}>
                 <AccountAvatar name={{firstName:user.firstName,lastName:user.lastName}}/>
             </View>

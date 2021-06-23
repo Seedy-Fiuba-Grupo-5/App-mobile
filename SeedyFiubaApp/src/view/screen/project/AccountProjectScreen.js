@@ -1,23 +1,39 @@
-import {createStackNavigator} from "@react-navigation/stack";
-import ProjectView from "./ProjectView";
-import ProjectDetailView from "./ProjectDetailView";
-import React from "react";
-import AccountProjectView from "./AccountProjectView";
+import React, {useEffect, useState} from "react";
+import ApiUser from "../../../model/ApiUser";
+import {ScrollView, View} from "react-native";
+import ProjectCard from "../../component/ProjectCard";
+import CustomPrincipalHeader from "../../component/CustomPrincipalHeader";
 
-const stackAccountProject = createStackNavigator();
-const AccountProjectScreen = () => {
+const AccountProjectScreen = ({navigation}) => {
+    const [projects, setProjects] = useState([]);
+
+    useEffect(() => {
+        ApiUser.projects(1)
+            .then((data) => {
+                setProjects(data.allProjects)
+            })
+            .catch((error) => {
+            });
+    },[]);
+
     return (
-        <stackAccountProject.Navigator initialRouteName="MainAccountProject">
-            <stackAccountProject.Screen
-                name="MainAccountProject"
-                component={AccountProjectView}
-                options={{headerShown:false}}/>
-            <stackAccountProject.Screen name="AccountProject" component={ProjectDetailView} options={({route}) => {
-                return ({
-                    title: route.params.project.name
-                })
-            }}/>
-        </stackAccountProject.Navigator>
-    );
+        <View>
+            <CustomPrincipalHeader navigation={navigation} title={"My Projects"}/>
+            <ScrollView>
+                {
+
+                    projects.map((project) => {
+                        return (<ProjectCard key={project.id} project={project}
+                                             onPress={() => navigation.navigate("Project", {
+                                                 project: project,
+                                                 editable: true
+                                             })
+                                             }/>)
+                    })
+
+                }
+            </ScrollView>
+        </View>
+    )
 }
 export default AccountProjectScreen
