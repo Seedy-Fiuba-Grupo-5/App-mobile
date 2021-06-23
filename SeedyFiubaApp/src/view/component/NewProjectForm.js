@@ -12,16 +12,18 @@ import styles from "../Styles/StyleSheet";
 import GooglePlacePicker from "./GooglePlacePicker";
 import ApiUser from "../../model/ApiUser";
 import FormikImagePicker from "./Formik/FormikImagePicker";
+import UseAuth from "./UseAuth";
 
 const NewProjectForm = (props) => {
     const [datePickerShow, datePickerSetShow] = useState(false);
     const [userId, setUserId] = useState('');
+    const {jwt} = UseAuth();
     const showMessage = (message) => {
         Alert.alert(message)
     }
 
     useEffect(() => {
-        setUserId('1');
+        setUserId(jwt);
     },[]);
 
     const newProject = (project) =>{

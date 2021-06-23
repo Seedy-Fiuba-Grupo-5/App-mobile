@@ -3,12 +3,13 @@ import ApiUser from "../../../model/ApiUser";
 import {ScrollView, View} from "react-native";
 import ProjectCard from "../../component/ProjectCard";
 import CustomPrincipalHeader from "../../component/CustomPrincipalHeader";
+import UseAuth from "../../component/UseAuth";
 
 const AccountProjectScreen = ({navigation}) => {
     const [projects, setProjects] = useState([]);
-
+    const {jwt} = UseAuth();
     useEffect(() => {
-        ApiUser.projects(1)
+        ApiUser.projects(jwt)
             .then((data) => {
                 setProjects(data.allProjects)
             })
