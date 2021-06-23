@@ -11,6 +11,7 @@ import EditAccountScreen from "./src/view/screen/account/EditAccountScreen";
 import ProjectDetailScreen from "./src/view/screen/project/ProjectDetailScreen";
 import ProjectScreen from "./src/view/screen/project/ProjectScreen";
 import AccountProjectScreen from "./src/view/screen/project/AccountProjectScreen";
+import NewProjectScreen from "./src/view/screen/project/NewProjectScreen";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
@@ -35,6 +36,8 @@ const App = () => {
                                               component={AccountProjectScreen}/>
                         <accountDrawer.Screen name ='Project'
                                               component={ProjectDetailScreen}/>
+                        <accountDrawer.Screen name ='NewProject'
+                                              component={NewProjectScreen}/>
                     </accountDrawer.Navigator>
                 ) : (
                     <authStack.Navigator screenOptions={{headerShown: false}}>

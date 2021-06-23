@@ -32,13 +32,24 @@ const DrawerContent = (props) => {
                     labelStyle={drawerStyles.drawerText}/>
                 <DrawerItem
                     icon={({color, size}) => (
-                        <Icon name='library-books'
-                              type='material'
+                        <Icon name='note-text-outline'
+                              type='material-community'
                               size={size}
                               color={color}/>)
                     }
                     label={'My Projects'}
                     onPress={()=>{props.navigation.navigate('AccountProjects')}}
+                    labelStyle={drawerStyles.drawerText}/>
+
+                <DrawerItem
+                    icon={({color, size}) => (
+                        <Icon name='post-add'
+                              type='material'
+                              size={size}
+                              color={color}/>)
+                    }
+                    label={'New Project'}
+                    onPress={()=>{props.navigation.navigate('NewProject')}}
                     labelStyle={drawerStyles.drawerText}/>
             </DrawerContentScrollView>
             <DrawerItem

@@ -21,10 +21,8 @@ const NewProjectForm = (props) => {
     }
 
     useEffect(() => {
-        AsyncStorage.getItem('userId', (err, result) => {
-            setUserId(result.toString());
-        });
-    });
+        setUserId('1');
+    },[]);
 
     const newProject = (project) =>{
         ApiUser.createProject(userId, project)

@@ -32,6 +32,7 @@ const AccountProjectScreen = ({navigation}) => {
                     })
 
                 }
+
             </ScrollView>
         </View>
     )
