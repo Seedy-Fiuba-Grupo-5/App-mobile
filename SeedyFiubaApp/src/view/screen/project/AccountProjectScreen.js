@@ -4,13 +4,17 @@ import {ScrollView, View} from "react-native";
 import ProjectCard from "../../component/ProjectCard";
 import CustomPrincipalHeader from "../../component/CustomPrincipalHeader";
 import UseAuth from "../../component/UseAuth";
+import Loading from "../../component/Loading";
 
 const AccountProjectScreen = ({navigation}) => {
     const [projects, setProjects] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const {jwt} = UseAuth();
     useEffect(() => {
+        setIsLoading(true);
         ApiUser.projects(jwt)
             .then((data) => {
+                setIsLoading(false);
                 setProjects(data.allProjects)
             })
             .catch((error) => {
@@ -23,14 +27,14 @@ const AccountProjectScreen = ({navigation}) => {
             <ScrollView>
                 {
 
-                    projects.map((project) => {
+                    isLoading ? (<Loading/>) : (projects.map((project) => {
                         return (<ProjectCard key={project.id} project={project}
                                              onPress={() => navigation.navigate("Project", {
                                                  project: project,
                                                  editable: true
                                              })
                                              }/>)
-                    })
+                    }))
 
                 }
 
