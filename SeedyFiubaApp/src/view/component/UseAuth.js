@@ -1,7 +1,7 @@
 import React, {useCallback, useContext, useState} from "react";
 import AuthContext from "./AuthContext";
 import ApiUser from "../../model/ApiUser";
-import {Alert, AsyncStorage} from "react-native";
+import {Alert} from "react-native";
 
 const UseAuth = () => {
     const {jwt,setJWT} = useContext(AuthContext);
@@ -9,21 +9,12 @@ const UseAuth = () => {
     const signIn = useCallback((email, password) => {
         setLoading(true);
         ApiUser.login(email,password)
-            .then(async (data) => {
+            .then((data) => {
                 setLoading(false);
                 setJWT(data.id);
-                console.log(data.id);
-                try {
-                    await AsyncStorage.setItem(
-                        'userId',
-                        data.id.toString()
-                    );
-                    console.log('exito');
-                } catch (error) {
-                    console.log('Error at saving ID')
-                }
             })
             .catch((error) => {
+                setLoading(false);
                 switch (error.response.status){
                     case 401:{
                         Alert.alert('Invalid Password');
@@ -46,22 +37,15 @@ const UseAuth = () => {
     const signUp = useCallback((firstName, lastName, email, password) => {
         setLoading(true);
         ApiUser.register(firstName, lastName, email, password)
-            .then(async (data) => {
+            .then((data) => {
                 if (data) {
                     setLoading(false);
                     setJWT(data.id);
-                    try {
-                        await AsyncStorage.setItem(
-                            'userId',
-                            data.id.toString()
-                        );
-                        console.log('exito');
-                    } catch (error) {
-                        console.log('Error at saving ID')
-                    }
                 }
             })
             .catch((error) => {
+                console.log(error);
+                setLoading(false);
                 if (error.response.status === 401) {
                     Alert.alert('Account with this email already exists');
                 } else {

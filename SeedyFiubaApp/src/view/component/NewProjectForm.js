@@ -12,23 +12,22 @@ import styles from "../Styles/StyleSheet";
 import GooglePlacePicker from "./GooglePlacePicker";
 import ApiUser from "../../model/ApiUser";
 import FormikImagePicker from "./Formik/FormikImagePicker";
+import UseAuth from "./UseAuth";
 
 const NewProjectForm = (props) => {
     const [datePickerShow, datePickerSetShow] = useState(false);
     const [userId, setUserId] = useState('');
+    const {jwt} = UseAuth();
     const showMessage = (message) => {
         Alert.alert(message)
     }
 
     useEffect(() => {
-        AsyncStorage.getItem('userId', (err, result) => {
-            setUserId(result.toString());
-        });
-    });
+        setUserId(jwt);
+    },[]);
 
     const newProject = (project) =>{
-        const apiUser = new ApiUser();
-        apiUser.postProject(userId, project)
+        ApiUser.createProject(userId, project)
             .then((data) => {
                 showMessage('The Project Was Successfully Created');
                 props.navigation.pop();
