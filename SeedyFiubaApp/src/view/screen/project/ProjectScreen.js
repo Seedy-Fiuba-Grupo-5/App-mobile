@@ -19,8 +19,6 @@ const ProjectScreen = ({navigation}) => {
             });
     }, []);
     return (
-        <View>
-            <CustomPrincipalHeader navigation={navigation} title={"SeedyFiuba"}/>
             <ScrollView>
                 {isLoading ?
                     (<Loading/>) :
@@ -33,7 +31,6 @@ const ProjectScreen = ({navigation}) => {
                                          }/>)}))
                 }
             </ScrollView>
-        </View>
     )
 }
 export default ProjectScreen

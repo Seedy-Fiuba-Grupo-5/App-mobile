@@ -12,16 +12,17 @@ import User from "../../../model/User";
 import CustomPrincipalHeader from "../../component/CustomPrincipalHeader";
 
 const AccountScreen = ({navigation}) => {
-    const {jwt} = UseAuth();
+    const {id} = UseAuth();
     const [user,setUser] = useState(new User());
     useEffect(() => {
         return navigation.addListener('focus', () => {
-            console.log('Hola');
-            ApiUser.user(jwt)
+            console.log(id);
+            ApiUser.user(id)
                 .then((data)=>{
                     setUser(data);
                 })
                 .catch((error) => {
+                    console.log('Hola');
                     console.log(error);
                 });
         });

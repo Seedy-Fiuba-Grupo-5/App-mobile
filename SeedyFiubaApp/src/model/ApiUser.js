@@ -8,13 +8,15 @@ class ApiUser {
 
     static async createProject(user_id, project) {
         const url = URL_LOCAL_GATEWAY + '/users/' + user_id +'/projects';
-        const response = await axios.post(url,{name:project.name,
-            description:project.description, hashtags: project.hashtags, type: project.type,
-            goal: parseInt(project.goal), endDate: project.endDate,
-            location: project.location});
-        if (response.status !== 201) {
-            return false;
-        }
+        const response = await axios.post(url,{
+            name:project.name,
+            description:project.description,
+            hashtags: project.hashtags,
+            type: project.type,
+            goal: parseInt(project.goal),
+            endDate: project.date.toString(),
+            location: project.location,
+            image:'not_found'});
         const jsonData = response.data;
         return new Project(jsonData);
     }
@@ -57,12 +59,13 @@ class ApiUser {
         return new User(jsonData);
     }
 
-    static async updateUser(id,firstName,lastName,email) {
+    static async updateUser(id,token,firstName,lastName,email) {
         const url = URL_LOCAL_GATEWAY + '/users/'+id;
         const response = await axios.patch(url,{
             name:firstName,
             lastName:lastName,
-            email:email
+            email:email,
+            token:token
         });
         const jsonData = response.data;
         return new User(jsonData);
