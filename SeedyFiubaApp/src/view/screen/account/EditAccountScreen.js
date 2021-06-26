@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef} from "react";
 import {Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View} from "react-native";
 import {Header, Icon, Input} from "react-native-elements";
 import accountStyles from "../../Styles/AccountStyleSheet";
@@ -8,16 +8,18 @@ import * as Yup from "yup";
 import ApiUser from "../../../model/ApiUser";
 import UseAuth from "../../component/UseAuth";
 const EditAccountScreen = ({navigation,route}) => {
-    const {jwt} = UseAuth();
+    const {jwt,id} = UseAuth();
     const user = route.params.users;
     console.log(user);
     const formRef = useRef();
     const updateUser = (values) => {
-        ApiUser.updateUser(jwt,values.firstName,values.lastName,values.email)
+        console.log(jwt);
+        ApiUser.updateUser(id,jwt,values.firstName,values.lastName,values.email)
             .then((data) => {
                 Alert.alert('Information Edited');
             })
             .catch((error) => {
+                console.log(error);
                 Alert.alert('Something went wrong');
             });
     }

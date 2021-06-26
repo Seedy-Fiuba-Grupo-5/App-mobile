@@ -4,14 +4,15 @@ import ApiUser from "../../model/ApiUser";
 import {Alert} from "react-native";
 
 const UseAuth = () => {
-    const {jwt,setJWT} = useContext(AuthContext);
+    const {jwt,id,setJWT,setId} = useContext(AuthContext);
     const [isLoading,setLoading] = useState(false);
     const signIn = useCallback((email, password) => {
         setLoading(true);
         ApiUser.login(email,password)
             .then((data) => {
                 setLoading(false);
-                setJWT(data.id);
+                setJWT(data.token);
+                setId(data.id);
             })
             .catch((error) => {
                 setLoading(false);
@@ -40,7 +41,8 @@ const UseAuth = () => {
             .then((data) => {
                 if (data) {
                     setLoading(false);
-                    setJWT(data.id);
+                    setJWT(data.token);
+                    setId(data.id);
                 }
             })
             .catch((error) => {
@@ -54,7 +56,7 @@ const UseAuth = () => {
             });
 
     },[])
-    return {jwt,signIn,signOut,signUp,isLoading}
+    return {jwt,id,signIn,signOut,signUp,isLoading}
 }
 
 export default UseAuth

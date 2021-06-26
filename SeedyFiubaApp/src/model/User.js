@@ -5,11 +5,13 @@ class User{
             this.lastName='';
             this.email='';
             this.id='';
+            this.token='';
         }else {
             this.firstName=info.name;
             this.lastName=info.lastName;
             this.email=info.email;
             this.id=info.id;
+            this.token=info.token;
         }
     }
 }
