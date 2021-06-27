@@ -6,11 +6,10 @@ import drawerStyles from "../Styles/DrawerStyleSheet";
 import UseAuth from "./UseAuth";
 
 const DrawerContent = (props) => {
-    const {signOut,signOutGoogle,google} = UseAuth();
+    const {signOut,signOutGoogle} = UseAuth();
     return (
         <View style={{flex: 1}}>
             <DrawerContentScrollView>
-                <Divider style={drawerStyles.divider}/>
                 <DrawerItem
                     icon={({color, size}) => (
                         <Icon name='list'
@@ -31,6 +30,27 @@ const DrawerContent = (props) => {
                     label={'Account'}
                     onPress={()=>{props.navigation.navigate('Account')}}
                     labelStyle={drawerStyles.drawerText}/>
+                <DrawerItem
+                    icon={({color, size}) => (
+                        <Icon name='note-text-outline'
+                              type='material-community'
+                              size={size}
+                              color={color}/>)
+                    }
+                    label={'My Projects'}
+                    onPress={()=>{props.navigation.navigate('AccountProjects')}}
+                    labelStyle={drawerStyles.drawerText}/>
+
+                <DrawerItem
+                    icon={({color, size}) => (
+                        <Icon name='post-add'
+                              type='material'
+                              size={size}
+                              color={color}/>)
+                    }
+                    label={'New Project'}
+                    onPress={()=>{props.navigation.navigate('NewProject')}}
+                    labelStyle={drawerStyles.drawerText}/>
             </DrawerContentScrollView>
             <DrawerItem
                 icon={({color, size}) =>
@@ -43,11 +63,7 @@ const DrawerContent = (props) => {
                 }
                 label={'Sign Out'}
                 onPress={() => {
-                    if (google) {
-                        signOutGoogle();
-                    } else {
-                        signOut();
-                    }
+                    signOut();
                 }}
                 labelStyle={drawerStyles.drawerText}/>
         </View>

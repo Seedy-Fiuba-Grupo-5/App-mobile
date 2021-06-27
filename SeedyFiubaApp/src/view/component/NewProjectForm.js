@@ -1,37 +1,40 @@
-import React, {useState} from 'react';
-import {Alert, KeyboardAvoidingView, Text, View} from "react-native";
-import ApiProject from "../../model/ApiProject";
+import React, {useEffect, useState} from 'react';
+import {Alert, KeyboardAvoidingView, Text, View, AsyncStorage, Button, Image} from "react-native";
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import FormikTextInput from "./FormikTextInput";
-import FormikPicker from "./FormikPicker";
-import FormikDatePicker from "./FormikDatePicker";
-import FormikButton from "./FormikButton";
+import FormikTextInput from "./Formik/FormikTextInput";
+import FormikPicker from "./Formik/FormikPicker";
+import FormikDatePicker from "./Formik/FormikDatePicker";
+import FormikButton from "./Formik/FormikButton";
 import icons from "../Styles/IconSheet";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import GooglePlacePicker from "./GooglePlacePicker";
 import styles from "../Styles/StyleSheet";
+import GooglePlacePicker from "./GooglePlacePicker";
+import ApiUser from "../../model/ApiUser";
+import FormikImagePicker from "./Formik/FormikImagePicker";
+import UseAuth from "./UseAuth";
 
 const NewProjectForm = (props) => {
-
     const [datePickerShow, datePickerSetShow] = useState(false);
+    const [userId, setUserId] = useState('');
+    const {jwt} = UseAuth();
     const showMessage = (message) => {
         Alert.alert(message)
     }
 
+    useEffect(() => {
+        setUserId(jwt);
+    },[]);
+
     const newProject = (project) =>{
-        if(project.name){
-            const apiProjects = new ApiProject();
-            apiProjects.post(project)
-                .then((data) => {
-                    if(data){
-                        showMessage('The Project Was Successfully Created');
-                    }
-                })
-                .catch((error) => {
-                    showMessage('Failed To Create Project')
-                });
-        }
+        ApiUser.createProject(userId, project)
+            .then((data) => {
+                showMessage('The Project Was Successfully Created');
+                props.navigation.pop();
+            })
+            .catch((error) => {
+                showMessage('Failed To Create Project')
+            });
     }
 
     let projectSchema = yup.object({
@@ -165,6 +168,7 @@ const NewProjectForm = (props) => {
                             <GooglePlacePicker formikProps={props}/>
                         </View>
                         <Text style={styles.errorText}>{props.touched.location && props.errors.location}</Text>
+                        <FormikImagePicker/>
                         <FormikButton
                             title={"Create Project"}
                             formikProps={props}/>

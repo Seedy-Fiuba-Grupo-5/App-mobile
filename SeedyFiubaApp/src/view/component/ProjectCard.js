@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card} from 'react-native-elements'
+import {Button, Card} from 'react-native-elements'
 import {Text, TouchableOpacity, View} from "react-native";
 import styles from "../Styles/StyleSheet";
 import ProjectCardFinancialInfo from "./ProjectCardFinancialInfo";
@@ -43,8 +43,6 @@ const ProjectCard = (props) => {
                                                    iconFamily={'font-awesome-5'}/>
                         </View>
                     </View>
-
-
                 </Card>
             </TouchableOpacity>
         </>

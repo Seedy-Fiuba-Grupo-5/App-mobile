@@ -1,13 +1,13 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Alert, Image, KeyboardAvoidingView, Platform, ScrollView, Text, View} from "react-native";
-import AuthButton from "../component/AuthButton";
+import AuthButton from "../../component/AuthButton";
 import {Formik} from "formik";
 import {Icon, Input} from "react-native-elements";
 import * as Yup from 'yup';
-import authStyle from "../Styles/AuthStyleSheet";
-import UseAuth from "../component/UseAuth";
-import AuthLoading from "../component/AuthLoading";
-import AuthText from "../component/AuthText";
+import AuthText from "../../component/AuthText";
+import authStyle from "../../Styles/AuthStyleSheet";
+import UseAuth from "../../component/UseAuth";
+import AuthLoading from "../../component/AuthLoading";
 
 const LoginScreen = ({navigation}) => {
     const {signIn,signInGoogle,isLoading} = UseAuth();
@@ -15,6 +15,7 @@ const LoginScreen = ({navigation}) => {
         signIn(values.email, values.password);
     }
     const signInGoogleHandler = (values, actions) => {
+        console.log('HOla');
         signInGoogle();
     }
     const signUpNavigator = () => {
@@ -36,7 +37,7 @@ const LoginScreen = ({navigation}) => {
                     <Text style={authStyle.titleText}>
                         Welcome to SeedyFiuba
                     </Text>
-                    <Image source={require('../images/logo.png')} style={{
+                    <Image source={require('../../images/logo.png')} style={{
                         width: 110,
                         height: 110,
                         alignSelf: "center",
@@ -53,7 +54,6 @@ const LoginScreen = ({navigation}) => {
                                 .email('Invalid email address')
                                 .required('Required'),
                             password: Yup.string()
-                                .min(6, 'Password is too short - should be 6 chars minimum.')
                                 .required('Required')
                         })}
                     >
@@ -69,6 +69,7 @@ const LoginScreen = ({navigation}) => {
                                                        size={20}
                                                        color='#BEBEBE'/>}
                                        containerStyle={authStyle.inputContainer}
+
 
                                 />
                                 <Input secureTextEntry={true}

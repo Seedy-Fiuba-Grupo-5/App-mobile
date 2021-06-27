@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "../Styles/StyleSheet";
+import styles from "../../Styles/StyleSheet";
 import RNPickerSelect from "react-native-picker-select";
 import {Text} from "react-native";
 
