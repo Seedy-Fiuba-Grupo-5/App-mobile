@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Text, View} from "react-native";
-import {Header, Icon} from "react-native-elements";
-import accountStyles from "../../Styles/AccountStyleSheet";
+import {View} from "react-native";
 import AccountInformationCard from "../../component/AccountInformationCard";
 import AccountAvatar from "../../component/AccountAvatar";
 import AuthButton from "../../component/AuthButton";

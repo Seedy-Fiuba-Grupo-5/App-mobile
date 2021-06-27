@@ -2,10 +2,73 @@ import React, {useCallback, useContext, useState} from "react";
 import AuthContext from "./AuthContext";
 import ApiUser from "../../model/ApiUser";
 import {Alert} from "react-native";
+import * as Google from "expo-google-app-auth";
+import {ANDROID_CLIENT} from '@env'
 
 const UseAuth = () => {
     const {jwt,id,setJWT,setId} = useContext(AuthContext);
     const [isLoading,setLoading] = useState(false);
+
+    const signInGoogle = useCallback( () => {
+        const config = {
+            androidClientId:ANDROID_CLIENT,
+            scopes:['profile','email']
+        }
+        Google.logInAsync(config).then((results) => {
+            console.log(results);
+            if (results.type === 'success') {
+                setLoading(true);
+                ApiUser.login(results.user.email, results.user.id)
+                    .then((data) => {
+                        setLoading(false);
+                        setJWT(data.token);
+                        setId(data.id);
+                    })
+                    .catch((error) => {
+                        if (error.response.status === 404) {
+                            ApiUser.register(
+                                results.user.givenName,
+                                results.user.familyName,
+                                results.user.email,
+                                results.user.id)
+                                .then((data) => {
+                                    if (data) {
+                                        setLoading(false);
+                                        setJWT(data.token);
+                                        setId(data.id);
+                                    }
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                    setLoading(false);
+                                    if (error.response.status === 401) {
+                                        Alert.alert('Account with this email already exists');
+                                    } else {
+                                        Alert.alert('Something went wrong ');
+                                    }
+                                });
+                        }
+                    });
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+    },[]);
+
+    const signOutGoogle = useCallback(
+        () => {
+            /*const config = {
+                androidClientId:ANDROID_CLIENT,
+                scopes:['profile','email']
+            }
+            Google.logInAsync(config).then((results) => {
+                console.log(results)
+            }).catch((error) => {
+                console.log(error)
+            })*/
+        },[]
+    );
+
     const signIn = useCallback((email, password) => {
         setLoading(true);
         ApiUser.login(email,password)
@@ -56,7 +119,7 @@ const UseAuth = () => {
             });
 
     },[])
-    return {jwt,id,signIn,signOut,signUp,isLoading}
+    return {jwt,id,signIn,signOut,signUp,isLoading,signInGoogle,signOutGoogle}
 }
 
 export default UseAuth

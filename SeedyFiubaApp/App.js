@@ -1,6 +1,7 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
+
 import LoginScreen from "./src/view/screen/auth/LoginScreen";
 import RegisterScreen from "./src/view/screen/auth/RegisterScreen";
 import AuthContext from "./src/view/component/AuthContext";
