@@ -2,8 +2,12 @@ import axios from 'axios';
 import Projects from "./Projects";
 import {URL_LOCAL_GATEWAY} from '@env'
 import Project from "./Project";
+import Firebase from '../../firebase/Firebase';
 
 class ApiProject {
+    constructor() {
+        Firebase.firebaseInit();
+    }
 
     static async projects() {
         const url = URL_LOCAL_GATEWAY + '/projects';

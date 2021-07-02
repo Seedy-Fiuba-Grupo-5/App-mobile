@@ -11,7 +11,7 @@ const ProjectCard = (props) => {
         <>
             <TouchableOpacity onPress={props.onPress}>
                 <Card containerStyle={styles.projectCard}>
-                    <Card.Image source={require('../images/default.jpg')}
+                    <Card.Image source={{uri: 'https://firebasestorage.googleapis.com/v0/b/seedyfiuba-a983e.appspot.com/o/image%2F1?alt=media&token=e0954e4c-0fd2-421a-b9ba-fce124c2bd1a'}}
                                 style={styles.image}>
                     </Card.Image>
                     <View style={styles.projectCardItemsView}>
