@@ -7,35 +7,25 @@ import Firebase from '../../firebase/Firebase';
 class ApiProject {
     constructor() {
         Firebase.firebaseInit();
-        this.baseUrl = URL_LOCAL_GATEWAY;
     }
 
-    async get() {
-        const url = this.baseUrl + '/projects';
+    static async projects() {
+        const url = URL_LOCAL_GATEWAY + '/projects';
         const response = await axios.get(url);
-        if (response.status !== 200) {
-            return new Projects([]);
-        }
         const jsonData = response.data;
         return new Projects(jsonData);
     }
 
-    async getProject(projectId) {
-        const url = this.baseUrl + '/projects/' + projectId;
+    static async project(projectId) {
+        const url = URL_LOCAL_GATEWAY + '/projects/' + projectId;
         const response = await axios.get(url);
-        if (response.status !== 200) {
-            return new Project({});
-        }
         const jsonData = response.data;
         return new Project(jsonData);
     }
 
-    async patch(projectId, project) {
-        const url = this.baseUrl + '/projects/' + projectId;
+    static async updateProject(projectId, project) {
+        const url = URL_LOCAL_GATEWAY + '/projects/' + projectId;
         const response = await axios.patch(url, project);
-        if (response.status !== 200) {
-            return new Project([]);
-        }
         const jsonData = response.data;
         return new Project(jsonData);
     }

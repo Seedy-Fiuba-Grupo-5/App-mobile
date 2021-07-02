@@ -5,26 +5,25 @@ import Project from "./Project";
 import Projects from "./Projects";
 
 class ApiUser {
-    static BASE_URL = URL_LOCAL_GATEWAY;
-    constructor() {
-    }
 
-    async postProject(user_id, project) {
+    static async createProject(user_id, project) {
         const url = URL_LOCAL_GATEWAY + '/users/' + user_id +'/projects';
-        const response = await axios.post(url,{name:project.name,
-            description:project.description, hashtags: project.hashtags, type: project.type,
-            goal: parseInt(project.goal), endDate: project.endDate,
-            location: project.location});
-        if (response.status !== 201) {
-            return false;
-        }
+        const response = await axios.post(url,{
+            name:project.name,
+            description:project.description,
+            hashtags: project.hashtags,
+            type: project.type,
+            goal: parseInt(project.goal),
+            endDate: project.date.toString(),
+            location: project.location,
+            image:'not_found'});
         const jsonData = response.data;
         return new Project(jsonData);
     }
 
 
     static async register(firsName, lastName, email, password) {
-        const url = ApiUser.BASE_URL + '/users';
+        const url = URL_LOCAL_GATEWAY + '/users';
         const response = await axios.post(url,{
             name : firsName,
             lastName : lastName,
@@ -35,19 +34,16 @@ class ApiUser {
         return new User(jsonData);
     }
 
-    async getMyProjects(user_id) {
+    static async projects(user_id) {
         const url = URL_LOCAL_GATEWAY  + '/users/' + user_id +'/projects';
         const response = await axios.get(url);
-        if (response.status !== 200) {
-            return new Projects([]);
-        }
         const jsonData = response.data;
         return new Projects(jsonData);
     }
 
 
     static async login(email,password) {
-        const url = ApiUser.BASE_URL + '/users/login';
+        const url = URL_LOCAL_GATEWAY + '/users/login';
         const response = await axios.post(url, {
             email:email,
             password:password
@@ -57,18 +53,19 @@ class ApiUser {
     }
 
     static async user(id) {
-        const url = ApiUser.BASE_URL + '/users/'+id;
+        const url = URL_LOCAL_GATEWAY + '/users/'+id;
         const response = await axios.get(url);
         const jsonData = response.data;
         return new User(jsonData);
     }
 
-    static async updateUser(id,firstName,lastName,email) {
-        const url = ApiUser.BASE_URL + '/users/'+id;
+    static async updateUser(id,token,firstName,lastName,email) {
+        const url = URL_LOCAL_GATEWAY + '/users/'+id;
         const response = await axios.patch(url,{
             name:firstName,
             lastName:lastName,
-            email:email
+            email:email,
+            token:token
         });
         const jsonData = response.data;
         return new User(jsonData);

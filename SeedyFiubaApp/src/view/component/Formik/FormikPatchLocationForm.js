@@ -14,8 +14,7 @@ const FormikPatchTypeForm = (props) => {
     }
 
     const newProject = (project) =>{
-        const apiProject = new ApiProject();
-        apiProject.patch(props.id, project)
+        ApiProject.updateProject(props.id, project)
             .then((data) => {
                 props.setVisible(false);
                 props.setValue(project.location);

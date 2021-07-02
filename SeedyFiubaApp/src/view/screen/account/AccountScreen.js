@@ -1,26 +1,26 @@
 import React, {useEffect, useState} from "react";
-import {Text, View} from "react-native";
-import {Header, Icon} from "react-native-elements";
-import accountStyles from "../Styles/AccountStyleSheet";
-import AccountInformationCard from "../component/AccountInformationCard";
-import AccountAvatar from "../component/AccountAvatar";
-import AuthButton from "../component/AuthButton";
-import authStyle from "../Styles/AuthStyleSheet";
-import UseAuth from "../component/UseAuth";
-import ApiUser from "../../model/ApiUser";
-import User from "../../model/User";
+import {View} from "react-native";
+import AccountInformationCard from "../../component/AccountInformationCard";
+import AccountAvatar from "../../component/AccountAvatar";
+import AuthButton from "../../component/AuthButton";
+import authStyle from "../../Styles/AuthStyleSheet";
+import UseAuth from "../../component/UseAuth";
+import ApiUser from "../../../model/ApiUser";
+import User from "../../../model/User";
+import CustomPrincipalHeader from "../../component/CustomPrincipalHeader";
 
 const AccountScreen = ({navigation}) => {
-    const {jwt} = UseAuth();
+    const {id} = UseAuth();
     const [user,setUser] = useState(new User());
     useEffect(() => {
         return navigation.addListener('focus', () => {
-            console.log('Hola');
-            ApiUser.user(jwt)
+            console.log(id);
+            ApiUser.user(id)
                 .then((data)=>{
                     setUser(data);
                 })
                 .catch((error) => {
+                    console.log('Hola');
                     console.log(error);
                 });
         });
@@ -28,20 +28,7 @@ const AccountScreen = ({navigation}) => {
     },[navigation]);
     return (
         <View style={{flex: 1, alignContent: 'center'}}>
-            <Header
-                leftComponent={<Icon
-                    name='menu'
-                    type='material'
-                    size={30}
-                    color='#fff'
-                    onPress={() => {
-                        navigation.openDrawer()
-                    }}/>}
-                centerComponent={<Text style={accountStyles.text}>
-                    Account
-                </Text>}
-                containerStyle={accountStyles.header}
-            />
+            <CustomPrincipalHeader navigation={navigation} title={"Account"}/>
             <View style={{flex: 2, alignItems: 'center'}}>
                 <AccountAvatar name={{firstName:user.firstName,lastName:user.lastName}}/>
             </View>
