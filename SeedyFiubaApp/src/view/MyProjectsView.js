@@ -62,8 +62,7 @@ const MyProjectsView = ({navigation}) => {
                     icon={{ name: 'add', color: '#fff' }}
                     openIcon={{ name: 'close', color: '#fff' }}
                     onOpen={() => setOpen(!open)}
-                    onClose={() => setOpen(!open)}
-                >
+                    onClose={() => setOpen(!open)}>
                     <SpeedDial.Action
                         color={"#4b1e4d"}
                         icon={{ name: 'seedling', color: '#fff', type: 'font-awesome-5' }}

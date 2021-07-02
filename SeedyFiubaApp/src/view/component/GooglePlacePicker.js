@@ -39,7 +39,6 @@ const GooglePlacePicker  = (props) => {
                     getDefaultValue={() => ''}
 
                     onPress={(data, details) => {
-                        this.placeholder = data.description;
                         props.formikProps.setFieldValue('location', data.description);
                     }}
 
