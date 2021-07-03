@@ -100,7 +100,6 @@ const NewProjectForm = (props) => {
                     validationSchema={projectSchema}
                     onSubmit={(values, actions) => {
                 actions.resetForm();
-                console.log(values);
                 newProject(values);
             }}>
                 {props => (
@@ -169,7 +168,7 @@ const NewProjectForm = (props) => {
                             <GooglePlacePicker formikProps={props}/>
                         </View>
                         <Text style={styles.errorText}>{props.touched.location && props.errors.location}</Text>
-                        <FormikImagePicker id={userId}/>
+                        <FormikImagePicker/>
                         <FormikButton
                             title={"Create Project"}
                             formikProps={props}/>

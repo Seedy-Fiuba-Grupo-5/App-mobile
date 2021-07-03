@@ -3,8 +3,6 @@ import styles from "../../Styles/StyleSheet";
 import {Image, Text, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import * as ImagePicker from "expo-image-picker";
-import * as firebase from 'firebase';
-import Firebase from '../../../../firebase/Firebase'
 
 const FormikImagePicker = (props) => {
 
@@ -16,14 +14,7 @@ const FormikImagePicker = (props) => {
 
         })
         if (!result.cancelled){
-            Firebase.firebaseInit();
-            setImage(result.uri);
-            const response = await fetch(result.uri);
-            const blob = await response.blob();
-            var ref = firebase.storage().ref().child('users/' + props.id +'/temp/' + 'coverImage')
-            await ref.put(blob);
-            var loque = await firebase.storage().ref('users/' + props.id + '/temp/').child('coverImage').getDownloadURL()
-            console.log(loque);
+            setImage(result.uri)
         }
     }
 
@@ -31,9 +22,10 @@ const FormikImagePicker = (props) => {
         <>
             <Text style={styles.labelText}>Cover Image</Text>
             <TouchableOpacity
-                onPress={async () => {
-                    await pickImage();
-                }}
+                onPress={() => {
+                    pickImage().then(() => {
+                        console.log("imagen")
+                    })}}
                 style={styles.formOnTouchableOpacity}>
                 <View
                     style={{

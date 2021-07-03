@@ -1,5 +1,5 @@
 import {Alert, Image, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View} from "react-native";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import CreateProjectStyle from "../../Styles/CreateProjectStyleSheet";
 import {Formik} from "formik";
 import * as Yup from "yup";
@@ -11,36 +11,56 @@ import moment from "moment";
 import * as ImagePicker from "expo-image-picker";
 import ApiUser from "../../../model/ApiUser";
 import UseAuth from "../../component/UseAuth";
+import Firebase from "../../../model/Firebase";
+import ApiProject from "../../../model/ApiProject";
+import Loading from "../../component/Loading";
 
 const NewProjectScreen = () => {
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
     const [image, setImage] = useState(null);
-    const [userId, setUserId] = useState('');
-    const {id} = UseAuth();
-    useEffect(() => {
-        setUserId(id);
-    },[]);
+    const [isLoading, setIsLoading] = useState(false);
+    const {id,jwt} = UseAuth();
+
     const showMessage = (message) => {
         Alert.alert(message)
     }
 
+    const resetForm = (actions) =>{
+        setImage(null);
+        actions.resetForm();
+    }
+
     const createProjectHandler = (values,actions) => {
-        ApiUser.createProject(userId, values)
+        setIsLoading(true);
+        ApiUser.createProject(id, {
+            name: values.name,
+            description: values.description,
+            hashtags: values.hashtags,
+            type: values.type,
+            goal: parseInt(values.goal),
+            endDate: formatDate(values.date),
+            location: values.location,
+            image: 'not_found',
+            token: jwt
+        })
             .then((data) => {
-                showMessage('The Project Was Successfully Created');
-                actions.resetForm();
+                Firebase.uploadImage(data.id, values.image).then((url) => {
+                    ApiProject.updateProject(data.id, jwt, {image: url}).then((data) => {
+                        setIsLoading(false);
+                        showMessage('The Project Was Successfully Created');
+                        resetForm(actions);
+                    });
+                });
             })
             .catch((error) => {
+                setIsLoading(false);
                 console.log(error);
                 showMessage('Failed To Create Project')
             });
     }
 
     const onChange = (event, selectedDate) => {
-        console.log('hola');
-        console.log(date);
-        console.log(selectedDate);
         const currentDate = selectedDate || date;
         setDate(currentDate);
     };
@@ -52,6 +72,7 @@ const NewProjectScreen = () => {
         })
         if (!result.cancelled){
             setImage(result.uri);
+            return result.uri;
         }
     }
 
@@ -66,7 +87,7 @@ const NewProjectScreen = () => {
 
     const onCancel = (date) => {
         console.log(date);
-        setDate('');
+        setDate(new Date());
         setShow(false);
     };
 
@@ -80,7 +101,7 @@ const NewProjectScreen = () => {
         if ( mm < 10){
             mm = "0" + mm;
         }
-        return day+"-"+mm+"-"+year;
+        return year+"-"+day+"-"+mm;
     }
 
 
@@ -96,237 +117,248 @@ const NewProjectScreen = () => {
         return valid;
     }
 
-    return (
-        <ScrollView
-            keyboardShouldPersistTaps='handled'>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : null}
-                keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
-            >
-                <Formik
-                    initialValues={{
-                        name: '',
-                        description: '',
-                        goal: '',
-                        type:'Other',
-                        hashtags:'',
-                        date: new Date(),
-                        location: ''
-                    }}
-                    onSubmit={createProjectHandler}
-                    validationSchema={Yup.object({
-                        name: Yup.string()
-                            .min(3, 'Invalid project name length')
-                            .required('Required'),
-                        description: Yup.string()
-                            .min(3, 'Invalid project description length')
-                            .required('Required'),
-                        goal: Yup.number()
-                            .min(100,'Invalid project goal')
-                            .required('Required'),
-                        type: Yup.string().oneOf(["Art","Comics",
-                            "Crafts","Dance","Design","Fashion",
-                            "Film & Video","Food","Games","Journalism",
-                            "Music","Photography","Publishing","Technology",
-                            "Theater","Other"])
-                            .required('Required'),
-                        hashtags: Yup.string().test('',
-                            'Invalid project hashtags',(val) => {
-                                return validHashtag(val);
-                            }).required('Required'),
-                        date: Yup.date()
-                            .min(moment().add(8, 'days'),'Invalid project end date')
-                            .required('Required'),
-                        location: Yup.string()
-                            .min(3,'Invalid project location length')
-                            .required('Required'),
-                    })}
+    if (isLoading){
+        return (
+            <Loading customStyle={{paddingTop:0}}/>);
+    }else{
+        return (
+            <ScrollView keyboardShouldPersistTaps='handled'>
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "padding" : null}
+                    keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
                 >
-                    {props => (
-                        <View>
-                            <Text style={{paddingTop:1}}/>
-                            <Input value={props.values.name}
-                                   label={'Name'}
-                                   onChangeText={props.handleChange('name')}
-                                   onBlur={props.handleBlur('name')}
-                                   errorMessage={props.touched.name && props.errors.name}
-                                   leftIcon={<Icon name='assignment'
-                                                   type='material'
-                                                   size={20}
-                                                   color='#BEBEBE'/>}
-                                   containerStyle={CreateProjectStyle.inputContainer}
+                    <Formik
+                        initialValues={{
+                            name: '',
+                            description: '',
+                            goal: '',
+                            type:'Other',
+                            hashtags:'',
+                            date: new Date(),
+                            location: '',
+                            image:''
+                        }}
+                        onSubmit={createProjectHandler}
+                        validationSchema={Yup.object({
+                            name: Yup.string()
+                                .min(3, 'Invalid project name length')
+                                .required('Required'),
+                            description: Yup.string()
+                                .min(3, 'Invalid project description length')
+                                .required('Required'),
+                            goal: Yup.number()
+                                .min(100,'Invalid project goal')
+                                .required('Required'),
+                            type: Yup.string().oneOf(["Art","Comics",
+                                "Crafts","Dance","Design","Fashion",
+                                "Film & Video","Food","Games","Journalism",
+                                "Music","Photography","Publishing","Technology",
+                                "Theater","Other"])
+                                .required('Required'),
+                            hashtags: Yup.string().test('',
+                                'Invalid project hashtags',(val) => {
+                                    return validHashtag(val);
+                                }).required('Required'),
+                            date: Yup.date()
+                                .min(moment().add(8, 'days'),'Invalid project end date')
+                                .required('Required'),
+                            location: Yup.string()
+                                .min(3,'Invalid project location length')
+                                .required('Required'),
+                            image:Yup.string()
+                                .min(3,'Select Image')
+                                .required('Required')
+                        })}
+                    >
+                        {props => (
+                            <View>
+                                <Text style={{paddingTop:1}}/>
+                                <Input value={props.values.name}
+                                       label={'Name'}
+                                       onChangeText={props.handleChange('name')}
+                                       onBlur={props.handleBlur('name')}
+                                       errorMessage={props.touched.name && props.errors.name}
+                                       leftIcon={<Icon name='assignment'
+                                                       type='material'
+                                                       size={20}
+                                                       color='#BEBEBE'/>}
+                                       containerStyle={CreateProjectStyle.inputContainer}
 
-                            />
+                                />
 
-                            <Input value={props.values.description}
-                                   label={'Description'}
-                                   onChangeText={props.handleChange('description')}
-                                   onBlur={props.handleBlur('description')}
-                                   errorMessage={props.touched.description && props.errors.description}
-                                   leftIcon={<Icon name='article'
-                                                   type='material'
-                                                   size={20}
-                                                   color='#BEBEBE'/>}
-                                   containerStyle={CreateProjectStyle.inputContainer}
-                            />
-                            <Input value={props.values.goal}
-                                   label={'Goal'}
-                                   keyboardType={'numeric'}
-                                   onChangeText={props.handleChange('goal')}
-                                   onBlur={props.handleBlur('goal')}
-                                   errorMessage={props.touched.goal && props.errors.goal}
-                                   leftIcon={<Icon name='attach-money'
-                                                   type='material'
-                                                   size={20}
-                                                   color='#BEBEBE'/>}
-                                   containerStyle={CreateProjectStyle.inputContainer}
+                                <Input value={props.values.description}
+                                       label={'Description'}
+                                       onChangeText={props.handleChange('description')}
+                                       onBlur={props.handleBlur('description')}
+                                       errorMessage={props.touched.description && props.errors.description}
+                                       leftIcon={<Icon name='article'
+                                                       type='material'
+                                                       size={20}
+                                                       color='#BEBEBE'/>}
+                                       containerStyle={CreateProjectStyle.inputContainer}
+                                />
+                                <Input value={props.values.goal}
+                                       label={'Goal'}
+                                       keyboardType={'numeric'}
+                                       onChangeText={props.handleChange('goal')}
+                                       onBlur={props.handleBlur('goal')}
+                                       errorMessage={props.touched.goal && props.errors.goal}
+                                       leftIcon={<Icon name='attach-money'
+                                                       type='material'
+                                                       size={20}
+                                                       color='#BEBEBE'/>}
+                                       containerStyle={CreateProjectStyle.inputContainer}
 
-                            />
+                                />
 
-                            <Input value={props.values.hashtags}
-                                   label={'Hashtags'}
-                                   onChangeText={props.handleChange('hashtags')}
-                                   onBlur={props.handleBlur('hashtags')}
-                                   errorMessage={props.touched.hashtags && props.errors.hashtags}
-                                   leftIcon={<Icon name='tag'
-                                                   type='material'
-                                                   size={20}
-                                                   color='#BEBEBE'/>}
-                                   containerStyle={CreateProjectStyle.inputContainer}/>
+                                <Input value={props.values.hashtags}
+                                       label={'Hashtags'}
+                                       onChangeText={props.handleChange('hashtags')}
+                                       onBlur={props.handleBlur('hashtags')}
+                                       errorMessage={props.touched.hashtags && props.errors.hashtags}
+                                       leftIcon={<Icon name='tag'
+                                                       type='material'
+                                                       size={20}
+                                                       color='#BEBEBE'/>}
+                                       containerStyle={CreateProjectStyle.inputContainer}/>
 
-                            <View style={{paddingBottom:15}}>
-                                <Text style={{color:'#85929d',
-                                    fontWeight:'bold',
-                                    paddingLeft:46,
-                                    paddingBottom:10,
-                                    fontSize:16}}>Type</Text>
-                                <View style={{flexDirection:'row',
-                                    justifyContent:'center',
-                                    paddingLeft:55}}>
-                                    <Icon name='title'
-                                          type='material'
-                                          size={20}
-                                          color='#BEBEBE'/>
-                                    <View style={{width:300}}>
-                                        <RNPickerSelect
-                                            value={props.values.type}
-                                            style={{
-                                                inputIOS: CreateProjectStyle.pickerStyle,
-                                                inputAndroid: CreateProjectStyle.androidPicker
-                                            }}
-                                            onValueChange={props.handleChange('type')}
-                                            items={[
-                                                {label: "Other", value: "Other"},
-                                                {label: "Art", value: "Art"},
-                                                {label: "Comics", value: "Comics"},
-                                                {label: "Crafts", value: "Crafts"},
-                                                {label: "Dance", value: "Dance"},
-                                                {label: "Design", value: "Design"},
-                                                {label: "Fashion", value: "Fashion"},
-                                                {label: "Film & Video", value: "Film & Video"},
-                                                {label: "Food", value: "Food"},
-                                                {label: "Games", value: "Games"},
-                                                {label: "Journalism", value: "Journalism"},
-                                                {label: "Music", value: "Music"},
-                                                {label: "Photography", value: "Photography"},
-                                                {label: "Publishing", value: "Publishing"},
-                                                {label: "Technology", value: "Technology"},
-                                                {label: "Theater", value: "Theater"}
-                                            ]}
-                                        />
+                                <View style={{paddingBottom:15}}>
+                                    <Text style={{color:'#85929d',
+                                        fontWeight:'bold',
+                                        paddingLeft:46,
+                                        paddingBottom:10,
+                                        fontSize:16}}>Type</Text>
+                                    <View style={{flexDirection:'row',
+                                        justifyContent:'center',
+                                        paddingLeft:55}}>
+                                        <Icon name='title'
+                                              type='material'
+                                              size={20}
+                                              color='#BEBEBE'/>
+                                        <View style={{width:300}}>
+                                            <RNPickerSelect
+                                                value={props.values.type}
+                                                style={{
+                                                    inputIOS: CreateProjectStyle.pickerStyle,
+                                                    inputAndroid: CreateProjectStyle.androidPicker
+                                                }}
+                                                onValueChange={props.handleChange('type')}
+                                                items={[
+                                                    {label: "Other", value: "Other"},
+                                                    {label: "Art", value: "Art"},
+                                                    {label: "Comics", value: "Comics"},
+                                                    {label: "Crafts", value: "Crafts"},
+                                                    {label: "Dance", value: "Dance"},
+                                                    {label: "Design", value: "Design"},
+                                                    {label: "Fashion", value: "Fashion"},
+                                                    {label: "Film & Video", value: "Film & Video"},
+                                                    {label: "Food", value: "Food"},
+                                                    {label: "Games", value: "Games"},
+                                                    {label: "Journalism", value: "Journalism"},
+                                                    {label: "Music", value: "Music"},
+                                                    {label: "Photography", value: "Photography"},
+                                                    {label: "Publishing", value: "Publishing"},
+                                                    {label: "Technology", value: "Technology"},
+                                                    {label: "Theater", value: "Theater"}
+                                                ]}
+                                            />
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
 
-                            <View>
-                                <Text style={{color:'#85929d',
-                                    fontWeight:'bold',
-                                    paddingLeft:46,
-                                    paddingBottom:10,
-                                    fontSize:16}}>End date</Text>
-                                <TouchableOpacity onPress={()=>setShow(true)} style={{
-                                    flexDirection:"row",
-                                    paddingLeft:50
-                                }}>
-                                    <Icon name='event'
-                                          type='material'
-                                          size={20}
-                                          color='#BEBEBE'
-                                          style={{paddingTop:2}}/>
-                                    <Text style={{color:'black',fontSize:18,paddingLeft:20}}>
-                                        {formatDate(props.values.date)}
+                                <View>
+                                    <Text style={{color:'#85929d',
+                                        fontWeight:'bold',
+                                        paddingLeft:46,
+                                        paddingBottom:10,
+                                        fontSize:16}}>End date</Text>
+                                    <TouchableOpacity onPress={()=>setShow(true)} style={{
+                                        flexDirection:"row",
+                                        paddingLeft:50
+                                    }}>
+                                        <Icon name='event'
+                                              type='material'
+                                              size={20}
+                                              color='#BEBEBE'
+                                              style={{paddingTop:2}}/>
+                                        <Text style={{color:'black',fontSize:18,paddingLeft:20}}>
+                                            {formatDate(props.values.date)}
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <DateTimePicker
+                                        isVisible={show}
+                                        testID="dateTimePicker"
+                                        value={props.values.date}
+                                        mode="date"
+                                        is24Hour={true}
+                                        display="default"
+                                        onChange={onChange}
+                                        onCancel={onCancel}
+                                        onConfirm={(date) => {onConfirm(date,props)}}
+                                    />
+                                    <Text style={CreateProjectStyle.errorText}>
+                                        {props.errors.date}
                                     </Text>
-                                </TouchableOpacity>
-                                <DateTimePicker
-                                    isVisible={show}
-                                    testID="dateTimePicker"
-                                    value={props.values.date}
-                                    mode="date"
-                                    is24Hour={true}
-                                    display="default"
-                                    onChange={onChange}
-                                    onCancel={onCancel}
-                                    onConfirm={(date) => {onConfirm(date,props)}}
+                                </View>
+                                <Input value={props.values.location}
+                                       label={'Location'}
+                                       onChangeText={props.handleChange('location')}
+                                       onBlur={props.handleBlur('location')}
+                                       errorMessage={props.touched.location && props.errors.location}
+                                       leftIcon={<Icon name='place'
+                                                       type='material'
+                                                       size={20}
+                                                       color='#BEBEBE'/>}
+                                       containerStyle={CreateProjectStyle.inputContainer}
                                 />
-                                <Text style={CreateProjectStyle.errorText}>
-                                    {props.errors.date}
-                                </Text>
+
+                                <View>
+                                    <Text style={{color:'#85929d',
+                                        fontWeight:'bold',
+                                        paddingLeft:46,
+                                        paddingBottom:10,
+                                        fontSize:16}}>Image</Text>
+                                    <TouchableOpacity onPress={() => {
+                                        selectImage().then((uri) => {
+                                            props.setFieldValue('image',uri);
+                                            props.validateField('image');
+                                            console.log(uri);
+                                            console.log("imagen")
+                                        })}} style={{
+                                        flexDirection:"row",
+                                        paddingLeft:50
+                                    }}>
+                                        <Icon name='image'
+                                              type='material'
+                                              size={20}
+                                              color='#BEBEBE'
+                                              style={{paddingTop:2}}/>
+                                        {
+                                            image != null ? (
+                                                    <Image
+                                                        source={{uri: image}}
+                                                        style={{width: 200, height: 200}}/>):
+                                                (<Text style={{color:'black',fontSize:18,paddingLeft:20}}>
+                                                    Image
+                                                </Text>)
+                                        }
+                                    </TouchableOpacity>
+                                    <Text style={CreateProjectStyle.errorText}>
+                                        {props.errors.image}
+                                    </Text>
+                                </View>
+
+                                <AuthButton title='Create' onPress={props.handleSubmit}
+                                            style={CreateProjectStyle.principalButton}/>
+                                <Text style={{paddingBottom:1}}/>
                             </View>
-                            <Input value={props.values.location}
-                                   label={'Location'}
-                                   onChangeText={props.handleChange('location')}
-                                   onBlur={props.handleBlur('location')}
-                                   errorMessage={props.touched.location && props.errors.location}
-                                   leftIcon={<Icon name='place'
-                                                   type='material'
-                                                   size={20}
-                                                   color='#BEBEBE'/>}
-                                   containerStyle={CreateProjectStyle.inputContainer}
-                            />
+                        )
+                        }
+                    </Formik>
+                </KeyboardAvoidingView>
+            </ScrollView>
+        )
 
-                            <View>
-                                <Text style={{color:'#85929d',
-                                    fontWeight:'bold',
-                                    paddingLeft:46,
-                                    paddingBottom:10,
-                                    fontSize:16}}>Image</Text>
-                                <TouchableOpacity onPress={() => {
-                                    selectImage().then((image) => {
-                                        console.log("imagen")
-                                    })}} style={{
-                                    flexDirection:"row",
-                                    paddingLeft:50
-                                }}>
-                                    <Icon name='image'
-                                          type='material'
-                                          size={20}
-                                          color='#BEBEBE'
-                                          style={{paddingTop:2}}/>
-                                    {
-                                        image != null ? (<Image source={{uri: image} } style={{width: 200,
-                                            height: 200}}/>):(<Text style={{color:'black',fontSize:18,paddingLeft:20}}>
-                                            Image
-                                        </Text>)
-                                    }
-
-
-
-
-                                </TouchableOpacity>
-                                <Text style={CreateProjectStyle.errorText}>
-                                    {props.errors.date}
-                                </Text>
-                            </View>
-
-                            <AuthButton title='Create' onPress={props.handleSubmit}
-                                        style={CreateProjectStyle.principalButton}/>
-                            <Text style={{paddingBottom:1}}/>
-                        </View>
-                    )
-                    }
-                </Formik>
-            </KeyboardAvoidingView>
-        </ScrollView>
-    )
+    }
 }
 export default NewProjectScreen

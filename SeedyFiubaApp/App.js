@@ -14,12 +14,16 @@ import ProjectScreen from "./src/view/screen/project/ProjectScreen";
 import AccountProjectScreen from "./src/view/screen/project/AccountProjectScreen";
 import NewProjectScreen from "./src/view/screen/project/NewProjectScreen";
 import CustomPrincipalHeader from "./src/view/component/CustomPrincipalHeader";
+import {LogBox} from "react-native";
+import Firebase from "./src/model/Firebase";
+import firebase from "firebase";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
 
 const App = () => {
-
+    LogBox.ignoreLogs(['Setting a timer for a long period of time']);
+    Firebase.init();
     const [jwt, setJWT] = useState(null);
     const [id, setId] = useState(null);
     return (

@@ -2,12 +2,8 @@ import axios from 'axios';
 import Projects from "./Projects";
 import {URL_LOCAL_GATEWAY} from '@env'
 import Project from "./Project";
-import Firebase from '../../firebase/Firebase';
 
 class ApiProject {
-    constructor() {
-        Firebase.firebaseInit();
-    }
 
     static async projects() {
         const url = URL_LOCAL_GATEWAY + '/projects';
@@ -23,7 +19,8 @@ class ApiProject {
         return new Project(jsonData);
     }
 
-    static async updateProject(projectId, project) {
+    static async updateProject(projectId,token, project) {
+        project.token = token;
         const url = URL_LOCAL_GATEWAY + '/projects/' + projectId;
         const response = await axios.patch(url, project);
         const jsonData = response.data;
