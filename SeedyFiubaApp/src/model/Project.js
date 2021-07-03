@@ -8,6 +8,7 @@ class Project{
         this.goal = project.goal;
         this.endDate = project.endDate;
         this.location = project.location;
+        this.image = project.image;
     }
 }
 export default Project

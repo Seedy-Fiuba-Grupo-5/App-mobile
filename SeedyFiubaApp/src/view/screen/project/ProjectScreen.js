@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
 import ApiProject from "../../../model/ApiProject";
 import {ScrollView, View} from "react-native";
-import ProjectCard from "../../component/ProjectCard";
-import CustomPrincipalHeader from "../../component/CustomPrincipalHeader";
 import Loading from "../../component/Loading";
+import ProjectCard from "../../component/project/ProjectCard";
 
 const ProjectScreen = ({navigation}) => {
     const [projects, setProjects] = useState([]);

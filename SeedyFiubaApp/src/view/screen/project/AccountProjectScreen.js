@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import ApiUser from "../../../model/ApiUser";
 import {ScrollView, View} from "react-native";
-import ProjectCard from "../../component/ProjectCard";
 import UseAuth from "../../component/UseAuth";
 import Loading from "../../component/Loading";
+import ProjectCard from "../../component/project/ProjectCard";
 
 const AccountProjectScreen = ({navigation}) => {
     const [projects, setProjects] = useState([]);

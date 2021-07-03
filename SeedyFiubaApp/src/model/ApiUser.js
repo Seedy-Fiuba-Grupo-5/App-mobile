@@ -6,17 +6,9 @@ import Projects from "./Projects";
 
 class ApiUser {
 
-    static async createProject(user_id, project) {
+    static async createProject(user_id,project) {
         const url = URL_LOCAL_GATEWAY + '/users/' + user_id +'/projects';
-        const response = await axios.post(url,{
-            name:project.name,
-            description:project.description,
-            hashtags: project.hashtags,
-            type: project.type,
-            goal: parseInt(project.goal),
-            endDate: project.date.toString(),
-            location: project.location,
-            image:'not_found'});
+        const response = await axios.post(url, project);
         const jsonData = response.data;
         return new Project(jsonData);
     }
