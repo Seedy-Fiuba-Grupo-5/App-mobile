@@ -4,9 +4,9 @@ import {Formik} from "formik";
 import * as Yup from "yup";
 import authStyle from "../../Styles/AuthStyleSheet";
 import {Icon, Input} from "react-native-elements";
-import AuthButton from "../../component/AuthButton";
+import SeedyFiubaButton from "../../component/SeedyFiubaButton";
 import UseAuth from "../../component/UseAuth";
-import AuthLoading from "../../component/AuthLoading";
+import AuthLoading from "../../component/auth/AuthLoading";
 
 const RegisterScreen = () => {
     const {signUp, isLoading} = UseAuth();
@@ -104,8 +104,8 @@ const RegisterScreen = () => {
                                                        color='#BEBEBE'/>}
                                        containerStyle={authStyle.inputContainer}
                                 />
-                                <AuthButton title='Sign Up' onPress={props.handleSubmit}
-                                            style={authStyle.principalButton}/>
+                                <SeedyFiubaButton title='Sign Up' onPress={props.handleSubmit}
+                                                  style={authStyle.principalButton}/>
                             </View>
                         )
                         }

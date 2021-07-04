@@ -1,10 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
-
 import LoginScreen from "./src/view/screen/auth/LoginScreen";
 import RegisterScreen from "./src/view/screen/auth/RegisterScreen";
-import AuthContext from "./src/view/component/AuthContext";
+import AuthContext from "./src/view/component/auth/AuthContext";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import DrawerContent from "./src/view/component/DrawerContent";
 import AccountScreen from "./src/view/screen/account/AccountScreen";
@@ -16,7 +15,7 @@ import NewProjectScreen from "./src/view/screen/project/NewProjectScreen";
 import CustomPrincipalHeader from "./src/view/component/CustomPrincipalHeader";
 import {LogBox} from "react-native";
 import Firebase from "./src/model/Firebase";
-import firebase from "firebase";
+import ProjectDetailHeader from "./src/view/component/project/ProjectDetailHeader";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
@@ -62,7 +61,14 @@ const App = () => {
                             }}
                         />
                         <accountDrawer.Screen name ='Project'
-                                              component={ProjectDetailScreen}/>
+                                              component={ProjectDetailScreen}
+                                              options={{
+                                                  headerShown:true,
+                                                  header:({scene})=>{
+                                                      return (<ProjectDetailHeader
+                                                          params={scene.route.params}
+                                                          navigation={scene.descriptor.navigation}/>)}
+                                              }}/>
                         <accountDrawer.Screen
                             name ='NewProject'
                             component={NewProjectScreen}

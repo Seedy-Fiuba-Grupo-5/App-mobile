@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {View} from "react-native";
-import AccountInformationCard from "../../component/AccountInformationCard";
-import AccountAvatar from "../../component/AccountAvatar";
-import AuthButton from "../../component/AuthButton";
+import AccountInformationCard from "../../component/account/AccountInformationCard";
+import AccountAvatar from "../../component/account/AccountAvatar";
+import SeedyFiubaButton from "../../component/SeedyFiubaButton";
 import authStyle from "../../Styles/AuthStyleSheet";
 import UseAuth from "../../component/UseAuth";
 import ApiUser from "../../../model/ApiUser";
@@ -37,9 +37,9 @@ const AccountScreen = ({navigation}) => {
                                         lastName={user.lastName}
                                         email={user.email}/>
             </View>
-            <AuthButton title={'Edit Information'}
-                        style={authStyle.secondButton}
-                        onPress={()=>{navigation.navigate('EditAccount',{users:user})}}/>
+            <SeedyFiubaButton title={'Edit Information'}
+                              style={authStyle.secondButton}
+                              onPress={()=>{navigation.navigate('EditAccount',{users:user})}}/>
         </View>
     )
 }

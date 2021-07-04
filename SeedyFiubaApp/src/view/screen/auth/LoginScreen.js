@@ -1,13 +1,13 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Alert, Image, KeyboardAvoidingView, Platform, ScrollView, Text, View} from "react-native";
-import AuthButton from "../../component/AuthButton";
+import SeedyFiubaButton from "../../component/SeedyFiubaButton";
 import {Formik} from "formik";
 import {Icon, Input} from "react-native-elements";
 import * as Yup from 'yup';
-import AuthText from "../../component/AuthText";
+import AuthText from "../../component/auth/AuthText";
 import authStyle from "../../Styles/AuthStyleSheet";
 import UseAuth from "../../component/UseAuth";
-import AuthLoading from "../../component/AuthLoading";
+import AuthLoading from "../../component/auth/AuthLoading";
 
 const LoginScreen = ({navigation}) => {
     const {signIn,signInGoogle,isLoading} = UseAuth();
@@ -83,12 +83,12 @@ const LoginScreen = ({navigation}) => {
                                                        color='#BEBEBE'/>}
                                        containerStyle={authStyle.inputContainer}
                                 />
-                                <AuthButton title='Sign In' onPress={props.handleSubmit} style={authStyle.principalButton}/>
+                                <SeedyFiubaButton title='Sign In' onPress={props.handleSubmit} style={authStyle.principalButton}/>
                             </View>
                         )
                         }
                     </Formik>
-                    <AuthButton icon={<Icon
+                    <SeedyFiubaButton icon={<Icon
                         name='google'
                         style={{paddingRight:15}}
                         type='font-awesome-5'

@@ -6,7 +6,7 @@ const AuthText = ({onPress})=>{
             alignSelf: 'center',
             paddingTop:10
         }}>
-            Don't have account?  {<Text onPress={onPress} style={{color:'blue'}}>Sign Up</Text>}
+            Don't have an account?  {<Text onPress={onPress} style={{color:'blue'}}>Sign Up</Text>}
         </Text>
     )
 }

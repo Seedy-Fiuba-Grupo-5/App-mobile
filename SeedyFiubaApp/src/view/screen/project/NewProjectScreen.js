@@ -4,7 +4,7 @@ import CreateProjectStyle from "../../Styles/CreateProjectStyleSheet";
 import {Formik} from "formik";
 import * as Yup from "yup";
 import {Icon, Input} from "react-native-elements";
-import AuthButton from "../../component/AuthButton";
+import SeedyFiubaButton from "../../component/SeedyFiubaButton";
 import RNPickerSelect from "react-native-picker-select";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
@@ -348,8 +348,8 @@ const NewProjectScreen = () => {
                                     </Text>
                                 </View>
 
-                                <AuthButton title='Create' onPress={props.handleSubmit}
-                                            style={CreateProjectStyle.principalButton}/>
+                                <SeedyFiubaButton title='Create' onPress={props.handleSubmit}
+                                                  style={CreateProjectStyle.principalButton}/>
                                 <Text style={{paddingBottom:1}}/>
                             </View>
                         )

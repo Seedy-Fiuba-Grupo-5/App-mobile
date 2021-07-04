@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useState} from "react";
-import AuthContext from "./AuthContext";
+import AuthContext from "./auth/AuthContext";
 import ApiUser from "../../model/ApiUser";
 import {Alert} from "react-native";
 import * as Google from "expo-google-app-auth";

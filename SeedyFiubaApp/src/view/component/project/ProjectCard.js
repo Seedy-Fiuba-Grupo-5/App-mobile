@@ -22,7 +22,6 @@ const ProjectCard = (props) => {
         const images = ['not_found', 'nothing', undefined, null];
         return images.includes(image);
     }
-    console.log(props.project.image);
     const amountCollected = collected(0, props.project.goal);
     const amountDays = daysToEnd(props.project.endDate);
     return (
