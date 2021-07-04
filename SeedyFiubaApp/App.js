@@ -16,6 +16,8 @@ import CustomPrincipalHeader from "./src/view/component/CustomPrincipalHeader";
 import {LogBox} from "react-native";
 import Firebase from "./src/model/Firebase";
 import ProjectDetailHeader from "./src/view/component/project/ProjectDetailHeader";
+import CreatorScreen from "./src/view/screen/creator/CreatorScreen";
+import CreatorHeader from "./src/view/component/creator/CreatorHeader";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
@@ -67,6 +69,15 @@ const App = () => {
                                                   header:({scene})=>{
                                                       return (<ProjectDetailHeader
                                                           params={scene.route.params}
+                                                          navigation={scene.descriptor.navigation}/>)}
+                                              }}/>
+                        <accountDrawer.Screen name ='Creator'
+                                              component={CreatorScreen}
+                                              options={{
+                                                  headerShown:true,
+                                                  header:({scene})=>{
+                                                      return (<CreatorHeader
+                                                          title={'Creator'}
                                                           navigation={scene.descriptor.navigation}/>)}
                                               }}/>
                         <accountDrawer.Screen

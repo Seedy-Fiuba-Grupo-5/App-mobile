@@ -4,7 +4,6 @@ import accountStyles from "../../Styles/AccountStyleSheet";
 import React from "react";
 
 const ProjectDetailHeader = ({params, navigation}) =>{
-    console.log(params.editable);
     return(
         <Header
             leftComponent={

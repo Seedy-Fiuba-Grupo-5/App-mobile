@@ -24,11 +24,14 @@ const AccountProjectScreen = ({navigation}) => {
             <ScrollView>
                 {
 
-                    isLoading ? (<Loading/>) : (projects.map((project) => {
+                    isLoading ?
+                        (<Loading/>) :
+                        (projects.map((project) => {
                         return (<ProjectCard key={project.id} project={project}
                                              onPress={() => navigation.navigate("Project", {
                                                  project: project,
-                                                 editable: true
+                                                 editable: true,
+                                                 user:id
                                              })
                                              }/>)
                     }))

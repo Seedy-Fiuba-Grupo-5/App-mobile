@@ -1,13 +1,18 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Divider, Icon, Image} from "react-native-elements";
-import {ScrollView, Text, View} from "react-native";
+import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import ProjectDetailStyleSheet from "../../Styles/ProjectDetailStyleSheet";
 import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";
 import ProjectCardStyleSheet from "../../Styles/ProjectCardStyleSheet";
 import SeedyFiubaButton from "../../component/SeedyFiubaButton";
 import ProjectDetailKeyValueText from "../../component/project/ProjectDetailKeyValueText";
+import Creator from "../../../model/Creator";
+import ApiUser from "../../../model/ApiUser";
+import LoadingText from "../../component/LoadingText";
 
-const ProjectDetailScreen = ({route}) => {
+const ProjectDetailScreen = ({navigation,route}) => {
+    const [creator, setCreator] = useState(new Creator());
+    const [loading, setLoading] = useState(false);
     const defaultImage = (image) => {
         const images = ['not_found', 'nothing', undefined, null];
         return images.includes(image);
@@ -18,6 +23,21 @@ const ProjectDetailScreen = ({route}) => {
         }
         return amount / goal;
     }
+
+    useEffect(() => {
+        setLoading(true);
+        ApiUser.user(route.params.user)
+            .then((data) => {
+                setLoading(false);
+                setCreator(data);
+            })
+            .catch((error) => {
+                setLoading(false);
+                setCreator(new Creator());
+                console.log(error);
+            });
+    }, []);
+
     const amountCollected = collected(0, route.params.project.goal);
     return (
         <ScrollView>
@@ -35,7 +55,15 @@ const ProjectDetailScreen = ({route}) => {
                             containerStyle={ProjectDetailStyleSheet.ImageContainerStyle}/>)
                 }
                 <Text style={{fontSize: 30}}>{route.params.project.name}</Text>
-                <ProjectDetailKeyValueText projectKey={'Created By'} projectValue={'User'}/>
+
+                {
+                    loading?
+                        (<LoadingText/>):
+                        (<TouchableOpacity onPress={() => navigation.navigate("Creator", {
+                                creator:creator})}>
+                            <ProjectDetailKeyValueText projectKey={'Created By'} projectValue={creator.firstName+' '+creator.lastName}/>
+                        </TouchableOpacity>)
+                }
                 <Divider width={20} color={'transparent'}/>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flexDirection: 'row'}}>

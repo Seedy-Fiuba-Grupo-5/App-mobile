@@ -3,6 +3,7 @@ import {URL_LOCAL_GATEWAY} from '@env'
 import User from "./User";
 import Project from "./Project";
 import Projects from "./Projects";
+import Creator from "./Creator";
 
 class ApiUser {
 
@@ -48,7 +49,7 @@ class ApiUser {
         const url = URL_LOCAL_GATEWAY + '/users/'+id;
         const response = await axios.get(url);
         const jsonData = response.data;
-        return new User(jsonData);
+        return new Creator(jsonData);
     }
 
     static async updateUser(id,token,firstName,lastName,email) {
