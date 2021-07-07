@@ -8,6 +8,7 @@ import UseAuth from "../../component/UseAuth";
 import ApiUser from "../../../model/ApiUser";
 import User from "../../../model/User";
 import CustomPrincipalHeader from "../../component/CustomPrincipalHeader";
+import {Icon} from "react-native-elements";
 
 const AccountScreen = ({navigation}) => {
     const {id} = UseAuth();
@@ -20,7 +21,6 @@ const AccountScreen = ({navigation}) => {
                     setUser(data);
                 })
                 .catch((error) => {
-                    console.log('Hola');
                     console.log(error);
                 });
         });
@@ -28,7 +28,20 @@ const AccountScreen = ({navigation}) => {
     },[navigation]);
     return (
         <View style={{flex: 1, alignContent: 'center'}}>
-            <CustomPrincipalHeader navigation={navigation} title={"Account"}/>
+            <CustomPrincipalHeader
+                navigation={navigation}
+                title={"Account"}
+                iconRight={
+                    <Icon
+                        name='edit'
+                        type='material'
+                        size={30}
+                        color='#fff'
+                        onPress={
+                            ()=>{navigation.navigate('EditAccount',{users:user})}
+                        }/>
+                }
+            />
             <View style={{flex: 2, alignItems: 'center'}}>
                 <AccountAvatar name={{firstName:user.firstName,lastName:user.lastName}}/>
             </View>
@@ -37,9 +50,6 @@ const AccountScreen = ({navigation}) => {
                                         lastName={user.lastName}
                                         email={user.email}/>
             </View>
-            <SeedyFiubaButton title={'Edit Information'}
-                              style={authStyle.secondButton}
-                              onPress={()=>{navigation.navigate('EditAccount',{users:user})}}/>
         </View>
     )
 }

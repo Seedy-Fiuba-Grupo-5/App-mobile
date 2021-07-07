@@ -38,6 +38,8 @@ const ProjectDetailScreen = ({navigation,route}) => {
             });
     }, []);
 
+    console.log(route.params.project);
+
     const amountCollected = collected(0, route.params.project.goal);
     return (
         <ScrollView>

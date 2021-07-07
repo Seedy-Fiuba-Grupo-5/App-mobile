@@ -28,7 +28,7 @@ const ProjectDetailHeader = ({params, navigation}) =>{
                         size={30}
                         color='#fff'
                         onPress={() => {
-                            console.log('edit');
+                            navigation.navigate('EditProject',{project:params.project})
                         }}/>):
                     (<Icon
                         name='favorite-border'

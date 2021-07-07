@@ -1,4 +1,13 @@
-import {Alert, Image, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {
+    Alert,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View
+} from "react-native";
 import React, {useState} from "react";
 import CreateProjectStyle from "../../Styles/CreateProjectStyleSheet";
 import {Formik} from "formik";
@@ -45,11 +54,13 @@ const NewProjectScreen = () => {
             token: jwt
         })
             .then((data) => {
+                console.log(data);
+                console.log('Listo');
                 Firebase.uploadImage(data.id, values.image).then((url) => {
                     ApiProject.updateProject(data.id, jwt, {image: url}).then((data) => {
+                        resetForm(actions);
                         setIsLoading(false);
                         showMessage('The Project Was Successfully Created');
-                        resetForm(actions);
                     });
                 });
             })
@@ -79,7 +90,6 @@ const NewProjectScreen = () => {
     const onConfirm = (date,props) => {
         props.setFieldValue('date',date);
         props.validateField('date');
-        console.log(props.errors.date);
         console.log(date);
         setDate(date);
         setShow(false);
@@ -101,7 +111,7 @@ const NewProjectScreen = () => {
         if ( mm < 10){
             mm = "0" + mm;
         }
-        return year+"-"+day+"-"+mm;
+        return year+"-"+mm+"-"+day;
     }
 
 
@@ -190,6 +200,7 @@ const NewProjectScreen = () => {
                                        label={'Description'}
                                        onChangeText={props.handleChange('description')}
                                        onBlur={props.handleBlur('description')}
+                                       multiline={true}
                                        errorMessage={props.touched.description && props.errors.description}
                                        leftIcon={<Icon name='article'
                                                        type='material'
