@@ -54,8 +54,6 @@ const NewProjectScreen = () => {
             token: jwt
         })
             .then((data) => {
-                console.log(data);
-                console.log('Listo');
                 Firebase.uploadImage(data.id, values.image).then((url) => {
                     ApiProject.updateProject(data.id, jwt, {image: url}).then((data) => {
                         resetForm(actions);
@@ -90,13 +88,11 @@ const NewProjectScreen = () => {
     const onConfirm = (date,props) => {
         props.setFieldValue('date',date);
         props.validateField('date');
-        console.log(date);
         setDate(date);
         setShow(false);
     };
 
     const onCancel = (date) => {
-        console.log(date);
         setDate(new Date());
         setShow(false);
     };
@@ -333,8 +329,6 @@ const NewProjectScreen = () => {
                                         selectImage().then((uri) => {
                                             props.setFieldValue('image',uri);
                                             props.validateField('image');
-                                            console.log(uri);
-                                            console.log("imagen")
                                         })}} style={{
                                         flexDirection:"row",
                                         paddingLeft:50

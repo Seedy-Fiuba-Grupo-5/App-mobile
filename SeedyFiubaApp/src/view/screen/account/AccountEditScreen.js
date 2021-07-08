@@ -7,15 +7,14 @@ import {Formik} from "formik";
 import * as Yup from "yup";
 import ApiUser from "../../../model/ApiUser";
 import UseAuth from "../../component/UseAuth";
-const EditAccountScreen = ({navigation,route}) => {
+const AccountEditScreen = ({navigation,route}) => {
     const {jwt,id} = UseAuth();
     const user = route.params.users;
-    console.log(user);
     const formRef = useRef();
     const updateUser = (values) => {
-        console.log(jwt);
         ApiUser.updateUser(id,jwt,values.firstName,values.lastName,values.email)
             .then((data) => {
+                route.params.updateUser(data);
                 Alert.alert('Information Edited');
             })
             .catch((error) => {
@@ -123,4 +122,4 @@ const EditAccountScreen = ({navigation,route}) => {
         </View>
     )
 }
-export default EditAccountScreen
+export default AccountEditScreen

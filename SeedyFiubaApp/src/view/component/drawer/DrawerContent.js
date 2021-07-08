@@ -2,11 +2,11 @@ import React, {useContext} from 'react';
 import {View} from "react-native";
 import {DrawerContentScrollView, DrawerItem} from "@react-navigation/drawer";
 import {Divider, Icon} from "react-native-elements";
-import drawerStyles from "../Styles/DrawerStyleSheet";
-import UseAuth from "./UseAuth";
+import drawerStyles from "../../Styles/DrawerStyleSheet";
+import UseAuth from "../UseAuth";
 
 const DrawerContent = (props) => {
-    const {signOut,signOutGoogle} = UseAuth();
+    const {signOut, signOutGoogle} = UseAuth();
     return (
         <View style={{flex: 1}}>
             <DrawerContentScrollView>
@@ -18,8 +18,11 @@ const DrawerContent = (props) => {
                               color={color}/>)
                     }
                     label={'Main'}
-                    onPress={()=>{props.navigation.navigate('Main')}}
+                    onPress={() => {
+                        props.navigation.navigate('Main')
+                    }}
                     labelStyle={drawerStyles.drawerText}/>
+
                 <DrawerItem
                     icon={({color, size}) => (
                         <Icon name='person-outline'
@@ -28,8 +31,11 @@ const DrawerContent = (props) => {
                               color={color}/>)
                     }
                     label={'Account'}
-                    onPress={()=>{props.navigation.navigate('Account')}}
+                    onPress={() => {
+                        props.navigation.navigate('Account')
+                    }}
                     labelStyle={drawerStyles.drawerText}/>
+
                 <DrawerItem
                     icon={({color, size}) => (
                         <Icon name='note-text-outline'
@@ -38,7 +44,9 @@ const DrawerContent = (props) => {
                               color={color}/>)
                     }
                     label={'My Projects'}
-                    onPress={()=>{props.navigation.navigate('AccountProjects')}}
+                    onPress={() => {
+                        props.navigation.navigate('AccountProjects')
+                    }}
                     labelStyle={drawerStyles.drawerText}/>
 
                 <DrawerItem
@@ -48,8 +56,22 @@ const DrawerContent = (props) => {
                               size={size}
                               color={color}/>)
                     }
-                    label={'New Project'}
-                    onPress={()=>{props.navigation.navigate('NewProject')}}
+                    label={'Create Project'}
+                    onPress={() => {
+                        props.navigation.navigate('NewProject')
+                    }}
+                    labelStyle={drawerStyles.drawerText}/>
+                <DrawerItem
+                    icon={({color, size}) => (
+                        <Icon name='favorite-outline'
+                              type='material'
+                              size={size}
+                              color={color}/>)
+                    }
+                    label={'Favorite Projects'}
+                    onPress={() => {
+                        console.log('Favorites');
+                    }}
                     labelStyle={drawerStyles.drawerText}/>
             </DrawerContentScrollView>
             <DrawerItem

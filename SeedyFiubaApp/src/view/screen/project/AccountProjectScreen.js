@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import ApiUser from "../../../model/ApiUser";
-import {ScrollView, View} from "react-native";
+import {ScrollView} from "react-native";
 import UseAuth from "../../component/UseAuth";
 import Loading from "../../component/Loading";
 import ProjectCard from "../../component/project/ProjectCard";
@@ -17,6 +17,8 @@ const AccountProjectScreen = ({navigation}) => {
                 setProjects(data.allProjects)
             })
             .catch((error) => {
+                setIsLoading(false);
+                console.log(error);
             });
     },[]);
 

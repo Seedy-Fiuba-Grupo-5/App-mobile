@@ -15,7 +15,6 @@ const LoginScreen = ({navigation}) => {
         signIn(values.email, values.password);
     }
     const signInGoogleHandler = (values, actions) => {
-        console.log('HOla');
         signInGoogle();
     }
     const signUpNavigator = () => {

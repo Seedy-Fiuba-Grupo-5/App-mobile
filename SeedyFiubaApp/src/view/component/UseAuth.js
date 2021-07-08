@@ -15,7 +15,6 @@ const UseAuth = () => {
             scopes:['profile','email']
         }
         Google.logInAsync(config).then((results) => {
-            console.log(results);
             if (results.type === 'success') {
                 setLoading(true);
                 ApiUser.login(results.user.email, results.user.id)

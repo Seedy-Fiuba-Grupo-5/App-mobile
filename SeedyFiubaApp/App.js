@@ -1,13 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import LoginScreen from "./src/view/screen/auth/LoginScreen";
 import RegisterScreen from "./src/view/screen/auth/RegisterScreen";
 import AuthContext from "./src/view/component/auth/AuthContext";
 import {createDrawerNavigator} from "@react-navigation/drawer";
-import DrawerContent from "./src/view/component/DrawerContent";
+import DrawerContent from "./src/view/component/drawer/DrawerContent";
 import AccountScreen from "./src/view/screen/account/AccountScreen";
-import EditAccountScreen from "./src/view/screen/account/EditAccountScreen";
+import AccountEditScreen from "./src/view/screen/account/AccountEditScreen";
 import ProjectDetailScreen from "./src/view/screen/project/ProjectDetailScreen";
 import ProjectScreen from "./src/view/screen/project/ProjectScreen";
 import AccountProjectScreen from "./src/view/screen/project/AccountProjectScreen";
@@ -24,7 +24,9 @@ const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
 
 const App = () => {
-    LogBox.ignoreLogs(['Setting a timer for a long period of time']);
+    LogBox.ignoreLogs([
+        'Setting a timer for a long period of time',
+        'Non-serializable values were found in the navigation state']);
     Firebase.init();
     const [jwt, setJWT] = useState(null);
     const [id, setId] = useState(null);
@@ -50,7 +52,7 @@ const App = () => {
                                               component={AccountScreen}/>
                         <accountDrawer.Screen
                             name ='EditAccount'
-                            component={EditAccountScreen}
+                            component={AccountEditScreen}
                             />
                         <accountDrawer.Screen
                             name ='AccountProjects'

@@ -17,6 +17,8 @@ const ProjectScreen = ({navigation}) => {
                 setProjects(data.allProjects)
             })
             .catch((error) => {
+                setIsLoading(false);
+                console.log(error);
             });
     }, []);
     return (
