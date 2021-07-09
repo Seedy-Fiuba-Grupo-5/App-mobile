@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import LoginScreen from "./src/view/screen/auth/LoginScreen";
@@ -13,11 +13,13 @@ import ProjectScreen from "./src/view/screen/project/ProjectScreen";
 import AccountProjectScreen from "./src/view/screen/project/AccountProjectScreen";
 import NewProjectScreen from "./src/view/screen/project/NewProjectScreen";
 import CustomPrincipalHeader from "./src/view/component/CustomPrincipalHeader";
-import {LogBox} from "react-native";
+import {Image, LogBox, Text, View} from "react-native";
 import Firebase from "./src/model/Firebase";
 import ProjectDetailHeader from "./src/view/component/project/ProjectDetailHeader";
 import CreatorScreen from "./src/view/screen/creator/CreatorScreen";
 import CreatorHeader from "./src/view/component/creator/CreatorHeader";
+import UserInformation from "./src/model/UserInformation";
+import {ActivityIndicator} from "react-native-paper";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
@@ -29,78 +31,110 @@ const App = () => {
     Firebase.init();
     const [jwt, setJWT] = useState(null);
     const [id, setId] = useState(null);
+    const [isLoading,setIsLoading] = useState(false);
+    useEffect(
+        ()=>{
+            setIsLoading(true);
+            UserInformation.getData('user')
+                .then((value)=> {
+                    setIsLoading(false);
+                    if (value) {
+                        setJWT(value.jwt);
+                        setId(value.id)
+                    }
+                })
+                .catch((error) => {
+                    setIsLoading(false);
+                    console.log(error);
+                })
+        },[]
+    )
     return (
         <AuthContext.Provider value={{jwt,id,setJWT,setId}}>
-            <NavigationContainer>
-                {(jwt !== null && id !== null) ? (
-                    <accountDrawer.Navigator
-                        drawerContent={ props=> <DrawerContent {...props}/>}
-                        screenOptions={{swipeEnabled:false}}>
-                        <accountDrawer.Screen
-                            name ='Main'
-                            component={ProjectScreen}
-                            options={{
-                                headerShown:true,
-                                header:({scene})=>{
-                                    return (<CustomPrincipalHeader
-                                        title={'SeedyFiuba'}
-                                        navigation={scene.descriptor.navigation}/>)}
-                            }}
-                        />
-                        <accountDrawer.Screen name ='Account'
-                                              component={AccountScreen}/>
-                        <accountDrawer.Screen
-                            name ='EditAccount'
-                            component={AccountEditScreen}
-                            />
-                        <accountDrawer.Screen
-                            name ='AccountProjects'
-                            component={AccountProjectScreen}
-                            options={{
-                                headerShown:true,
-                                header:({scene})=>{
-                                    return (<CustomPrincipalHeader
-                                        title={'My Projects'}
-                                        navigation={scene.descriptor.navigation}/>)}
-                            }}
-                        />
-                        <accountDrawer.Screen name ='Project'
-                                              component={ProjectDetailScreen}
-                                              options={{
-                                                  headerShown:false,
-                                                  header:({scene})=>{
-                                                      return (<ProjectDetailHeader
-                                                          params={scene.route.params}
-                                                          navigation={scene.descriptor.navigation}/>)}
-                                              }}/>
-                        <accountDrawer.Screen name ='Creator'
-                                              component={CreatorScreen}
-                                              options={{
-                                                  headerShown:true,
-                                                  header:({scene})=>{
-                                                      return (<CreatorHeader
-                                                          title={'Creator'}
-                                                          navigation={scene.descriptor.navigation}/>)}
-                                              }}/>
-                        <accountDrawer.Screen
-                            name ='NewProject'
-                            component={NewProjectScreen}
-                            options={{
-                                headerShown:true,
-                                header:({scene})=>{
-                                    return (<CustomPrincipalHeader
-                                        title={'New Project'}
-                                        navigation={scene.descriptor.navigation}/>)}
+            {
+                isLoading?
+                    (<View style={{paddingTop:200}}>
+                        <Image source={require('./src/view/images/logo.png')} style={{
+                            width: 110,
+                            height: 110,
+                            alignSelf: "center",
+                            margin: 10
                         }}/>
-                    </accountDrawer.Navigator>
-                ) : (
-                    <authStack.Navigator screenOptions={{headerShown: false}}>
-                        <authStack.Screen name='Login' component={LoginScreen}/>
-                        <authStack.Screen name='Register' component={RegisterScreen}/>
-                    </authStack.Navigator>
-                )
-                }
-            </NavigationContainer>
+                        <ActivityIndicator size="Large" color="#4b1e4d"/>
+                    </View>):
+                    (
+                        <NavigationContainer>
+                            {(jwt !== null && id !== null) ? (
+                                <accountDrawer.Navigator
+                                    drawerContent={ props=> <DrawerContent {...props}/>}
+                                    screenOptions={{swipeEnabled:false}}>
+                                    <accountDrawer.Screen
+                                        name ='Main'
+                                        component={ProjectScreen}
+                                        options={{
+                                            headerShown:true,
+                                            header:({scene})=>{
+                                                return (<CustomPrincipalHeader
+                                                    title={'SeedyFiuba'}
+                                                    navigation={scene.descriptor.navigation}/>)}
+                                        }}
+                                    />
+                                    <accountDrawer.Screen name ='Account'
+                                                          component={AccountScreen}/>
+                                    <accountDrawer.Screen
+                                        name ='EditAccount'
+                                        component={AccountEditScreen}
+                                    />
+                                    <accountDrawer.Screen
+                                        name ='AccountProjects'
+                                        component={AccountProjectScreen}
+                                        options={{
+                                            headerShown:true,
+                                            header:({scene})=>{
+                                                return (<CustomPrincipalHeader
+                                                    title={'My Projects'}
+                                                    navigation={scene.descriptor.navigation}/>)}
+                                        }}
+                                    />
+                                    <accountDrawer.Screen name ='Project'
+                                                          component={ProjectDetailScreen}
+                                                          options={{
+                                                              headerShown:false,
+                                                              header:({scene})=>{
+                                                                  return (<ProjectDetailHeader
+                                                                      params={scene.route.params}
+                                                                      navigation={scene.descriptor.navigation}/>)}
+                                                          }}/>
+                                    <accountDrawer.Screen name ='Creator'
+                                                          component={CreatorScreen}
+                                                          options={{
+                                                              headerShown:true,
+                                                              header:({scene})=>{
+                                                                  return (<CreatorHeader
+                                                                      title={'Creator'}
+                                                                      navigation={scene.descriptor.navigation}/>)}
+                                                          }}/>
+                                    <accountDrawer.Screen
+                                        name ='NewProject'
+                                        component={NewProjectScreen}
+                                        options={{
+                                            headerShown:true,
+                                            header:({scene})=>{
+                                                return (<CustomPrincipalHeader
+                                                    title={'New Project'}
+                                                    navigation={scene.descriptor.navigation}/>)}
+                                        }}/>
+                                </accountDrawer.Navigator>
+                            ) : (
+                                <authStack.Navigator screenOptions={{headerShown: false}}>
+                                    <authStack.Screen name='Login' component={LoginScreen}/>
+                                    <authStack.Screen name='Register' component={RegisterScreen}/>
+                                </authStack.Navigator>
+                            )
+                            }
+                        </NavigationContainer>
+                    )
+            }
         </AuthContext.Provider>
     )
 }

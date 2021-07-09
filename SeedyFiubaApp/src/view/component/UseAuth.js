@@ -4,6 +4,7 @@ import ApiUser from "../../model/ApiUser";
 import {Alert} from "react-native";
 import * as Google from "expo-google-app-auth";
 import {ANDROID_CLIENT} from '@env'
+import UserInformation from "../../model/UserInformation";
 
 const UseAuth = () => {
     const {jwt,id,setJWT,setId} = useContext(AuthContext);
@@ -33,6 +34,10 @@ const UseAuth = () => {
                                 .then((data) => {
                                     if (data) {
                                         setLoading(false);
+                                        UserInformation.setData('user',{
+                                            id:data.id,
+                                            jwt:data.token
+                                        }).then(data=>console.log(data)).catch(error=>console.log(error));
                                         setJWT(data.token);
                                         setId(data.id);
                                     }
@@ -73,6 +78,10 @@ const UseAuth = () => {
         ApiUser.login(email,password)
             .then((data) => {
                 setLoading(false);
+                UserInformation.setData('user',{
+                    id:data.id,
+                    jwt:data.token
+                }).then(data=>console.log(data)).catch(error=>console.log(error));
                 setJWT(data.token);
                 setId(data.id);
             })
@@ -95,7 +104,12 @@ const UseAuth = () => {
             });
     },[])
     const signOut = useCallback(() => {
+        UserInformation.setData('user',{
+            id:null,
+            jwt:null
+        }).then(data=>console.log(data)).catch(error=>console.log(error));
         setJWT(null);
+        setId(null);
     },[])
     const signUp = useCallback((firstName, lastName, email, password) => {
         setLoading(true);
@@ -103,6 +117,10 @@ const UseAuth = () => {
             .then((data) => {
                 if (data) {
                     setLoading(false);
+                    UserInformation.setData('user',{
+                        id:data.id,
+                        jwt:data.token
+                    }).then(data=>console.log(data)).catch(error=>console.log(error));
                     setJWT(data.token);
                     setId(data.id);
                 }
