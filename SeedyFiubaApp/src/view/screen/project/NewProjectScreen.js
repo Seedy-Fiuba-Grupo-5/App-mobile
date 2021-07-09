@@ -41,6 +41,7 @@ const NewProjectScreen = () => {
     }
 
     const createProjectHandler = (values,actions) => {
+        resetForm(actions);
         setIsLoading(true);
         ApiUser.createProject(id, {
             name: values.name,
@@ -56,7 +57,6 @@ const NewProjectScreen = () => {
             .then((data) => {
                 Firebase.uploadImage(data.id, values.image).then((url) => {
                     ApiProject.updateProject(data.id, jwt, {image: url}).then((data) => {
-                        resetForm(actions);
                         setIsLoading(false);
                         showMessage('The Project Was Successfully Created');
                     });

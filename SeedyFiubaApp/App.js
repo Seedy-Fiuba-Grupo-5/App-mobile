@@ -18,7 +18,6 @@ import Firebase from "./src/model/Firebase";
 import ProjectDetailHeader from "./src/view/component/project/ProjectDetailHeader";
 import CreatorScreen from "./src/view/screen/creator/CreatorScreen";
 import CreatorHeader from "./src/view/component/creator/CreatorHeader";
-import ProjectEditScreen from "./src/view/screen/project/ProjectEditScreen";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
@@ -68,14 +67,12 @@ const App = () => {
                         <accountDrawer.Screen name ='Project'
                                               component={ProjectDetailScreen}
                                               options={{
-                                                  headerShown:true,
+                                                  headerShown:false,
                                                   header:({scene})=>{
                                                       return (<ProjectDetailHeader
                                                           params={scene.route.params}
                                                           navigation={scene.descriptor.navigation}/>)}
                                               }}/>
-                        <accountDrawer.Screen name ='EditProject'
-                                              component={ProjectEditScreen}/>
                         <accountDrawer.Screen name ='Creator'
                                               component={CreatorScreen}
                                               options={{

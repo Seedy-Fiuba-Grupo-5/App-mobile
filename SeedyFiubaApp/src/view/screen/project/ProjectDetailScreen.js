@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {Divider, Icon, Image} from "react-native-elements";
-import {ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {Divider, Header, Icon, Image, Overlay} from "react-native-elements";
+import {Button, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import ProjectDetailStyleSheet from "../../Styles/ProjectDetailStyleSheet";
 import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";
 import ProjectCardStyleSheet from "../../Styles/ProjectCardStyleSheet";
@@ -9,10 +9,19 @@ import ProjectDetailKeyValueText from "../../component/project/ProjectDetailKeyV
 import Creator from "../../../model/Creator";
 import ApiUser from "../../../model/ApiUser";
 import LoadingText from "../../component/LoadingText";
+import {Modal, Portal, Provider} from "react-native-paper";
+import ProjectNameEditable from "../../component/project/ProjectNameEditable";
+import accountStyles from "../../Styles/AccountStyleSheet";
+import ProjectEdit from "../../component/project/ProjectEdit";
 
 const ProjectDetailScreen = ({navigation,route}) => {
     const [creator, setCreator] = useState(new Creator());
+    const [project, setProject] = useState(route.params.project);
     const [loading, setLoading] = useState(false);
+    const [visible, setVisible] = React.useState(false);
+    const showModal = () => setVisible(true);
+    const hideModal = () => setVisible(false);
+
     const defaultImage = (image) => {
         const images = ['not_found', 'nothing', undefined, null];
         return images.includes(image);
@@ -38,78 +47,124 @@ const ProjectDetailScreen = ({navigation,route}) => {
             });
     }, []);
 
+    useEffect(() => {
+        const payload = route.params.project;
+        if(payload.id === project.id) return;
+        setProject(payload);
+    })
+
     console.log(route.params.project);
 
-    const amountCollected = collected(0, route.params.project.goal);
+    const amountCollected = collected(0, project.goal);
     return (
-        <ScrollView>
-            <View style={{marginHorizontal: 20}}>
-                <Divider width={6} color={'transparent'}/>
-                {
-                    defaultImage(route.params.project.image) ?
-                        (<Image
-                            source={require('../../images/default.jpg')}
-                            style={ProjectDetailStyleSheet.ImageStyle}
-                            containerStyle={ProjectDetailStyleSheet.ImageContainerStyle}/>) :
-                        (<Image
-                            source={{uri: route.params.project.image}}
-                            style={ProjectDetailStyleSheet.ImageStyle}
-                            containerStyle={ProjectDetailStyleSheet.ImageContainerStyle}/>)
+        <>
+            <Header
+                leftComponent={
+                    <Icon
+                        name='arrow-back'
+                        type='material'
+                        size={30}
+                        color='#fff'
+                        onPress={() => {
+                            navigation.goBack();
+                        }}/>}
+                centerComponent={
+                    <Text
+                        style={accountStyles.text}>
+                        {project.name}
+                    </Text>}
+                rightComponent={
+                    route.params.editable?
+                        (<Icon
+                            name='edit'
+                            type='material'
+                            size={30}
+                            color='#fff'
+                            onPress={() => {
+                                showModal();
+                            }}/>):
+                        (<Icon
+                            name='favorite-border'
+                            type='material'
+                            size={30}
+                            color='#fff'
+                            onPress={() => {
+                                console.log('save');
+                            }}/>)
                 }
-                <Text style={{fontSize: 30}}>{route.params.project.name}</Text>
-
-                {
-                    loading?
-                        (<LoadingText/>):
-                        (<TouchableOpacity onPress={() => navigation.navigate("Creator", {
+                containerStyle={accountStyles.header}
+            />
+            <Overlay isVisible={visible} onBackdropPress={hideModal} overlayStyle={{height:400,width:300}}>
+                <ProjectEdit project={project} setProject={setProject}/>
+            </Overlay>
+            <ScrollView>
+                <View style={{marginHorizontal: 20}}>
+                    <Divider width={6} color={'transparent'}/>
+                    {
+                        defaultImage(project.image) ?
+                            (<Image
+                                source={require('../../images/default.jpg')}
+                                style={ProjectDetailStyleSheet.ImageStyle}
+                                containerStyle={ProjectDetailStyleSheet.ImageContainerStyle}/>) :
+                            (<Image
+                                source={{uri: project.image}}
+                                style={ProjectDetailStyleSheet.ImageStyle}
+                                containerStyle={ProjectDetailStyleSheet.ImageContainerStyle}/>)
+                    }
+                    <Text style={{fontSize: 30}}>{project.name}</Text>
+                    {
+                        loading?
+                            (<LoadingText/>):
+                            (<TouchableOpacity onPress={() => navigation.navigate("Creator", {
                                 creator:creator})}>
-                            <ProjectDetailKeyValueText projectKey={'Created By'} projectValue={creator.firstName+' '+creator.lastName}/>
-                        </TouchableOpacity>)
-                }
-                <Divider width={20} color={'transparent'}/>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <View style={{flexDirection: 'row'}}>
-                        <Icon name='explore'
-                              type='material'
-                              size={20}
-                              color='#85929d'/>
-                        <Text style={ProjectCardStyleSheet.secondText}>
-                            {route.params.project.type}
-                        </Text>
+                                <ProjectDetailKeyValueText projectKey={'Created By'} projectValue={creator.firstName+' '+creator.lastName}/>
+                            </TouchableOpacity>)
+                    }
+                    <Divider width={20} color={'transparent'}/>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Icon name='explore'
+                                  type='material'
+                                  size={20}
+                                  color='#85929d'/>
+                            <Text style={ProjectCardStyleSheet.secondText}>
+                                {project.type}
+                            </Text>
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Icon name='room'
+                                  type='material'
+                                  size={20}
+                                  color='#85929d'/>
+                            <Text style={ProjectCardStyleSheet.secondText}>
+                                {project.location}
+                            </Text>
+                        </View>
                     </View>
-                    <View style={{flexDirection: 'row'}}>
-                        <Icon name='room'
-                              type='material'
-                              size={20}
-                              color='#85929d'/>
-                        <Text style={ProjectCardStyleSheet.secondText}>
-                            {route.params.project.location}
-                        </Text>
+                    <Text style={ProjectDetailStyleSheet.hashtags}>
+                        {project.hashtags}
+                    </Text>
+                    <Divider width={20} color={'transparent'}/>
+                    <LinearProgress
+                        style={{height: 8}}
+                        value={amountCollected}
+                        color={'#4b1e4d'}
+                        variant={"determinate"}/>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <ProjectDetailKeyValueText projectKey={'Collected'} projectValue={'0$'}/>
+                        <ProjectDetailKeyValueText projectKey={'Goal'} projectValue={project.goal+'$'}/>
                     </View>
+                    <Divider width={20} color={'transparent'}/>
+                    <ProjectDetailKeyValueText projectKey={'Finish date'} projectValue={project.endDate}/>
+                    <Divider width={20} color={'transparent'}/>
+                    <Text style={{fontSize: 20}}>{project.description}</Text>
+                    <Divider width={20} color={'transparent'}/>
+                    <SeedyFiubaButton title='Support' onPress={() => {
+                        console.log('Support')
+                    }} style={ProjectDetailStyleSheet.button}/>
                 </View>
-                <Text style={ProjectDetailStyleSheet.hashtags}>
-                    {route.params.project.hashtags}
-                </Text>
-                <Divider width={20} color={'transparent'}/>
-                <LinearProgress
-                    style={{height: 8}}
-                    value={amountCollected}
-                    color={'#4b1e4d'}
-                    variant={"determinate"}/>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <ProjectDetailKeyValueText projectKey={'Collected'} projectValue={'0$'}/>
-                    <ProjectDetailKeyValueText projectKey={'Goal'} projectValue={route.params.project.goal+'$'}/>
-                </View>
-                <Divider width={20} color={'transparent'}/>
-                <ProjectDetailKeyValueText projectKey={'Finish date'} projectValue={route.params.project.endDate}/>
-                <Divider width={20} color={'transparent'}/>
-                <Text style={{fontSize: 20}}>{route.params.project.description}</Text>
-                <Divider width={20} color={'transparent'}/>
-                <SeedyFiubaButton title='Support' onPress={() => {
-                    console.log('Support')
-                }} style={ProjectDetailStyleSheet.button}/>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </>
     )
 }
 
