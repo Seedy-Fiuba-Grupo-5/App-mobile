@@ -9,8 +9,6 @@ import ProjectDetailKeyValueText from "../../component/project/ProjectDetailKeyV
 import Creator from "../../../model/Creator";
 import ApiUser from "../../../model/ApiUser";
 import LoadingText from "../../component/LoadingText";
-import {Modal, Portal, Provider} from "react-native-paper";
-import ProjectNameEditable from "../../component/project/ProjectNameEditable";
 import accountStyles from "../../Styles/AccountStyleSheet";
 import ProjectEdit from "../../component/project/ProjectEdit";
 
@@ -52,8 +50,6 @@ const ProjectDetailScreen = ({navigation,route}) => {
         if(payload.id === project.id) return;
         setProject(payload);
     })
-
-    console.log(route.params.project);
 
     const amountCollected = collected(0, project.goal);
     return (

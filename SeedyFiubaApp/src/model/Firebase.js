@@ -21,9 +21,9 @@ class Firebase {
     static async uploadImage(projectId, imageUri){
         const response = await fetch(imageUri);
         const blob = await response.blob();
-        const reference = firebase.storage().ref().child('users/' + projectId + '/temp/' + 'coverImage');
+        const reference = firebase.storage().ref().child('projects/' + projectId + '/images/' + 'principalImage');
         await reference.put(blob);
-        const url =  await firebase.storage().ref('users/' + projectId + '/temp/' + 'coverImage').getDownloadURL();
+        const url =  await firebase.storage().ref('projects/' + projectId + '/images/' + 'principalImage').getDownloadURL();
         return url.toString();
     }
 }
