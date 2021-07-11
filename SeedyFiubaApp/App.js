@@ -20,6 +20,8 @@ import CreatorScreen from "./src/view/screen/creator/CreatorScreen";
 import CreatorHeader from "./src/view/component/creator/CreatorHeader";
 import UserInformation from "./src/model/UserInformation";
 import {ActivityIndicator} from "react-native-paper";
+import {Icon} from "react-native-elements";
+import SearchProjectScreen from "./src/view/screen/project/SeacrhProjectScreen";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
@@ -76,9 +78,20 @@ const App = () => {
                                             header:({scene})=>{
                                                 return (<CustomPrincipalHeader
                                                     title={'SeedyFiuba'}
-                                                    navigation={scene.descriptor.navigation}/>)}
+                                                    navigation={scene.descriptor.navigation}
+                                                    iconRight={<Icon
+                                                        name='search'
+                                                        type='material'
+                                                        size={30}
+                                                        color='#fff'
+                                                        onPress={() => {
+                                                            scene.descriptor.navigation.navigate("Search");
+                                                        }}/>}
+                                                />)}
                                         }}
                                     />
+                                    <accountDrawer.Screen name ='Search'
+                                                          component={SearchProjectScreen}/>
                                     <accountDrawer.Screen name ='Account'
                                                           component={AccountScreen}/>
                                     <accountDrawer.Screen

@@ -4,6 +4,7 @@ import {FlatList, RefreshControl, ScrollView, TouchableOpacity} from "react-nati
 import UseAuth from "../../component/UseAuth";
 import Loading from "../../component/Loading";
 import ProjectCard from "../../component/project/ProjectCard";
+import {ListItem} from "react-native-elements";
 
 const AccountProjectScreen = ({navigation}) => {
     const [projects, setProjects] = useState([]);
@@ -22,14 +23,6 @@ const AccountProjectScreen = ({navigation}) => {
                 console.log(error);
             });
     },[]);
-
-    const renderItem = ({ item }) => (
-        <ProjectCard project={item} onPress={
-            () => navigation.navigate("Project", {
-                project: item,
-                editable: true,
-                user:id})} />
-    );
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         ApiUser.projects(id)
@@ -49,19 +42,30 @@ const AccountProjectScreen = ({navigation}) => {
                 isLoading ?
                     (<Loading customStyle={{paddingTop:0}}/>) :
                     (
-                        <FlatList
-                            keyExtractor={item => item.id.toString()}
+                        <ScrollView
                             refreshControl={
                                 <RefreshControl
                                     refreshing={refreshing}
                                     onRefresh={onRefresh}
                                     colors={['#4b1e4d']}
                                 />
-                            }
-                            data={projects}
-                            renderItem={renderItem}/>
-                    )
+                            }>
 
+                            {
+                                projects.map((project) => {
+                                    return (
+                                        <ProjectCard key={project.id} project={project}
+                                                     onPress={() => navigation.navigate("Project", {
+                                                         project: project,
+                                                         editable: true,
+                                                         user: id
+                                                     })
+                                                     }/>
+                                    )
+                                })
+                            }
+                        </ScrollView>
+                    )
             }
         </>
     )

@@ -1,5 +1,5 @@
 import {Card, Icon} from "react-native-elements";
-import {Text, TouchableOpacity, View} from "react-native";
+import {Image, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
 import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";
 import React from "react";
 import ProjectCardStyleSheet from "../../Styles/ProjectCardStyleSheet";
@@ -28,8 +28,13 @@ const ProjectCard = (props) => {
         <TouchableOpacity onPress={props.onPress}>
             <Card containerStyle={ProjectCardStyleSheet.projectCard}>
                 {defaultImage(props.project.image) ?
-                    (<Card.Image source={require('../../images/default.jpg')}/>) :
-                    (<Card.Image source={{uri: props.project.image}}/>)}
+                    (<Image
+                        source={require('../../images/default.jpg')}
+                        style={{width:300, height:150,  alignSelf: "center"}}
+                    />) :
+                    (<Image
+                        source={{uri: props.project.image}}
+                        style={{width:300, height:150, alignSelf: "center"}}/>)}
                 <Card.Title
                     style={ProjectCardStyleSheet.title}>
                     {props.project.name}

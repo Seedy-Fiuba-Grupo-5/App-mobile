@@ -5,9 +5,9 @@ import Project from "./Project";
 
 class ApiProject {
 
-    static async projects() {
+    static async projects(params) {
         const url = URL_LOCAL_GATEWAY + '/projects';
-        const response = await axios.get(url);
+        const response = await axios.get(url,{params:params});
         const jsonData = response.data;
         return new Projects(jsonData);
     }

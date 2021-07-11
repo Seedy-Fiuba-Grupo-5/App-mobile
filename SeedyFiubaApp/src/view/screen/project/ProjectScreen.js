@@ -23,16 +23,6 @@ const ProjectScreen = ({navigation}) => {
                 console.log(error);
             });
     }, []);
-
-    const renderItem = ({ item }) => (
-        <ProjectCard project={item}
-                     onPress={() => navigation.navigate("Project", {
-                         project: item,
-                         editable: false,
-                         user:id
-                     })
-                     }/>
-    );
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         ApiProject.projects()
@@ -51,21 +41,33 @@ const ProjectScreen = ({navigation}) => {
                 isLoading ?
                     (<Loading customStyle={{paddingTop:0}}/>) :
                     (
-                        <FlatList
-                            keyExtractor={item => item.id.toString()}
+                        <ScrollView
                             refreshControl={
                                 <RefreshControl
-                                    refreshing={refreshing}
-                                    onRefresh={onRefresh}
-                                    colors={['#4b1e4d']}
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                                colors={['#4b1e4d']}
                                 />
-                            }
-                            data={projects}
-                            renderItem={renderItem}/>
-                    )
+                        }>
 
+                            {
+                                projects.map((project) => {
+                                    return (
+                                        <ProjectCard key={project.id} project={project}
+                                                     onPress={() => navigation.navigate("Project", {
+                                                         project: project,
+                                                         editable: false,
+                                                         user: id
+                                                     })
+                                                     }/>
+                                    )
+                                })
+                            }
+                        </ScrollView>
+                    )
             }
         </>
     )
 }
+
 export default ProjectScreen
