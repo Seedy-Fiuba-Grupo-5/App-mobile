@@ -28,6 +28,7 @@ const NewProjectScreen = () => {
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
     const [image, setImage] = useState(null);
+    const [video, setVideo] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const {id,jwt} = UseAuth();
 
@@ -35,9 +36,28 @@ const NewProjectScreen = () => {
         Alert.alert(message)
     }
 
+    const isEmpty = (text) => {
+        return text === '' || text === null;
+    }
+
     const resetForm = (actions) =>{
         setImage(null);
+        setVideo(null);
         actions.resetForm();
+    }
+
+    const updateMedia = async (data,image,video) => {
+        let project = {};
+
+        if (!isEmpty(image)) {
+            project.image = await Firebase.uploadImage(data.id, image);
+        }
+
+        if (!isEmpty(video)) {
+            project.video = await Firebase.uploadVideo(data.id,video);
+        }
+
+        return project;
     }
 
     const createProjectHandler = (values,actions) => {
@@ -52,15 +72,17 @@ const NewProjectScreen = () => {
             endDate: formatDate(values.date),
             location: values.location,
             image: 'not_found',
+            video: 'not_found',
             token: jwt
         })
             .then((data) => {
-                Firebase.uploadImage(data.id, values.image).then((url) => {
-                    ApiProject.updateProject(data.id, jwt, {image: url}).then((data) => {
+                updateMedia(data,values.image, values.video).then((url)=>{
+                    console.log(url);
+                    ApiProject.updateProject(data.id, jwt, url).then((data) => {
                         setIsLoading(false);
                         showMessage('The Project Was Successfully Created');
                     });
-                });
+                })
             })
             .catch((error) => {
                 setIsLoading(false);
@@ -74,10 +96,19 @@ const NewProjectScreen = () => {
         setDate(currentDate);
     };
 
+    const selectVideo = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Videos
+        })
+        if (!result.cancelled){
+            setVideo(result.uri);
+            return result.uri;
+        }
+    }
+
     const selectImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-
+            mediaTypes: ImagePicker.MediaTypeOptions.Images
         })
         if (!result.cancelled){
             setImage(result.uri);
@@ -142,7 +173,8 @@ const NewProjectScreen = () => {
                             hashtags:'',
                             date: new Date(),
                             location: '',
-                            image:''
+                            image:'',
+                            video:''
                         }}
                         onSubmit={createProjectHandler}
                         validationSchema={Yup.object({
@@ -171,9 +203,8 @@ const NewProjectScreen = () => {
                             location: Yup.string()
                                 .min(3,'Invalid project location length')
                                 .required('Required'),
-                            image:Yup.string()
-                                .min(3,'Select Image')
-                                .required('Required')
+                            image:Yup.string(),
+                            video:Yup.string()
                         })}
                     >
                         {props => (
@@ -350,6 +381,40 @@ const NewProjectScreen = () => {
                                     </TouchableOpacity>
                                     <Text style={CreateProjectStyle.errorText}>
                                         {props.errors.image}
+                                    </Text>
+                                </View>
+
+                                <View>
+                                    <Text style={{color:'#85929d',
+                                        fontWeight:'bold',
+                                        paddingLeft:46,
+                                        paddingBottom:10,
+                                        fontSize:16}}>Video</Text>
+                                    <TouchableOpacity onPress={() => {
+                                        selectVideo().then((uri) => {
+                                            props.setFieldValue('video',uri);
+                                            props.validateField('video');
+                                        })}} style={{
+                                        flexDirection:"row",
+                                        paddingLeft:50
+                                    }}>
+                                        <Icon name='movie'
+                                              type='material'
+                                              size={20}
+                                              color='#BEBEBE'
+                                              style={{paddingTop:2}}/>
+                                        {
+                                            video != null ? (
+                                                    <Image
+                                                        source={{uri: video}}
+                                                        style={{width: 200, height: 200}}/>):
+                                                (<Text style={{color:'black',fontSize:18,paddingLeft:20}}>
+                                                    Video
+                                                </Text>)
+                                        }
+                                    </TouchableOpacity>
+                                    <Text style={CreateProjectStyle.errorText}>
+                                        {props.errors.video}
                                     </Text>
                                 </View>
 
