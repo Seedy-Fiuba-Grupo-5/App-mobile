@@ -5,7 +5,7 @@ import React from "react";
 const AccountWalletInformationCard = ({styles}) => {
 
     return (
-        <Card style={[{borderRadius: 15, elevation: 5, marginTop:10,marginBottom:10}, styles]}>
+        <Card style={[{borderRadius: 15, elevation: 5}, styles]}>
             <Card.Title  title="Wallet" titleStyle={{fontSize:25}}/>
             <Card.Content>
                 <View style={{padding:2}}>

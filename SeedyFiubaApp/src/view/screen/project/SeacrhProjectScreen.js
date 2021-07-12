@@ -1,4 +1,4 @@
-import {RefreshControl, SafeAreaView, ScrollView, Text, TextInput, View} from "react-native";
+import {Alert, RefreshControl, SafeAreaView, ScrollView, Text, TextInput, View} from "react-native";
 import React, {useEffect, useState} from 'react';
 import {Header, Icon, Overlay, SearchBar} from "react-native-elements";
 import accountStyles from "../../Styles/AccountStyleSheet";
@@ -40,6 +40,9 @@ const SearchProjectScreen = ({navigation}) =>{
             ApiProject.projects(params)
                 .then((data)=>{
                     setIsLoading(false);
+                    if (data.allProjects.length === 0) {
+                        Alert.alert('Not found projects');
+                    }
                     setProjects(data.allProjects);
                 })
                 .catch((error)=>{
