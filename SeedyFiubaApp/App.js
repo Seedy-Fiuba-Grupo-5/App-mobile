@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import LoginScreen from "./src/view/screen/auth/LoginScreen";
@@ -13,7 +13,7 @@ import ProjectScreen from "./src/view/screen/project/ProjectScreen";
 import AccountProjectScreen from "./src/view/screen/project/AccountProjectScreen";
 import NewProjectScreen from "./src/view/screen/project/NewProjectScreen";
 import CustomPrincipalHeader from "./src/view/component/CustomPrincipalHeader";
-import {Image, LogBox, Text, View} from "react-native";
+import {Image, LogBox, Platform, Text, View} from "react-native";
 import Firebase from "./src/model/Firebase";
 import ProjectDetailHeader from "./src/view/component/project/ProjectDetailHeader";
 import CreatorScreen from "./src/view/screen/creator/CreatorScreen";
@@ -22,15 +22,42 @@ import UserInformation from "./src/model/UserInformation";
 import {ActivityIndicator} from "react-native-paper";
 import {Icon} from "react-native-elements";
 import SearchProjectScreen from "./src/view/screen/project/SeacrhProjectScreen";
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
-
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+    }),
+});
 const App = () => {
     LogBox.ignoreLogs([
         'Setting a timer for a long period of time',
         'Non-serializable values were found in the navigation state']);
     Firebase.init();
+    const tokenRegister = async () => {
+        if (Constants.isDevice) {
+            const { status: existingStatus } = await Notifications.getPermissionsAsync();
+            let finalStatus = existingStatus;
+            if (existingStatus !== 'granted') {
+                const { status } = await Notifications.requestPermissionsAsync();
+                finalStatus = status;
+            }
+            if (finalStatus !== 'granted') {
+                alert('Failed to get push token for push notification!');
+                return;
+            }
+            const token = (await Notifications.getExpoPushTokenAsync()).data;
+            console.log(token);
+        } else {
+            alert('Must use physical device for Push Notifications');
+        }
+    };
+    //tokenRegister().then((data)=>{});
     const [jwt, setJWT] = useState(null);
     const [id, setId] = useState(null);
     const [isLoading,setIsLoading] = useState(false);
@@ -119,14 +146,7 @@ const App = () => {
                                                                       navigation={scene.descriptor.navigation}/>)}
                                                           }}/>
                                     <accountDrawer.Screen name ='Creator'
-                                                          component={CreatorScreen}
-                                                          options={{
-                                                              headerShown:true,
-                                                              header:({scene})=>{
-                                                                  return (<CreatorHeader
-                                                                      title={'Creator'}
-                                                                      navigation={scene.descriptor.navigation}/>)}
-                                                          }}/>
+                                                          component={CreatorScreen}/>
                                     <accountDrawer.Screen
                                         name ='NewProject'
                                         component={NewProjectScreen}

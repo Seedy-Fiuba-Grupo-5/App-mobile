@@ -16,8 +16,11 @@ const ProjectCardStyleSheet = StyleSheet.create({
         fontSize: 16
     },
     secondText:{
-        color: '#85929d',
-        fontSize: 16
+        color: '#687179',
+        fontSize: 18
+    },
+    subtitle:{
+
     }
 
 

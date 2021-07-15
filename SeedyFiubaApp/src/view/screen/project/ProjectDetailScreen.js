@@ -107,7 +107,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                 style={ProjectDetailStyleSheet.ImageStyle}
                                 containerStyle={ProjectDetailStyleSheet.ImageContainerStyle}/>)
                     }
-                    <Text style={{fontSize: 30}}>{project.name}</Text>
+                    <Text style={{fontSize: 34}}>{project.name}</Text>
                     {
                         loading?
                             (<LoadingText/>):
@@ -117,30 +117,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                             </TouchableOpacity>)
                     }
                     <Divider width={20} color={'transparent'}/>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <View style={{flexDirection: 'row'}}>
-                            <Icon name='explore'
-                                  type='material'
-                                  size={20}
-                                  color='#85929d'/>
-                            <Text style={ProjectCardStyleSheet.secondText}>
-                                {project.type}
-                            </Text>
-                        </View>
-                        <View style={{flexDirection: 'row'}}>
-                            <Icon name='room'
-                                  type='material'
-                                  size={20}
-                                  color='#85929d'/>
-                            <Text style={ProjectCardStyleSheet.secondText}>
-                                {project.location}
-                            </Text>
-                        </View>
-                    </View>
-                    <Text style={ProjectDetailStyleSheet.hashtags}>
-                        {project.hashtags}
-                    </Text>
-                    <Divider width={20} color={'transparent'}/>
+
                     <LinearProgress
                         style={{height: 8}}
                         value={amountCollected}
@@ -151,13 +128,48 @@ const ProjectDetailScreen = ({navigation,route}) => {
                         <ProjectDetailKeyValueText projectKey={'Goal'} projectValue={project.goal+'$'}/>
                     </View>
                     <Divider width={20} color={'transparent'}/>
-                    <ProjectDetailKeyValueText projectKey={'Finish date'} projectValue={project.endDate}/>
+                    <Text style={{fontSize:22}}>Description</Text>
+                    <Text style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>{project.description}</Text>
+                    <Text style={{fontSize:22}}>Hashtags</Text>
+                    <Text style={{fontSize: 18, color:'#4f555c'}}>{project.hashtags}</Text>
                     <Divider width={20} color={'transparent'}/>
-                    <Text style={{fontSize: 20}}>{project.description}</Text>
+                    <Text style={{fontSize:22}}>Finish Date</Text>
+                    <Text style={{fontSize: 18, color:'#4f555c'}}>{project.endDate}</Text>
                     <Divider width={20} color={'transparent'}/>
-                    <SeedyFiubaButton title='Support' onPress={() => {
-                        console.log('Support')
-                    }} style={ProjectDetailStyleSheet.button}/>
+                    <Text style={{fontSize:22}}>Features</Text>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Icon name='explore'
+                                  type='material'
+                                  size={20}
+                                  color='#4f555c'/>
+                            <Text style={ProjectCardStyleSheet.secondText}>
+                                {project.type}
+                            </Text>
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Icon name='room'
+                                  type='material'
+                                  size={20}
+                                  color='#4f555c'/>
+                            <Text style={ProjectCardStyleSheet.secondText}>
+                                {project.location}
+                            </Text>
+                        </View>
+                    </View>
+                    <Divider width={20} color={'transparent'}/>
+                    {
+                        route.params.editable?
+                            (<SeedyFiubaButton title='Add Seer' onPress={() => {
+                                console.log('Seer')
+                            }} style={ProjectDetailStyleSheet.button}/>):
+                            (<SeedyFiubaButton title='Support' onPress={() => {
+                                console.log('Support')
+                            }} style={ProjectDetailStyleSheet.button}/>)
+
+
+                    }
+
                 </View>
             </ScrollView>
         </>
