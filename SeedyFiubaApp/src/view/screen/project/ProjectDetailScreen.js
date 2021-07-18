@@ -7,17 +7,16 @@ import ProjectCardStyleSheet from "../../Styles/ProjectCardStyleSheet";
 import SeedyFiubaButton from "../../component/SeedyFiubaButton";
 import ProjectDetailKeyValueText from "../../component/project/ProjectDetailKeyValueText";
 import Creator from "../../../model/Creator";
-import ApiUser from "../../../model/ApiUser";
-import LoadingText from "../../component/LoadingText";
 import accountStyles from "../../Styles/AccountStyleSheet";
 import ProjectEdit from "../../component/project/ProjectEdit";
 import ApiProject from "../../../model/ApiProject";
 import UseAuth from "../../component/UseAuth";
 import Loading from "../../component/Loading";
+import Project from "../../../model/Project";
 
 const ProjectDetailScreen = ({navigation,route}) => {
     const [creator, setCreator] = useState(new Creator());
-    const [project, setProject] = useState(route.params.project);
+    const [project, setProject] = useState(new Project());
     const [loading, setLoading] = useState(false);
     const [visible, setVisible] = React.useState(false);
     const {jwt} = UseAuth();
@@ -25,7 +24,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const hideModal = () => setVisible(false);
 
     const defaultImage = (image) => {
-        const images = ['not_found', 'nothing', undefined, null];
+        const images = ['not_found', 'nothing', undefined, null, ""];
         return images.includes(image);
     }
     const collected = (amount, goal) => {
@@ -34,25 +33,30 @@ const ProjectDetailScreen = ({navigation,route}) => {
         }
         return amount / goal;
     }
-
-    useEffect(() => {
+    const getProject = (id) => {
         setLoading(true);
-        ApiUser.user(route.params.user)
+        ApiProject.project(id)
             .then((data) => {
+                console.log(data);
                 setLoading(false);
-                setCreator(data);
+                setCreator(data.user);
             })
             .catch((error) => {
                 setLoading(false);
                 setCreator(new Creator());
                 console.log(error);
             });
+    }
+
+    useEffect(() => {
+        getProject(route.params.project.id);
     }, []);
 
     useEffect(() => {
         const payload = route.params.project;
         if(payload.id === project.id) return;
         setProject(payload);
+        getProject(payload.id);
     })
 
     const amountCollected = collected(0, project.goal);

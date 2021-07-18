@@ -13,6 +13,7 @@ class Project{
             this.location = '';
             this.image = '';
             this.video = '';
+            this.user = new Creator();
         }else {
             this.id = project.id;
             this.name = project.name;
@@ -24,6 +25,7 @@ class Project{
             this.location = project.location;
             this.image = project.image;
             this.video = project.video;
+            this.user = new Creator(project.user);
         }
     }
 }

@@ -46,7 +46,7 @@ const AccountCarousel = (props,{items}) => {
             <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
-                scrollEventThrottle={100}
+                scrollEventThrottle={200}
                 decelerationRate="fast"
                 pagingEnabled
                 contentContainerStyle={{
