@@ -68,9 +68,33 @@ const DrawerContent = (props) => {
                               size={size}
                               color={color}/>)
                     }
-                    label={'Favorite Projects'}
+                    label={'Favorites Projects'}
                     onPress={() => {
                         console.log('Favorites');
+                    }}
+                    labelStyle={drawerStyles.drawerText}/>
+                <DrawerItem
+                    icon={({color, size}) => (
+                        <Icon name='bell-outline'
+                              type='material-community'
+                              size={size}
+                              color={color}/>)
+                    }
+                    label={'Notifications'}
+                    onPress={() => {
+                        console.log('notifications');
+                    }}
+                    labelStyle={drawerStyles.drawerText}/>
+                <DrawerItem
+                    icon={({color, size}) => (
+                        <Icon name='eye-outline'
+                              type='material-community'
+                              size={size}
+                              color={color}/>)
+                    }
+                    label={'Seer'}
+                    onPress={() => {
+                        props.navigation.navigate('SeerProjects')
                     }}
                     labelStyle={drawerStyles.drawerText}/>
             </DrawerContentScrollView>

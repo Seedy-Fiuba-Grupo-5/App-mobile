@@ -24,6 +24,7 @@ import {Icon} from "react-native-elements";
 import SearchProjectScreen from "./src/view/screen/project/SeacrhProjectScreen";
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
+import SeerProjectScreen from "./src/view/screen/project/SeerProjectScreen";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
@@ -133,6 +134,17 @@ const App = () => {
                                             header:({scene})=>{
                                                 return (<CustomPrincipalHeader
                                                     title={'My Projects'}
+                                                    navigation={scene.descriptor.navigation}/>)}
+                                        }}
+                                    />
+                                    <accountDrawer.Screen
+                                        name ='SeerProjects'
+                                        component={SeerProjectScreen}
+                                        options={{
+                                            headerShown:true,
+                                            header:({scene})=>{
+                                                return (<CustomPrincipalHeader
+                                                    title={'Seer'}
                                                     navigation={scene.descriptor.navigation}/>)}
                                         }}
                                     />

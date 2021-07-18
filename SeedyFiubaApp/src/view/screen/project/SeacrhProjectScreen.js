@@ -12,6 +12,7 @@ import ProjectCard from "../../component/project/ProjectCard";
 import UseAuth from "../../component/UseAuth";
 import Loading from "../../component/Loading";
 import FilterProjectsStyleSheet from "../../Styles/FilterProjectsStyleSheet";
+import SeedyFiubaEmpty from "../../component/SeedyFiubaEmpty";
 const SearchProjectScreen = ({navigation}) =>{
     const [text, setText] = useState('');
     const [visible, setVisible] = useState(false);
@@ -40,9 +41,6 @@ const SearchProjectScreen = ({navigation}) =>{
             ApiProject.projects(params)
                 .then((data)=>{
                     setIsLoading(false);
-                    if (data.allProjects.length === 0) {
-                        Alert.alert('Not found projects');
-                    }
                     setProjects(data.allProjects);
                 })
                 .catch((error)=>{
@@ -164,17 +162,20 @@ const SearchProjectScreen = ({navigation}) =>{
                     (
                         <ScrollView>
                             {
-                                projects.map((project) => {
-                                    return (
-                                        <ProjectCard key={project.id} project={project}
-                                                     onPress={() => navigation.navigate("Project", {
-                                                         project: project,
-                                                         editable: false,
-                                                         user: id
-                                                     })
-                                                     }/>
-                                    )
-                                })
+                                projects.length === 0?
+                                    (
+                                        <SeedyFiubaEmpty title={'Not Found Projects'}/>
+                                    ):(projects.map((project) => {
+                                        return (
+                                            <ProjectCard key={project.id} project={project}
+                                                         onPress={() => navigation.navigate("Project", {
+                                                             project: project,
+                                                             editable: false,
+                                                             user: id
+                                                         })
+                                                         }/>
+                                        )
+                                    }))
                             }
                         </ScrollView>
                     )

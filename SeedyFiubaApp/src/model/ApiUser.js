@@ -4,6 +4,7 @@ import User from "./User";
 import Project from "./Project";
 import Projects from "./Projects";
 import Creator from "./Creator";
+import Seer from "./Seer";
 
 class ApiUser {
 
@@ -62,6 +63,13 @@ class ApiUser {
         });
         const jsonData = response.data;
         return new User(jsonData);
+    }
+
+    static async seer(id) {
+        const url = URL_LOCAL_GATEWAY + '/seers/'+id;
+        const response = await axios.get(url);
+        const jsonData = response.data;
+        return new Seer(jsonData);
     }
 }
 export default ApiUser

@@ -19,7 +19,7 @@ const ProjectCard = (props) => {
         return end.diff(start, 'days');
     }
     const defaultImage = (image) => {
-        const images = ['not_found', 'nothing', undefined, null];
+        const images = ['not_found', 'nothing', undefined, null, ""];
         return images.includes(image);
     }
     const amountCollected = collected(0, props.project.goal);

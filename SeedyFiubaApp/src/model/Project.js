@@ -1,3 +1,5 @@
+import Creator from "./Creator";
+
 class Project{
     constructor(project=[]) {
         if (project.length === 0) {
@@ -10,6 +12,7 @@ class Project{
             this.endDate = '';
             this.location = '';
             this.image = '';
+            this.video = '';
         }else {
             this.id = project.id;
             this.name = project.name;
@@ -20,6 +23,7 @@ class Project{
             this.endDate = project.endDate;
             this.location = project.location;
             this.image = project.image;
+            this.video = project.video;
         }
     }
 }
