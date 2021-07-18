@@ -71,5 +71,12 @@ class ApiUser {
         const jsonData = response.data;
         return new Seer(jsonData);
     }
+
+    static async inviteSeer(projectId,id,token) {
+        const url = URL_LOCAL_GATEWAY + '/seers/'+id;
+        const response = await axios.post(url, {token:token, project_id:projectId});
+        const jsonData = response.data;
+        return new Seer(jsonData);
+    }
 }
 export default ApiUser

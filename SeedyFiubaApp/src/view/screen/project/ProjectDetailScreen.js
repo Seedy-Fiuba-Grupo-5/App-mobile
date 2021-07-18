@@ -13,15 +13,19 @@ import ApiProject from "../../../model/ApiProject";
 import UseAuth from "../../component/UseAuth";
 import Loading from "../../component/Loading";
 import Project from "../../../model/Project";
+import InviteSeer from "../../component/account/InviteSeer";
 
 const ProjectDetailScreen = ({navigation,route}) => {
     const [creator, setCreator] = useState(new Creator());
     const [project, setProject] = useState(new Project());
     const [loading, setLoading] = useState(false);
-    const [visible, setVisible] = React.useState(false);
+    const [visibleEdit, setVisibleEdit] = React.useState(false);
+    const [visibleSeer, setVisibleSeer] = React.useState(false);
     const {jwt} = UseAuth();
-    const showModal = () => setVisible(true);
-    const hideModal = () => setVisible(false);
+    const showModalEdit = () => setVisibleEdit(true);
+    const hideModalEdit = () => setVisibleEdit(false);
+    const showModalSeer = () => setVisibleSeer(true);
+    const hideModalSeer = () => setVisibleSeer(false);
 
     const defaultImage = (image) => {
         const images = ['not_found', 'nothing', undefined, null, ""];
@@ -85,7 +89,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                             size={30}
                             color='#fff'
                             onPress={() => {
-                                showModal();
+                                showModalEdit();
                             }}/>):
                         (<Icon
                             name='favorite-border'
@@ -98,8 +102,11 @@ const ProjectDetailScreen = ({navigation,route}) => {
                 }
                 containerStyle={accountStyles.header}
             />
-            <Overlay isVisible={visible} onBackdropPress={hideModal} overlayStyle={{height:400,width:300}}>
+            <Overlay isVisible={visibleEdit} onBackdropPress={hideModalEdit} overlayStyle={{height:400,width:300}}>
                 <ProjectEdit project={project} setProject={setProject}/>
+            </Overlay>
+            <Overlay isVisible={visibleSeer} onBackdropPress={hideModalSeer} overlayStyle={{height:200,width:300}}>
+                <InviteSeer project={project}/>
             </Overlay>
             {
                 loading?
@@ -170,7 +177,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                 {
                                     route.params.editable?
                                         (<SeedyFiubaButton title='Add Seer' onPress={() => {
-                                            console.log('Seer')
+                                            showModalSeer();
                                         }} style={ProjectDetailStyleSheet.button}/>):
                                         (<SeedyFiubaButton title='Support' onPress={() => {
                                             console.log('Support')
