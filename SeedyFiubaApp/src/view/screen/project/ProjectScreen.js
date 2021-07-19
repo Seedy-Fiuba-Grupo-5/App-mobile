@@ -9,7 +9,7 @@ import ApiUser from "../../../model/ApiUser";
 const ProjectScreen = ({navigation}) => {
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [refreshing, setRefreshing] = React.useState(false);
+    const [refreshing, setRefreshing] = useState(false);
     const {id} = UseAuth();
     useEffect(() => {
         setIsLoading(true);

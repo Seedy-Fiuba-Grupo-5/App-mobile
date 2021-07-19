@@ -36,7 +36,7 @@ const ProjectDetailHeader = ({params, navigation}) =>{
                         size={30}
                         color='#fff'
                         onPress={() => {
-                            console.log('save');
+                            console.log('Save');
                         }}/>)
             }
             containerStyle={accountStyles.header}

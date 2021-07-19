@@ -20,7 +20,7 @@ const CreatorMessage = () => {
                     initialValues={{
                         message:''
                     }}
-                    onSubmit={()=>{console.log('h')}}
+                    onSubmit={()=>{}}
                     validationSchema={Yup.object({
                         message: Yup.string()
                             .min(200, 'Invalid message length')

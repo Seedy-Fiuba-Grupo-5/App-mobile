@@ -41,7 +41,6 @@ const ProjectDetailScreen = ({navigation,route}) => {
         setLoading(true);
         ApiProject.project(id)
             .then((data) => {
-                console.log(data);
                 setLoading(false);
                 setCreator(data.user);
             })
@@ -97,7 +96,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                             size={30}
                             color='#fff'
                             onPress={() => {
-                                console.log('save');
+                                console.log('Save');
                             }}/>)
                 }
                 containerStyle={accountStyles.header}

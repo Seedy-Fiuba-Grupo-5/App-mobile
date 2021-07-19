@@ -40,25 +40,7 @@ const App = () => {
         'Setting a timer for a long period of time',
         'Non-serializable values were found in the navigation state']);
     Firebase.init();
-    const tokenRegister = async () => {
-        if (Constants.isDevice) {
-            const { status: existingStatus } = await Notifications.getPermissionsAsync();
-            let finalStatus = existingStatus;
-            if (existingStatus !== 'granted') {
-                const { status } = await Notifications.requestPermissionsAsync();
-                finalStatus = status;
-            }
-            if (finalStatus !== 'granted') {
-                alert('Failed to get push token for push notification!');
-                return;
-            }
-            const token = (await Notifications.getExpoPushTokenAsync()).data;
-            console.log(token);
-        } else {
-            alert('Must use physical device for Push Notifications');
-        }
-    };
-    //tokenRegister().then((data)=>{});
+
     const [jwt, setJWT] = useState(null);
     const [id, setId] = useState(null);
     const [isLoading,setIsLoading] = useState(false);

@@ -14,8 +14,6 @@ const InviteSeer = ({project}) => {
     const [isLoading, setIsLoading] = useState(false);
     const {jwt} = UseAuth();
     const inviteSeer = (values) => {
-        console.log(values);
-        console.log(project);
         setIsLoading(true);
         ApiUser.inviteSeer(project.id,values.id,jwt)
             .then((data) => {

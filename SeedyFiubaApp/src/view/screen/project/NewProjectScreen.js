@@ -77,7 +77,6 @@ const NewProjectScreen = () => {
         })
             .then((data) => {
                 updateMedia(data,values.image, values.video).then((url)=>{
-                    console.log(url);
                     ApiProject.updateProject(data.id, jwt, url).then((data) => {
                         setIsLoading(false);
                         showMessage('The Project Was Successfully Created');

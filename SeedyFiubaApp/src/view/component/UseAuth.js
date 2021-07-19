@@ -78,10 +78,10 @@ const UseAuth = () => {
         ApiUser.login(email,password)
             .then((data) => {
                 setLoading(false);
-                UserInformation.setData('user',{
-                    id:data.id,
-                    jwt:data.token
-                }).then(data=>console.log(data)).catch(error=>console.log(error));
+                UserInformation.setData('user', {
+                    id: data.id,
+                    jwt: data.token
+                }).then().catch();
                 setJWT(data.token);
                 setId(data.id);
             })
@@ -107,10 +107,10 @@ const UseAuth = () => {
         UserInformation.setData('user',{
             id:null,
             jwt:null
-        }).then(data=>console.log(data)).catch(error=>console.log(error));
+        }).then().catch();
         setJWT(null);
         setId(null);
-    },[])
+    },[]);
     const signUp = useCallback((firstName, lastName, email, password) => {
         setLoading(true);
         ApiUser.register(firstName, lastName, email, password)

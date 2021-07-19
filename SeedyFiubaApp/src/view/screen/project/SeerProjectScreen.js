@@ -17,7 +17,6 @@ const SeerProjectScreen = ({navigation}) => {
         ApiUser.seer(id)
             .then((data) => {
                 let allProjects = [];
-                console.log(data);
                 data.projects.forEach((value,index, values ) => {
                     if (value[1]) {
                         ApiProject.project(value[0])
