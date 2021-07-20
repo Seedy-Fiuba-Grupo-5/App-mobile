@@ -2,34 +2,28 @@ import React, {useCallback, useEffect, useState} from "react";
 import UseAuth from "../../component/UseAuth";
 import ApiUser from "../../../model/ApiUser";
 import Loading from "../../component/Loading";
-import {RefreshControl, ScrollView, Text} from "react-native";
-import ApiProject from "../../../model/ApiProject";
-import ProjectCard from "../../component/project/ProjectCard";
+import {RefreshControl, ScrollView} from "react-native";
 import SeedyFiubaEmpty from "../../component/SeedyFiubaEmpty";
+import SeerInvitation from "../../component/SeerInvitation";
+import SeerProject from "../../component/SeerProject";
 
 const SeerProjectScreen = ({navigation}) => {
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [refreshing, setRefreshing] = React.useState(false);
     const {id} = UseAuth();
+    const projectDetail = (project)=>{
+        navigation.navigate("Project",
+            {
+                project: project,
+                editable: false
+            })}
     const getProjects = (action) => {
         action(true);
         ApiUser.seer(id)
             .then((data) => {
-                let allProjects = [];
-                data.projects.forEach((value,index, values ) => {
-                    if (value[1]) {
-                        ApiProject.project(value[0])
-                            .then((data)=>{
-                                allProjects.push(data);
-                            })
-                            .catch((error)=>
-                            {
-                                console.log(error)});
-                    }
-                })
                 action(false);
-                setProjects(allProjects);
+                setProjects(data.projects);
             })
             .catch((error) => {
                 action(false);
@@ -62,16 +56,14 @@ const SeerProjectScreen = ({navigation}) => {
                                 projects.length === 0?
                                 (
                                     <SeedyFiubaEmpty title={'Without Projects'}/>
-                                ):(projects.map((project) => {
+                                ):(projects.map((project,index) => {
+                                    if (project[1]){
                                         return (
-                                            <ProjectCard key={project.id} project={project}
-                                                         onPress={() => navigation.navigate("Project", {
-                                                             project: project,
-                                                             editable: false,
-                                                             user: id
-                                                         })
-                                                         }/>
-                                        )
+                                            <SeerProject key={index} projectId={project[0]} onPress={projectDetail}/>
+                                            )
+                                    }else {
+                                        return <SeerInvitation key={index} projectId={project[0]}/>
+                                    }
                                     }))
 
                             }

@@ -137,7 +137,7 @@ const NewProjectScreen = () => {
         if ( mm < 10){
             mm = "0" + mm;
         }
-        return year+"-"+mm+"-"+day;
+        return day + "/" + mm + "/" + year;
     }
 
 

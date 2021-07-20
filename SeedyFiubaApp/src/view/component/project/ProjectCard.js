@@ -13,9 +13,9 @@ const ProjectCard = (props) => {
         return amount / goal;
     }
     const daysToEnd = (date) => {
-        const today = moment().format('YYYY-MM-DD');
-        let start = moment(today, "YYYY-MM-DD");
-        let end = moment(date, "YYYY-MM-DD");
+        const today = moment().format('DD/MM/YYYY');
+        let start = moment(today, "DD/MM/YYYY");
+        let end = moment(date, "DD/MM/YYYY");
         return end.diff(start, 'days');
     }
     const defaultImage = (image) => {

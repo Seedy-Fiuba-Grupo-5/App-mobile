@@ -14,6 +14,7 @@ class Project{
             this.image = '';
             this.video = '';
             this.user = new Creator();
+            this.startDate='';
         }else {
             this.id = project.id;
             this.name = project.name;
@@ -26,6 +27,7 @@ class Project{
             this.image = project.image;
             this.video = project.video;
             this.user = new Creator(project.user);
+            this.startDate = project.createdOn;
         }
     }
 }

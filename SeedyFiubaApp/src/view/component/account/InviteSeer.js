@@ -19,7 +19,7 @@ const InviteSeer = ({project}) => {
             .then((data) => {
                 setIsLoading(false);
                 console.log(data);
-                Alert.alert('d');
+                Alert.alert('User invited');
             })
             .catch((error) => {
                 setIsLoading(false);
