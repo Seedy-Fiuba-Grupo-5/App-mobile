@@ -68,9 +68,9 @@ const DrawerContent = (props) => {
                               size={size}
                               color={color}/>)
                     }
-                    label={'Favorites Projects'}
+                    label={'Favorite Projects'}
                     onPress={() => {
-                        console.log('Favorites');
+                        props.navigation.navigate('FavoriteProjects')
                     }}
                     labelStyle={drawerStyles.drawerText}/>
                 <DrawerItem

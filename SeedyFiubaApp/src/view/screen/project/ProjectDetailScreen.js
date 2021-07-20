@@ -14,6 +14,7 @@ import UseAuth from "../../component/UseAuth";
 import Loading from "../../component/Loading";
 import Project from "../../../model/Project";
 import InviteSeer from "../../component/account/InviteSeer";
+import ApiUser from "../../../model/ApiUser";
 
 const ProjectDetailScreen = ({navigation,route}) => {
     const [creator, setCreator] = useState(new Creator());
@@ -21,11 +22,22 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const [loading, setLoading] = useState(false);
     const [visibleEdit, setVisibleEdit] = React.useState(false);
     const [visibleSeer, setVisibleSeer] = React.useState(false);
-    const {jwt} = UseAuth();
+    const {id, jwt} = UseAuth();
     const showModalEdit = () => setVisibleEdit(true);
     const hideModalEdit = () => setVisibleEdit(false);
     const showModalSeer = () => setVisibleSeer(true);
     const hideModalSeer = () => setVisibleSeer(false);
+
+    const addProjectToFavorites = () => {
+        ApiUser.addProjectToFavorites(project.id, id, jwt)
+            .then((status) => {
+                console.log(status)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
 
     const defaultImage = (image) => {
         const images = ['not_found', 'nothing', undefined, null, ""];
@@ -96,7 +108,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                             size={30}
                             color='#fff'
                             onPress={() => {
-                                console.log('Save');
+                                addProjectToFavorites();
                             }}/>)
                 }
                 containerStyle={accountStyles.header}

@@ -25,6 +25,7 @@ import SearchProjectScreen from "./src/view/screen/project/SeacrhProjectScreen";
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import SeerProjectScreen from "./src/view/screen/project/SeerProjectScreen";
+import FavoriteProjectScreen from "./src/view/screen/account/FavoriteProjectsScreen";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
@@ -149,6 +150,16 @@ const App = () => {
                                             header:({scene})=>{
                                                 return (<CustomPrincipalHeader
                                                     title={'New Project'}
+                                                    navigation={scene.descriptor.navigation}/>)}
+                                        }}/>
+                                    <accountDrawer.Screen
+                                        name ='FavoriteProjects'
+                                        component={FavoriteProjectScreen}
+                                        options={{
+                                            headerShown:true,
+                                            header:({scene})=>{
+                                                return (<CustomPrincipalHeader
+                                                    title={'Favorite Projects'}
                                                     navigation={scene.descriptor.navigation}/>)}
                                         }}/>
                                 </accountDrawer.Navigator>

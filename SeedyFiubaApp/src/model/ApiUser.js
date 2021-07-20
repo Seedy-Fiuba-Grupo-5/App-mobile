@@ -35,7 +35,6 @@ class ApiUser {
         return new Projects(jsonData);
     }
 
-
     static async login(email,password) {
         const url = URL_LOCAL_GATEWAY + '/users/login';
         const response = await axios.post(url, {
@@ -99,6 +98,19 @@ class ApiUser {
         const response = await axios.post(url, {token:token, project_id:projectId});
         const jsonData = response.data;
         return new Seer(jsonData);
+    }
+
+    static async addProjectToFavorites(projectId, id, token) {
+        const url = URL_LOCAL_GATEWAY + '/users/'+id+'/favorites';
+        const response = await axios.post(url, {token:token, project_id:projectId});
+        //Falta ver bien que hacer con el valor de retorno.
+        return response.status;
+    }
+
+    static async favoriteProjects(id) {
+        const url = URL_LOCAL_GATEWAY + '/users/'+id+'/favorites';
+        const response = await axios.get(url);
+        return new Projects(response.data);
     }
 }
 export default ApiUser
