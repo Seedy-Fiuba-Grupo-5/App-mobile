@@ -35,19 +35,20 @@ const SearchProjectScreen = ({navigation}) =>{
     }
     const search = () => {
         const params = {};
+        params.name = text;
         if (!isEmpty(type)) {
             params.type = type;
-            setIsLoading(true);
-            ApiProject.projects(params)
-                .then((data)=>{
-                    setIsLoading(false);
-                    setProjects(data.allProjects);
-                })
-                .catch((error)=>{
-                    setIsLoading(false);
-                    console.log(error);
-                })
         }
+        setIsLoading(true);
+        ApiProject.projects(params)
+            .then((data)=>{
+                setIsLoading(false);
+                setProjects(data.allProjects);
+            })
+            .catch((error)=>{
+                setIsLoading(false);
+                console.log(error);
+            })
     }
     return(
         <>

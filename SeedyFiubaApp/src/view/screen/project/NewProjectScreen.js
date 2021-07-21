@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import React, {useState} from "react";
 import CreateProjectStyle from "../../Styles/CreateProjectStyleSheet";
-import {Formik} from "formik";
+import {Formik, isNaN} from "formik";
 import * as Yup from "yup";
 import {Icon, Input} from "react-native-elements";
 import SeedyFiubaButton from "../../component/SeedyFiubaButton";
@@ -63,19 +63,22 @@ const NewProjectScreen = () => {
     const createProjectHandler = (values,actions) => {
         resetForm(actions);
         setIsLoading(true);
+        let goalInfo = getGoal(values.goal);
         ApiUser.createProject(id, {
             name: values.name,
             description: values.description,
             hashtags: values.hashtags,
             type: values.type,
-            goal: parseInt(values.goal),
+            goal: goalInfo.goal,
             endDate: formatDate(values.date),
             location: values.location,
             image: 'not_found',
             video: 'not_found',
-            token: jwt
+            token: jwt,
+            stagesCost: goalInfo.stagesCost
         })
             .then((data) => {
+                console.log(data);
                 updateMedia(data,values.image, values.video).then((url)=>{
                     ApiProject.updateProject(data.id, jwt, url).then((data) => {
                         setIsLoading(false);
@@ -153,6 +156,35 @@ const NewProjectScreen = () => {
         return valid;
     }
 
+    const validGoal = (val) => {
+        let stages = String(val).split("-");
+        let valid = true;
+        for (let stage of stages) {
+            let fStage = parseFloat(stage);
+            if (isNaN(fStage)) {
+                valid = false;
+                break;
+            }
+            if (fStage>2){
+                valid = false;
+                break;
+            }
+        }
+        return valid;
+    }
+
+    const getGoal= (val) => {
+        let stages = String(val).split("-");
+        let goal = 0;
+        let stagesCost = [];
+        for (let stage of stages) {
+            let fStage = parseFloat(stage);
+            goal = goal + fStage;
+            stagesCost.push(fStage);
+        }
+        return {goal:goal, stagesCost:stagesCost};
+    }
+
     if (isLoading){
         return (
             <Loading customStyle={{paddingTop:0}}/>);
@@ -183,9 +215,10 @@ const NewProjectScreen = () => {
                             description: Yup.string()
                                 .min(3, 'Invalid project description length')
                                 .required('Required'),
-                            goal: Yup.number()
-                                .min(100,'Invalid project goal')
-                                .required('Required'),
+                            goal: Yup.string().test('',
+                                'Invalid project goal',(val) => {
+                                    return validGoal(val);
+                                }).required('Required'),
                             type: Yup.string().oneOf(["Art","Comics",
                                 "Crafts","Dance","Design","Fashion",
                                 "Film & Video","Food","Games","Journalism",

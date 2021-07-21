@@ -155,10 +155,12 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                     <ProjectDetailKeyValueText projectKey={'Goal'} projectValue={project.goal+'$'}/>
                                 </View>
                                 <Divider width={20} color={'transparent'}/>
-                                <Text style={{fontSize:22}}>Description</Text>
-                                <Text style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>{project.description}</Text>
-                                <Text style={{fontSize:22}}>Hashtags</Text>
-                                <Text style={{fontSize: 18, color:'#4f555c'}}>{project.hashtags}</Text>
+                                <Text key={0} style={{fontSize:22}}>Description</Text>
+                                <Text key={1} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>{project.description}</Text>
+                                <Text key={2} style={{fontSize:22}}>Hashtags</Text>
+                                <Text key={3} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>{project.hashtags}</Text>
+                                <Text key={4} style={{fontSize:22}}>Creation Date</Text>
+                                <Text key={5} style={{fontSize: 18, color:'#4f555c'}}>{project.createdOn}</Text>
                                 <Divider width={20} color={'transparent'}/>
                                 <Text style={{fontSize:22}}>Finish Date</Text>
                                 <Text style={{fontSize: 18, color:'#4f555c'}}>{project.endDate}</Text>
