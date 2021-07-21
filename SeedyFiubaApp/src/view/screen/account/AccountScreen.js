@@ -12,7 +12,7 @@ import AccountWalletInformationCard from "../../component/account/AccountWalletI
 import AccountCarousel from "../../component/account/AccountCarousel";
 
 const AccountScreen = ({navigation}) => {
-    const {id} = UseAuth();
+    const {id,jwt} = UseAuth();
     const [user,setUser] = useState(new User());
     const [isLoading, setIsLoading] = useState(true);
     const updateUser = (newUser) => {
@@ -20,8 +20,9 @@ const AccountScreen = ({navigation}) => {
     }
     useEffect(
         () => {
-            ApiUser.user(id)
+            ApiUser.user(id,jwt)
                 .then((data) => {
+                    console.log(data);
                     setIsLoading(false);
                     setUser(data);
                 })
@@ -58,7 +59,10 @@ const AccountScreen = ({navigation}) => {
                             firstName={user.firstName}
                             lastName={user.lastName}
                             email={user.email}/>
-                        <AccountWalletInformationCard/>
+                        <AccountWalletInformationCard
+                            address={user.address}
+                            balance={user.balance}
+                            privateAddress={user.privateKey}/>
                     </AccountCarousel>
 
                 </>

@@ -45,9 +45,9 @@ class ApiUser {
         return new User(jsonData);
     }
 
-    static async user(id) {
+    static async user(id,token) {
         const url = URL_LOCAL_GATEWAY + '/users/'+id;
-        const response = await axios.get(url);
+        const response = await axios.get(url, {params:{token:token}});
         const jsonData = response.data;
         return new Creator(jsonData);
     }
