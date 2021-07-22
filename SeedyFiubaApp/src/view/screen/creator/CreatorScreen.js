@@ -46,9 +46,6 @@ const CreatorScreen = ({navigation,route}) => {
                 <CreatorMessage/>
             </Overlay>
             <View style={{flex: 1, alignContent: 'center'}}>
-                <View style={{flex: 2, alignItems: 'center'}}>
-                    <AccountAvatar name={{firstName:creator.firstName,lastName:creator.lastName}}/>
-                </View>
                 <View style={{flex: 3,margin:20}}>
                     <AccountInformationCard firstName={creator.firstName}
                                             lastName={creator.lastName}

@@ -32,7 +32,7 @@ const AccountScreen = ({navigation}) => {
                 });
         },[]);
     return (
-        <View style={{flex: 1, alignContent: 'center'}}>
+        <View>
             <CustomPrincipalHeader
                 navigation={navigation}
                 title={"Account"}
@@ -47,26 +47,22 @@ const AccountScreen = ({navigation}) => {
                         }/>
                 }
             />
-            {isLoading ?
-                (<Loading customStyle={{paddingTop:0}}/>) :
-                (
-                <>
-                    <View style={{alignItems: 'center'}}>
-                        <AccountAvatar name={{firstName: user.firstName, lastName: user.lastName}}/>
-                    </View>
-                    <AccountCarousel items={1}>
-                        <AccountInformationCard
-                            firstName={user.firstName}
-                            lastName={user.lastName}
-                            email={user.email}/>
-                        <AccountWalletInformationCard
-                            address={user.address}
-                            balance={user.balance}
-                            privateAddress={user.privateKey}/>
-                    </AccountCarousel>
-
-                </>
-                )
+            {
+                isLoading ?
+                    (
+                        <Loading customStyle={{paddingTop: 0}}/>
+                    ) : (
+                        <AccountCarousel items={1}>
+                            <AccountInformationCard
+                                firstName={user.firstName}
+                                lastName={user.lastName}
+                                email={user.email}/>
+                            <AccountWalletInformationCard
+                                address={user.address}
+                                balance={user.balance}
+                                privateAddress={user.privateKey}/>
+                        </AccountCarousel>
+                    )
             }
         </View>
     )

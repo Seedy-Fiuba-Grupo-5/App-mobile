@@ -6,12 +6,6 @@ import ProjectCardStyleSheet from "../../Styles/ProjectCardStyleSheet";
 import moment from "moment";
 
 const ProjectCard = (props) => {
-    const collected = (amount, goal) => {
-        if (!amount || !goal) {
-            return 0;
-        }
-        return amount / goal;
-    }
     const daysToEnd = (date) => {
         const today = moment().format('DD/MM/YYYY');
         let start = moment(today, "DD/MM/YYYY");
@@ -22,7 +16,6 @@ const ProjectCard = (props) => {
         const images = ['not_found', 'nothing', undefined, null, ""];
         return images.includes(image);
     }
-    const amountCollected = collected(0, props.project.goal);
     const amountDays = daysToEnd(props.project.endDate);
     return (
         <TouchableOpacity onPress={props.onPress}>
@@ -42,18 +35,17 @@ const ProjectCard = (props) => {
                 <Card.FeaturedSubtitle numberOfLines={1} style={ProjectCardStyleSheet.description}>
                     {props.project.description}
                 </Card.FeaturedSubtitle>
-                <Card.Divider color={'white'}/>
-                <LinearProgress
-                    style={{height: 6}}
-                    value={amountCollected}
-                    color={'#4b1e4d'}
-                    variant={"determinate"}/>
-                <Card.Divider color={'white'}/>
+                <Card.Divider color={'#4b1e4d'}/>
                 <View style={{flexDirection: "row", justifyContent: 'space-between'}}>
-                    <Text style={ProjectCardStyleSheet.principalText}>
-                        {amountCollected * 100}% <Text style={ProjectCardStyleSheet.secondText}>
-                        Collected</Text>
-                    </Text>
+                    <View style={{flexDirection: "row", justifyContent: 'center'}}>
+                        <Icon name='explore'
+                              type='material'
+                              size={20}
+                              color='#85929d'/>
+                        <Text style={ProjectCardStyleSheet.secondText}>
+                            {props.project.type}
+                        </Text>
+                    </View>
                     <Text style={ProjectCardStyleSheet.principalText}>
                         {amountDays} <Text style={ProjectCardStyleSheet.secondText}>
                         Days to end</Text>
@@ -61,15 +53,7 @@ const ProjectCard = (props) => {
                 </View>
                 <Card.Divider color={'white'}/>
 
-                <View style={{flexDirection: "row", justifyContent: 'center'}}>
-                    <Icon name='explore'
-                          type='material'
-                          size={20}
-                          color='#85929d'/>
-                    <Text style={ProjectCardStyleSheet.secondText}>
-                        {props.project.type}
-                    </Text>
-                </View>
+
             </Card>
         </TouchableOpacity>
     )

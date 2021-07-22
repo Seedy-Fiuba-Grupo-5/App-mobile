@@ -9,16 +9,16 @@ const AccountWalletInformationCard = ({styles,address,privateAddress,balance}) =
             <Card.Title  title="Wallet" titleStyle={{fontSize:25}}/>
             <Card.Content>
                 <View style={{padding:2}}>
+                    <Text style={{fontSize: 20, color: 'grey'}}>Balance:</Text>
+                    <Text style={{fontSize: 35}}>{balance}</Text>
+                </View>
+                <View style={{padding:2}}>
                     <Text style={{fontSize: 20, color: 'grey'}}>Address:</Text>
-                    <Text style={{fontSize: 22}}>{address}</Text>
+                    <Text style={{fontSize: 20}}>{address}</Text>
                 </View>
                 <View style={{padding:2}}>
                     <Text style={{fontSize: 20, color: 'grey'}}>Private Address:</Text>
-                    <Text style={{fontSize: 22}}>{privateAddress}</Text>
-                </View>
-                <View style={{padding:2}}>
-                    <Text style={{fontSize: 20, color: 'grey'}}>Balance:</Text>
-                    <Text style={{fontSize: 22}}>{balance}</Text>
+                    <Text style={{fontSize: 20}}>{privateAddress}</Text>
                 </View>
             </Card.Content>
         </Card>

@@ -15,10 +15,12 @@ import Loading from "../../component/Loading";
 import Project from "../../../model/Project";
 import InviteSeer from "../../component/account/InviteSeer";
 import ApiUser from "../../../model/ApiUser";
+import Payment from "../../../model/Payment";
 
 const ProjectDetailScreen = ({navigation,route}) => {
     const [creator, setCreator] = useState(new Creator());
     const [project, setProject] = useState(new Project());
+    const [payment, setPayment] = useState(new Payment());
     const [loading, setLoading] = useState(false);
     const [visibleEdit, setVisibleEdit] = React.useState(false);
     const [visibleSeer, setVisibleSeer] = React.useState(false);
@@ -43,6 +45,11 @@ const ProjectDetailScreen = ({navigation,route}) => {
         const images = ['not_found', 'nothing', undefined, null, ""];
         return images.includes(image);
     }
+    const goal = (stageCost) => {
+        let goal = 0;
+        stageCost.forEach((value, index, values)=>{ goal = goal + value});
+        return goal;
+    }
     const collected = (amount, goal) => {
         if (!amount || !goal) {
             return 0;
@@ -53,12 +60,15 @@ const ProjectDetailScreen = ({navigation,route}) => {
         setLoading(true);
         ApiProject.project(id)
             .then((data) => {
+                console.log(data);
                 setLoading(false);
                 setCreator(data.user);
+                setPayment(data.payments);
             })
             .catch((error) => {
                 setLoading(false);
                 setCreator(new Creator());
+                setPayment(new Payment())
                 console.log(error);
             });
     }
@@ -73,8 +83,9 @@ const ProjectDetailScreen = ({navigation,route}) => {
         setProject(payload);
         getProject(payload.id);
     })
-
-    const amountCollected = collected(0, project.goal);
+    const amountGoal = goal(payment.stagesCost);
+    const amountCollected = collected(0, amountGoal);
+    console.log(amountCollected);
     return (
         <>
             <Header
@@ -151,8 +162,8 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                     color={'#4b1e4d'}
                                     variant={"determinate"}/>
                                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <ProjectDetailKeyValueText projectKey={'Collected'} projectValue={'0$'}/>
-                                    <ProjectDetailKeyValueText projectKey={'Goal'} projectValue={project.goal+'$'}/>
+                                    <ProjectDetailKeyValueText projectKey={'Collected'} projectValue={amountCollected+'$'}/>
+                                    <ProjectDetailKeyValueText projectKey={'Goal'} projectValue={amountGoal+'$'}/>
                                 </View>
                                 <Divider width={20} color={'transparent'}/>
                                 <Text key={0} style={{fontSize:22}}>Description</Text>

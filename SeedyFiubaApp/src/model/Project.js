@@ -1,4 +1,5 @@
 import Creator from "./Creator";
+import Payment from "./Payment";
 
 class Project{
     constructor(project=[]) {
@@ -14,6 +15,7 @@ class Project{
             this.image = '';
             this.video = '';
             this.user = new Creator();
+            this.payments = new Payment();
             this.createdOn='';
         }else {
             this.id = project.id;
@@ -27,6 +29,7 @@ class Project{
             this.image = project.image;
             this.video = project.video;
             this.user = new Creator(project.user);
+            this.payments = new Payment(project.payments);
             this.createdOn = project.createdOn;
         }
     }

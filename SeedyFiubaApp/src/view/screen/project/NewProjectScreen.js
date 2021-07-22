@@ -74,6 +74,7 @@ const NewProjectScreen = () => {
             location: values.location,
             image: 'not_found',
             video: 'not_found',
+            path: 'not_found',
             token: jwt,
             stagesCost: goalInfo.stagesCost
         })
