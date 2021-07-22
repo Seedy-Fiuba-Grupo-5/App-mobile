@@ -9,12 +9,30 @@ const NotificationsScreen = ({navigation}) => {
     const [notifications, setNotifications ] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [refreshing, setRefreshing] = React.useState(false);
-    const {id} = UseAuth();
+    const {id, jwt} = UseAuth();
     useEffect(() => {
+        ApiUser.getMessages(id, jwt)
+            .then((data) => {
+                setIsLoading(false);
+                setNotifications(data.allMessages);
+            })
+            .catch((error) => {
+                setIsLoading(false);
+                console.log(error);
+            });
         setIsLoading(true);
         setIsLoading(false);
     },[]);
     const onRefresh = useCallback(() => {
+        ApiUser.getMessages(id, jwt)
+            .then((data) => {
+                setIsLoading(false);
+                setNotifications(data.allMessages);
+            })
+            .catch((error) => {
+                setIsLoading(false);
+                console.log(error);
+            });
         setRefreshing(true);
         setRefreshing(false);
     }, []);
@@ -36,7 +54,7 @@ const NotificationsScreen = ({navigation}) => {
                             {
                                 notifications.map((notification) => {
                                     return (
-                                        <Text>Hola</Text>
+                                        <Text>{notification.text}</Text>
                                     )
                                 })
                             }

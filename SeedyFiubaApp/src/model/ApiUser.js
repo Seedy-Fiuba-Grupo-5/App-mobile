@@ -5,6 +5,7 @@ import Project from "./Project";
 import Projects from "./Projects";
 import Creator from "./Creator";
 import Seer from "./Seer";
+import Messages from "./Messages";
 
 class ApiUser {
 
@@ -117,6 +118,12 @@ class ApiUser {
         const url = URL_LOCAL_GATEWAY + '/messages/'+receiverId;
         const response = await axios.post(url, {token:token , id_1:id, message: message});
         return response.status;
+    }
+
+    static async getMessages(id, token) {
+        const url = URL_LOCAL_GATEWAY + '/messages/'+id+"?token="+token;
+        const response = await axios.get(url);
+        return new Messages(response.data[0]);
     }
 }
 export default ApiUser
