@@ -112,5 +112,11 @@ class ApiUser {
         const response = await axios.get(url);
         return new Projects(response.data);
     }
+
+    static async sendMessage(id, token, message, receiverId) {
+        const url = URL_LOCAL_GATEWAY + '/messages/'+receiverId;
+        const response = await axios.post(url, {token:token , id_1:id, message: message});
+        return response.status;
+    }
 }
 export default ApiUser

@@ -7,9 +7,21 @@ import LoadingText from "../LoadingText";
 import SeedyFiubaButton from "../SeedyFiubaButton";
 import ProjectEditStyleSheet from "../../Styles/ProjectEditStyleSheet";
 import React, {useState} from "react";
+import UseAuth from "../UseAuth";
+import ApiUser from "../../../model/ApiUser";
 
-const CreatorMessage = () => {
+const CreatorMessage = ({creatorId}) => {
     const [isLoading, setIsLoading] = useState(false);
+    const {id, jwt} = UseAuth();
+    const sendMessage = (message) => {
+        ApiUser.sendMessage(id, jwt, message, creatorId)
+            .then((status) => {
+                console.log(status)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
     return(
         <ScrollView keyboardShouldPersistTaps='handled'>
             <KeyboardAvoidingView
@@ -23,7 +35,7 @@ const CreatorMessage = () => {
                     onSubmit={()=>{}}
                     validationSchema={Yup.object({
                         message: Yup.string()
-                            .min(200, 'Invalid message length')
+                            .min(1, 'Invalid message length')
                             .required('Required')
                     })}
                 >
@@ -48,7 +60,7 @@ const CreatorMessage = () => {
                                     (<LoadingText/>):
                                     (<SeedyFiubaButton
                                         title='Send'
-                                        onPress={props.handleSubmit}
+                                        onPress={() => {sendMessage(props.values.message);}}
                                         style={ProjectEditStyleSheet.button}
                                         titleStyle={ProjectEditStyleSheet.title}
                                     />)

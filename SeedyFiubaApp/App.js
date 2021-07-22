@@ -26,6 +26,7 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import SeerProjectScreen from "./src/view/screen/project/SeerProjectScreen";
 import FavoriteProjectScreen from "./src/view/screen/project/FavoriteProjectsScreen";
+import NotificationsScreen from "./src/view/screen/account/NotificationsScreen";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
@@ -128,6 +129,17 @@ const App = () => {
                                             header:({scene})=>{
                                                 return (<CustomPrincipalHeader
                                                     title={'Seer'}
+                                                    navigation={scene.descriptor.navigation}/>)}
+                                        }}
+                                    />
+                                    <accountDrawer.Screen
+                                        name ='NotificationsScreen'
+                                        component={NotificationsScreen}
+                                        options={{
+                                            headerShown:true,
+                                            header:({scene})=>{
+                                                return (<CustomPrincipalHeader
+                                                    title={'Notifications Screen'}
                                                     navigation={scene.descriptor.navigation}/>)}
                                         }}
                                     />

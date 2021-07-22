@@ -12,7 +12,6 @@ const FavoriteProjectScreen = ({navigation}) => {
     const [refreshing, setRefreshing] = useState(false);
     const {id} = UseAuth();
     useEffect(() => {
-        console.log("Holita")
         setIsLoading(true);
         ApiUser.favoriteProjects(id)
             .then((data) => {

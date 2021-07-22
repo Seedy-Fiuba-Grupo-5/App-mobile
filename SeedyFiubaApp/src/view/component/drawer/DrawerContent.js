@@ -82,7 +82,7 @@ const DrawerContent = (props) => {
                     }
                     label={'Notifications'}
                     onPress={() => {
-                        console.log('Notifications');
+                        props.navigation.navigate('NotificationsScreen');
                     }}
                     labelStyle={drawerStyles.drawerText}/>
                 <DrawerItem
