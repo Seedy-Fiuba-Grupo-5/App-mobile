@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {ScrollView, View} from "react-native";
+import React, {useCallback, useEffect, useState} from "react";
+import {RefreshControl, ScrollView, Text, View} from "react-native";
 import AccountInformationCard from "../../component/account/AccountInformationCard";
 import AccountAvatar from "../../component/account/AccountAvatar";
 import UseAuth from "../../component/UseAuth";
@@ -10,11 +10,13 @@ import {Icon} from "react-native-elements";
 import Loading from "../../component/Loading";
 import AccountWalletInformationCard from "../../component/account/AccountWalletInformationCard";
 import AccountCarousel from "../../component/account/AccountCarousel";
+import ProjectCard from "../../component/project/ProjectCard";
 
 const AccountScreen = ({navigation}) => {
     const {id,jwt} = UseAuth();
     const [user,setUser] = useState(new User());
     const [isLoading, setIsLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
     const updateUser = (newUser) => {
         setUser(newUser);
     }
@@ -22,7 +24,6 @@ const AccountScreen = ({navigation}) => {
         () => {
             ApiUser.user(id,jwt)
                 .then((data) => {
-                    console.log(data);
                     setIsLoading(false);
                     setUser(data);
                 })
@@ -31,6 +32,19 @@ const AccountScreen = ({navigation}) => {
                     console.log(error);
                 });
         },[]);
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        ApiUser.user(id,jwt)
+            .then((data) => {
+                setRefreshing(false);
+                setUser(data);
+            })
+            .catch((error) => {
+                setRefreshing(false);
+                console.log(error);
+            });
+
+    }, []);
     return (
         <View>
             <CustomPrincipalHeader
@@ -52,16 +66,25 @@ const AccountScreen = ({navigation}) => {
                     (
                         <Loading customStyle={{paddingTop: 0}}/>
                     ) : (
-                        <AccountCarousel items={1}>
-                            <AccountInformationCard
-                                firstName={user.firstName}
-                                lastName={user.lastName}
-                                email={user.email}/>
-                            <AccountWalletInformationCard
-                                address={user.address}
-                                balance={user.balance}
-                                privateAddress={user.privateKey}/>
-                        </AccountCarousel>
+                        <ScrollView
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={onRefresh}
+                                    colors={['#4b1e4d']}
+                                />
+                            }>
+                            <AccountCarousel items={1}>
+                                <AccountInformationCard
+                                    firstName={user.firstName}
+                                    lastName={user.lastName}
+                                    email={user.email}/>
+                                <AccountWalletInformationCard
+                                    address={user.address}
+                                    balance={user.balance}
+                                    privateAddress={user.privateKey}/>
+                            </AccountCarousel>
+                        </ScrollView>
                     )
             }
         </View>

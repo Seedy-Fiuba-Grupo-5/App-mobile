@@ -178,6 +178,7 @@ const SearchProjectScreen = ({navigation}) =>{
                                         )
                                     }))
                             }
+                            <Text/>
                         </ScrollView>
                     )
             }

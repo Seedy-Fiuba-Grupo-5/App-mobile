@@ -25,7 +25,7 @@ import SearchProjectScreen from "./src/view/screen/project/SeacrhProjectScreen";
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import SeerProjectScreen from "./src/view/screen/project/SeerProjectScreen";
-import FavoriteProjectScreen from "./src/view/screen/account/FavoriteProjectsScreen";
+import FavoriteProjectScreen from "./src/view/screen/project/FavoriteProjectsScreen";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();

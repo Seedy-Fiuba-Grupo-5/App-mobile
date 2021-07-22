@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import ApiProject from "../../../model/ApiProject";
-import {FlatList, RefreshControl, ScrollView, View} from "react-native";
+import {FlatList, RefreshControl, ScrollView, Text, View} from "react-native";
 import Loading from "../../component/Loading";
 import ProjectCard from "../../component/project/ProjectCard";
 import UseAuth from "../../component/UseAuth";
@@ -64,6 +64,7 @@ const FavoriteProjectScreen = ({navigation}) => {
                                     )
                                 })
                             }
+                            <Text/>
                         </ScrollView>
                     )
             }

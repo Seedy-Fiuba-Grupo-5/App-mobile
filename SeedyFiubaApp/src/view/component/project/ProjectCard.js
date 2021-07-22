@@ -41,6 +41,7 @@ const ProjectCard = (props) => {
                         <Icon name='explore'
                               type='material'
                               size={20}
+                              containerStyle={{paddingTop:2, paddingRight:2}}
                               color='#85929d'/>
                         <Text style={ProjectCardStyleSheet.secondText}>
                             {props.project.type}

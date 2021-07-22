@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import ApiUser from "../../../model/ApiUser";
-import {FlatList, RefreshControl, ScrollView, TouchableOpacity} from "react-native";
+import {FlatList, RefreshControl, ScrollView, Text, TouchableOpacity} from "react-native";
 import UseAuth from "../../component/UseAuth";
 import Loading from "../../component/Loading";
 import ProjectCard from "../../component/project/ProjectCard";
@@ -64,6 +64,7 @@ const AccountProjectScreen = ({navigation}) => {
                                     )
                                 })
                             }
+                            <Text/>
                         </ScrollView>
                     )
             }

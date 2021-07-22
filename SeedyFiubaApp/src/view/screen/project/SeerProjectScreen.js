@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import UseAuth from "../../component/UseAuth";
 import ApiUser from "../../../model/ApiUser";
 import Loading from "../../component/Loading";
-import {RefreshControl, ScrollView} from "react-native";
+import {RefreshControl, ScrollView, Text} from "react-native";
 import SeedyFiubaEmpty from "../../component/SeedyFiubaEmpty";
 import SeerInvitation from "../../component/SeerInvitation";
 import SeerProject from "../../component/SeerProject";
@@ -67,6 +67,7 @@ const SeerProjectScreen = ({navigation}) => {
                                     }))
 
                             }
+                            <Text/>
                         </ScrollView>
                     )
             }
