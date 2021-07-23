@@ -13,6 +13,7 @@ import ApiUser from "../../../model/ApiUser";
 const CreatorMessage = ({creatorId}) => {
     const [isLoading, setIsLoading] = useState(false);
     const {id, jwt} = UseAuth();
+
     const sendMessage = (message) => {
         ApiUser.sendMessage(id, jwt, message, creatorId)
             .then((status) => {

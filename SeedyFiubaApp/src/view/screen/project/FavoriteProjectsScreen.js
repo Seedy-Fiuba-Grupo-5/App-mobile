@@ -11,6 +11,7 @@ const FavoriteProjectScreen = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const {id} = UseAuth();
+
     useEffect(() => {
         setIsLoading(true);
         ApiUser.favoriteProjects(id)
@@ -23,6 +24,7 @@ const FavoriteProjectScreen = ({navigation}) => {
                 console.log(error);
             });
     }, []);
+
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         ApiUser.favoriteProjects(id)
@@ -35,6 +37,7 @@ const FavoriteProjectScreen = ({navigation}) => {
                 console.log(error);
             });
     }, []);
+
     return (
         <>
             {
