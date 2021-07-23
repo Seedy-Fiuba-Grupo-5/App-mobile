@@ -10,7 +10,7 @@ import React, {useState} from "react";
 import UseAuth from "../UseAuth";
 import ApiUser from "../../../model/ApiUser";
 
-const CreatorMessage = ({creatorId}) => {
+const CreatorMessage = ({creatorId, close}) => {
     const [isLoading, setIsLoading] = useState(false);
     const {id, jwt} = UseAuth();
 
@@ -61,7 +61,10 @@ const CreatorMessage = ({creatorId}) => {
                                     (<LoadingText/>):
                                     (<SeedyFiubaButton
                                         title='Send'
-                                        onPress={() => {sendMessage(props.values.message);}}
+                                        onPress={() => {
+                                            sendMessage(props.values.message);
+                                            close();
+                                        }}
                                         style={ProjectEditStyleSheet.button}
                                         titleStyle={ProjectEditStyleSheet.title}
                                     />)

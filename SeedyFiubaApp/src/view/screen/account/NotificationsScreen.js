@@ -62,13 +62,26 @@ const NotificationsScreen = ({navigation}) => {
                         }>
 
                         {
-                            notifications.map((notification) => {
+                            notifications
+                                .sort((a, b) => {
+                                    const date_a = new Date(...a.date.split('/').reverse())
+                                    const date_b = new Date(...b.date.split('/').reverse())
+                                    if(date_a > date_b){
+                                        return 1;
+                                    } else {
+                                        return -1;
+                                    }
+                                })
+                                .map((notification) => {
                                     return (
                                         <Card key={notification.id} containerStyle={ProjectCardStyleSheet.projectCard}>
                                             <Card.Title
                                                 style={ProjectCardStyleSheet.title}>
                                                 Message from: {notification.id_1}
                                             </Card.Title>
+                                            <Card.FeaturedSubtitle style={ProjectCardStyleSheet.description}>
+                                                Received on: {notification.date}
+                                            </Card.FeaturedSubtitle>
                                             <Card.FeaturedSubtitle numberOfLines={1}
                                                                    style={ProjectCardStyleSheet.description}>
                                                 {notification.text}
@@ -81,7 +94,7 @@ const NotificationsScreen = ({navigation}) => {
                                                 titleStyle={ProjectEditStyleSheet.title}
                                             />
                                             <Overlay isVisible={visible} onBackdropPress={hideModal} overlayStyle={{height:200,width:300}}>
-                                                <CreatorMessage creatorId={notification.id_1}/>
+                                                <CreatorMessage creatorId={notification.id_1} close={hideModal}/>
                                             </Overlay>
                                         </Card>
                                     )

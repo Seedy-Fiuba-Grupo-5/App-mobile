@@ -4,7 +4,6 @@ class Messages {
         this.allMessages = [];
         let counter = 0
         messages.map((message) => {
-            console.log(counter);
             this.allMessages.push({
                 id: counter,
                 id_1: message.id_1,
