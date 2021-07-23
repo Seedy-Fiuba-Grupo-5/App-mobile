@@ -16,7 +16,8 @@ const SeerProjectScreen = ({navigation}) => {
         navigation.navigate("Project",
             {
                 project: project,
-                editable: false
+                editable: false,
+                seer:true
             })}
     const getProjects = (action) => {
         action(true);

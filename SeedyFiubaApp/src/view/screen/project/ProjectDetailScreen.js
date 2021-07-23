@@ -16,6 +16,8 @@ import Project from "../../../model/Project";
 import InviteSeer from "../../component/account/InviteSeer";
 import ApiUser from "../../../model/ApiUser";
 import Payment from "../../../model/Payment";
+import ProjectEditStyleSheet from "../../Styles/ProjectEditStyleSheet";
+import SeerSection from "../../component/SeerSection";
 
 const ProjectDetailScreen = ({navigation,route}) => {
     const [creator, setCreator] = useState(new Creator());
@@ -48,7 +50,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const goal = (stageCost) => {
         let goal = 0;
         stageCost.forEach((value, index, values)=>{ goal = goal + value});
-        return goal;
+        return goal.toFixed(2);
     }
     const collected = (amount, goal) => {
         if (!amount || !goal) {
@@ -199,17 +201,29 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                 </View>
                                 <Divider width={20} color={'transparent'}/>
                                 {
+
                                     route.params.editable?
-                                        (<SeedyFiubaButton title='Add Seer' onPress={() => {
-                                            showModalSeer();
-                                        }} style={ProjectDetailStyleSheet.button}/>):
-                                        (<SeedyFiubaButton title='Support' onPress={() => {
-                                            console.log('Support')
-                                        }} style={ProjectDetailStyleSheet.button}/>)
-
-
+                                        (
+                                            <SeedyFiubaButton
+                                                title='Add Seer'
+                                                onPress={() => {showModalSeer();}}
+                                                style={ProjectDetailStyleSheet.button}/>
+                                        ): (
+                                            <View>
+                                                {
+                                                    route.params.seer?
+                                                        (
+                                                            <SeerSection stagesCost={payment.stagesCost}/>
+                                                        ) : (
+                                                            <SeedyFiubaButton
+                                                                title='Support'
+                                                                onPress={() => {console.log('Support')}}
+                                                                style={ProjectDetailStyleSheet.button}/>
+                                                        )
+                                                }
+                                            </View>
+                                        )
                                 }
-
                             </View>
                         </ScrollView>
                     )

@@ -28,12 +28,6 @@ const SeerProject = ({projectId,onPress}) => {
         getProjects(setIsLoading);
     },[]);
 
-    const collected = (amount, goal) => {
-        if (!amount || !goal) {
-            return 0;
-        }
-        return amount / goal;
-    }
     const daysToEnd = (date) => {
         const today = moment().format('DD/MM/YYYY');
         let start = moment(today, "DD/MM/YYYY");
@@ -53,7 +47,6 @@ const SeerProject = ({projectId,onPress}) => {
         )
 
     } else {
-        const amountCollected = collected(0, project.goal);
         const amountDays = daysToEnd(project.endDate);
         return (
             <TouchableOpacity onPress={()=>{onPress(project)}}>
@@ -73,32 +66,21 @@ const SeerProject = ({projectId,onPress}) => {
                     <Card.FeaturedSubtitle numberOfLines={1} style={ProjectCardStyleSheet.description}>
                         {project.description}
                     </Card.FeaturedSubtitle>
-                    <Card.Divider color={'white'}/>
-                    <LinearProgress
-                        style={{height: 6}}
-                        value={amountCollected}
-                        color={'#4b1e4d'}
-                        variant={"determinate"}/>
-                    <Card.Divider color={'white'}/>
+                    <Card.Divider color={'#4b1e4d'}/>
                     <View style={{flexDirection: "row", justifyContent: 'space-between'}}>
-                        <Text style={ProjectCardStyleSheet.principalText}>
-                            {amountCollected * 100}% <Text style={ProjectCardStyleSheet.secondText}>
-                            Collected</Text>
-                        </Text>
+                        <View style={{flexDirection: "row", justifyContent: 'center'}}>
+                            <Icon name='explore'
+                                  type='material'
+                                  containerStyle={{paddingTop:2, paddingRight:2}}
+                                  size={20}
+                                  color='#85929d'/>
+                            <Text style={ProjectCardStyleSheet.secondText}>
+                                {project.type}
+                            </Text>
+                        </View>
                         <Text style={ProjectCardStyleSheet.principalText}>
                             {amountDays} <Text style={ProjectCardStyleSheet.secondText}>
                             Days to end</Text>
-                        </Text>
-                    </View>
-                    <Card.Divider color={'white'}/>
-
-                    <View style={{flexDirection: "row", justifyContent: 'center'}}>
-                        <Icon name='explore'
-                              type='material'
-                              size={20}
-                              color='#85929d'/>
-                        <Text style={ProjectCardStyleSheet.secondText}>
-                            {project.type}
                         </Text>
                     </View>
                 </Card>

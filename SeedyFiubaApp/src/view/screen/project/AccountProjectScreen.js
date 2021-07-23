@@ -58,7 +58,7 @@ const AccountProjectScreen = ({navigation}) => {
                                                      onPress={() => navigation.navigate("Project", {
                                                          project: project,
                                                          editable: true,
-                                                         user: id
+                                                         seer:false
                                                      })
                                                      }/>
                                     )
