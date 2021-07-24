@@ -7,11 +7,9 @@ const SeerSection = ({stagesCost}) => {
         <View>
             {
                 stagesCost.map((value, index, values) => {
-                    if (index !== 0) {
-                        return (
-                            <SeerReleaseFunds key={index} stage={index} cost={value}/>
-                        )
-                    }
+                    return (
+                        <SeerReleaseFunds key={index} stage={index} cost={value}/>
+                    )
                 })
             }
             <Text/>

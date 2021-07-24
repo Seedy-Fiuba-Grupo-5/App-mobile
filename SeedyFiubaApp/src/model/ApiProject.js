@@ -2,6 +2,7 @@ import axios from 'axios';
 import Projects from "./Projects";
 import {URL_LOCAL_GATEWAY} from '@env'
 import Project from "./Project";
+import Support from "./Support";
 
 class ApiProject {
 
@@ -25,6 +26,16 @@ class ApiProject {
         const response = await axios.patch(url, project);
         const jsonData = response.data;
         return new Project(jsonData);
+    }
+
+    static async supportProject(projectId,token,userId,amount) {
+        const url = URL_LOCAL_GATEWAY + '/projects/' + projectId + '/funds?token='+token;
+        const response = await axios.post(url, {
+            userPublicId: userId,
+            amountEthers: amount
+        });
+        const jsonData = response.data;
+        return new Support(jsonData);
     }
 
 }

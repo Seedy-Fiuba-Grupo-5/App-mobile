@@ -11,7 +11,7 @@ const SeerReleaseFunds = ({stage, cost}) => {
                 <Text style={{fontSize:20}}> Amount: {parseFloat(cost).toFixed(2)} $ </Text>
             </View>
             <SeedyFiubaButton
-                title='Release Funds'
+                title={"Complete Stage " + (stage+1)}
                 onPress={()=>{console.log('ReleaseFunds')}}
                 style={{
                     margin:2,

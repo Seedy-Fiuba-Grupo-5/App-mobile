@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {Divider, Header, Icon, Image, Overlay} from "react-native-elements";
-import {ActivityIndicator, Button, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, Button, RefreshControl, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import ProjectDetailStyleSheet from "../../Styles/ProjectDetailStyleSheet";
 import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";
 import ProjectCardStyleSheet from "../../Styles/ProjectCardStyleSheet";
@@ -18,6 +18,7 @@ import ApiUser from "../../../model/ApiUser";
 import Payment from "../../../model/Payment";
 import SeerSection from "../../component/SeerSection";
 import {Video} from "expo-av";
+import SupportProject from "../../component/project/SupportProject";
 
 const ProjectDetailScreen = ({navigation,route}) => {
     const [creator, setCreator] = useState(new Creator());
@@ -26,6 +27,8 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const [loading, setLoading] = useState(false);
     const [visibleEdit, setVisibleEdit] = useState(false);
     const [visibleSeer, setVisibleSeer] = useState(false);
+    const [visibleSupport, setVisibleSupport] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
     const {id, jwt} = UseAuth();
     const video = useRef(null);
     const [loadVideo, setLoadVideo] = useState(false);
@@ -33,6 +36,8 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const hideModalEdit = () => setVisibleEdit(false);
     const showModalSeer = () => setVisibleSeer(true);
     const hideModalSeer = () => setVisibleSeer(false);
+    const showModalSupport = () => setVisibleSupport(true);
+    const hideModalSupport = () => setVisibleSupport(false);
 
 
     const addProjectToFavorites = () => {
@@ -90,8 +95,26 @@ const ProjectDetailScreen = ({navigation,route}) => {
         setProject(payload);
         getProject(payload.id);
     })
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        ApiProject.project(project.id)
+            .then((data) => {
+                setRefreshing(false);
+                setCreator(data.user);
+                setPayment(data.payments);
+            })
+            .catch((error) => {
+                setRefreshing(false);
+                setCreator(new Creator());
+                setPayment(new Payment())
+                console.log(error);
+            });
+
+    }, []);
     const amountGoal = goal(payment.stagesCost);
-    const amountCollected = collected(0, amountGoal);
+    console.log(payment.balance);
+    const amountCollected = collected(payment.balance, amountGoal);
     return (
         <>
             <Header
@@ -136,11 +159,22 @@ const ProjectDetailScreen = ({navigation,route}) => {
             <Overlay isVisible={visibleSeer} onBackdropPress={hideModalSeer} overlayStyle={{height:200,width:300}}>
                 <InviteSeer project={project}/>
             </Overlay>
+            <Overlay isVisible={visibleSupport} onBackdropPress={hideModalSupport} overlayStyle={{height:200,width:300}}>
+                <SupportProject projectId={project.id}/>
+            </Overlay>
             {
                 loading?
                     (<Loading customStyle={{paddingTop:0}}/>):
                     (
-                        <ScrollView>
+                        <ScrollView
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={onRefresh}
+                                    colors={['#4b1e4d']}
+                                />
+                            }
+                        >
                             <View style={{marginHorizontal: 20}}>
                                 <Divider width={6} color={'transparent'}/>
                                 {
@@ -168,7 +202,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                     color={'#4b1e4d'}
                                     variant={"determinate"}/>
                                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <ProjectDetailKeyValueText projectKey={'Collected'} projectValue={amountCollected+'$'}/>
+                                    <ProjectDetailKeyValueText projectKey={'Collected'} projectValue={payment.balance+'$'}/>
                                     <ProjectDetailKeyValueText projectKey={'Goal'} projectValue={amountGoal+'$'}/>
                                 </View>
                                 <Divider width={20} color={'transparent'}/>
@@ -262,11 +296,16 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                                 {
                                                     route.params.seer?
                                                         (
-                                                            <SeerSection stagesCost={payment.stagesCost}/>
+                                                            <>
+                                                                <Text style={{fontSize:22}}>State Project</Text>
+                                                                <Text style={{fontSize: 18, color:'#4f555c'}}>{payment.state}</Text>
+                                                                <Divider width={20} color={'transparent'}/>
+                                                                <SeerSection stagesCost={payment.stagesCost}/>
+                                                            </>
                                                         ) : (
                                                             <SeedyFiubaButton
                                                                 title='Support'
-                                                                onPress={() => {console.log('Support')}}
+                                                                onPress={() => {showModalSupport()}}
                                                                 style={ProjectDetailStyleSheet.button}/>
                                                         )
                                                 }
