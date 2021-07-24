@@ -76,6 +76,8 @@ const NewProjectScreen = () => {
             video: 'not_found',
             path: 'not_found',
             token: jwt,
+            lat:-38.416097,
+            lon:-63.616672,
             stagesCost: goalInfo.stagesCost
         })
             .then((data) => {

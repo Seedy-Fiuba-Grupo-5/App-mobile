@@ -38,5 +38,15 @@ class ApiProject {
         return new Support(jsonData);
     }
 
+    static async completeStage(projectId,token,userId,stage) {
+        const url = URL_LOCAL_GATEWAY + '/projects/' + projectId + '/stages?token='+token;
+        const response = await axios.post(url, {
+            reviewerPublicId: userId,
+            stageNumber: stage.toString()
+        });
+        const jsonData = response.data;
+        return new Support(jsonData);
+    }
+
 }
 export default ApiProject

@@ -317,7 +317,11 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                                                 <Text style={{fontSize:22}}>State Project</Text>
                                                                 <Text style={{fontSize: 18, color:'#4f555c'}}>{payment.state}</Text>
                                                                 <Divider width={20} color={'transparent'}/>
-                                                                <SeerSection stagesCost={payment.stagesCost}/>
+                                                                <SeerSection
+                                                                    stagesCost={payment.stagesCost}
+                                                                    projectId={project.id}
+                                                                    stagesStates={payment.stagesStates}
+                                                                />
                                                             </>
                                                         ) : (
                                                             <SeedyFiubaButton
