@@ -13,7 +13,9 @@ class Projects {
                 endDate: project.endDate,
                 location: project.location,
                 createdOn:project.createdOn,
-                video:project.video
+                video:project.video,
+                favorites:project.favorites,
+                rating:project.rating,
             });
         })
     }

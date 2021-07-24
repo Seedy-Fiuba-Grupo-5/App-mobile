@@ -50,6 +50,16 @@ const ProjectDetailScreen = ({navigation,route}) => {
             });
     }
 
+    const removeProjectFromFavorites = () => {
+        ApiUser.removeProjectFromFavorites(project.id, id, jwt)
+            .then((status) => {
+                console.log(status);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
     const emptyVideo = (video) => {
         const videos = ['not_found', 'nothing', undefined, null, ""];
         return videos.includes(video);
@@ -98,9 +108,10 @@ const ProjectDetailScreen = ({navigation,route}) => {
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        ApiProject.project(project.id)
+        ApiProject.project(route.params.project.id)
             .then((data) => {
                 setRefreshing(false);
+                setProject(data);
                 setCreator(data.user);
                 setPayment(data.payments);
             })
@@ -141,14 +152,20 @@ const ProjectDetailScreen = ({navigation,route}) => {
                             color='#fff'
                             onPress={() => {
                                 showModalEdit();
-                            }}/>):
+                            }}/>) :
                         (<Icon
-                            name='favorite-border'
+                            name={project.favorites.some(user => (user === id))? 'favorite': 'favorite-border'}
                             type='material'
                             size={30}
                             color='#fff'
                             onPress={() => {
-                                addProjectToFavorites();
+                                if(project.favorites.some(user => (user === id))){
+                                    console.log("Soy fav");
+                                    removeProjectFromFavorites();
+                                } else {
+                                    console.log("NO soy fav");
+                                    addProjectToFavorites();
+                                }
                             }}/>)
                 }
                 containerStyle={accountStyles.header}

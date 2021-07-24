@@ -17,6 +17,8 @@ class Project{
             this.user = new Creator();
             this.payments = new Payment();
             this.createdOn='';
+            this.favorites = [];
+            this.rating = 0;
         }else {
             this.id = project.id;
             this.name = project.name;
@@ -31,6 +33,8 @@ class Project{
             this.user = new Creator(project.user);
             this.payments = new Payment(project.payments);
             this.createdOn = project.createdOn;
+            this.favorites = project.favorites;
+            this.rating = project.rating;
         }
     }
 }

@@ -66,6 +66,9 @@ const FavoriteProjectScreen = ({navigation}) => {
                                     )
                                 })
                             }
+                            {projects.length === 0?
+                                <Text>You have no Favorite Project</Text> : null
+                            }
                             <Text/>
                         </ScrollView>
                     )

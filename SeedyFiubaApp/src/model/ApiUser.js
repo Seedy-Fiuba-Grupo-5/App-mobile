@@ -108,6 +108,13 @@ class ApiUser {
         return response.status;
     }
 
+    static async removeProjectFromFavorites(projectId, id, token) {
+        const url = URL_LOCAL_GATEWAY + '/users/'+id+'/favorites';
+        const response = await axios.delete(url, {data: {token:token, project_id:projectId}});
+        //Falta ver bien que hacer con el valor de retorno.
+        return response.status;
+    }
+
     static async favoriteProjects(id) {
         const url = URL_LOCAL_GATEWAY + '/users/'+id+'/favorites';
         const response = await axios.get(url);
