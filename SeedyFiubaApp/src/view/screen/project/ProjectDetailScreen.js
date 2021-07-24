@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Divider, Header, Icon, Image, Overlay} from "react-native-elements";
-import {Button, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, Button, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import ProjectDetailStyleSheet from "../../Styles/ProjectDetailStyleSheet";
 import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";
 import ProjectCardStyleSheet from "../../Styles/ProjectCardStyleSheet";
@@ -16,21 +16,24 @@ import Project from "../../../model/Project";
 import InviteSeer from "../../component/account/InviteSeer";
 import ApiUser from "../../../model/ApiUser";
 import Payment from "../../../model/Payment";
-import ProjectEditStyleSheet from "../../Styles/ProjectEditStyleSheet";
 import SeerSection from "../../component/SeerSection";
+import {Video} from "expo-av";
 
 const ProjectDetailScreen = ({navigation,route}) => {
     const [creator, setCreator] = useState(new Creator());
     const [project, setProject] = useState(new Project());
     const [payment, setPayment] = useState(new Payment());
     const [loading, setLoading] = useState(false);
-    const [visibleEdit, setVisibleEdit] = React.useState(false);
-    const [visibleSeer, setVisibleSeer] = React.useState(false);
+    const [visibleEdit, setVisibleEdit] = useState(false);
+    const [visibleSeer, setVisibleSeer] = useState(false);
     const {id, jwt} = UseAuth();
+    const video = useRef(null);
+    const [loadVideo, setLoadVideo] = useState(false);
     const showModalEdit = () => setVisibleEdit(true);
     const hideModalEdit = () => setVisibleEdit(false);
     const showModalSeer = () => setVisibleSeer(true);
     const hideModalSeer = () => setVisibleSeer(false);
+
 
     const addProjectToFavorites = () => {
         ApiUser.addProjectToFavorites(project.id, id, jwt)
@@ -42,14 +45,17 @@ const ProjectDetailScreen = ({navigation,route}) => {
             });
     }
 
-
+    const emptyVideo = (video) => {
+        const videos = ['not_found', 'nothing', undefined, null, ""];
+        return videos.includes(video);
+    }
     const defaultImage = (image) => {
         const images = ['not_found', 'nothing', undefined, null, ""];
         return images.includes(image);
     }
     const goal = (stageCost) => {
         let goal = 0;
-        stageCost.forEach((value, index, values)=>{ goal = goal + value});
+        stageCost.forEach((value, index, values)=>{ goal = goal + parseFloat(value)});
         return goal.toFixed(2);
     }
     const collected = (amount, goal) => {
@@ -62,7 +68,6 @@ const ProjectDetailScreen = ({navigation,route}) => {
         setLoading(true);
         ApiProject.project(id)
             .then((data) => {
-                console.log(data);
                 setLoading(false);
                 setCreator(data.user);
                 setPayment(data.payments);
@@ -87,7 +92,6 @@ const ProjectDetailScreen = ({navigation,route}) => {
     })
     const amountGoal = goal(payment.stagesCost);
     const amountCollected = collected(0, amountGoal);
-    console.log(amountCollected);
     return (
         <>
             <Header
@@ -170,6 +174,51 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                 <Divider width={20} color={'transparent'}/>
                                 <Text key={0} style={{fontSize:22}}>Description</Text>
                                 <Text key={1} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>{project.description}</Text>
+                                {
+                                    emptyVideo(project.video)?
+                                        (
+                                            <></>
+                                        ) : (
+                                            <View>
+
+                                                <Text key={0} style={{fontSize:22}}>Multimedia</Text>
+                                                <View>
+                                                    {loadVideo &&
+                                                    <ActivityIndicator
+                                                        animating
+                                                        color={"#4b1e4d"}
+                                                        size="large"
+                                                        style={{ flex: 1, position:"absolute", top:"45%", left:"45%" }}
+                                                    />
+                                                    }
+                                                    <Video
+                                                        ref={video}
+                                                        style={{
+                                                            alignSelf: 'center',
+                                                            width: 320,
+                                                            height: 200,
+                                                        }}
+                                                        source={{
+                                                            uri: project.video,
+                                                        }}
+                                                        resizeMode="contain"
+                                                        onLoadStart={() => setLoadVideo(true)}
+                                                        onError={()=>console.log('error')}
+                                                        onReadyForDisplay={() => setLoadVideo(false)}
+                                                        useNativeControls={true}
+                                                        onPlaybackStatusUpdate={status => {
+                                                            if (status.didJustFinish){
+                                                                video.current.playFromPositionAsync(0);
+                                                                video.current.pauseAsync();
+                                                            }
+                                                        }}
+
+                                                    />
+                                                </View>
+                                                <Divider width={20} color={'transparent'}/>
+                                            </View>
+                                        )
+                                }
                                 <Text key={2} style={{fontSize:22}}>Hashtags</Text>
                                 <Text key={3} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>{project.hashtags}</Text>
                                 <Text key={4} style={{fontSize:22}}>Creation Date</Text>
