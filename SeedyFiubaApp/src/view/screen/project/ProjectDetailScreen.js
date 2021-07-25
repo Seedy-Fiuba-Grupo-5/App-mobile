@@ -160,7 +160,13 @@ const ProjectDetailScreen = ({navigation,route}) => {
                         }}/>}
                 centerComponent={
                     <Text
-                        style={accountStyles.text}>
+                        numberOfLines={1}
+                        style={{
+                            fontSize: 20,
+                            color: 'white',
+                            fontWeight: 'bold',
+                            alignSelf:'center',
+                        }}>
                         {project.name}
                     </Text>}
                 rightComponent={
@@ -214,34 +220,27 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                             style={ProjectDetailStyleSheet.ImageStyle}
                                             containerStyle={ProjectDetailStyleSheet.ImageContainerStyle}/>)
                                 }
-                                <View style={{flexDirection: 'row'}}>
-                                    <Text style={{fontSize: 34}}>{project.name}</Text>
-                                    <View style={{
-                                        flex: 1,
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                    }}>
-                                        <Icon
-                                            name={isFavorite ? 'favorite': 'favorite-border'}
-                                            type='material'
-                                            size={30}
-                                            color='#4b1e4d'
-                                            onPress={() => {
-                                                if(isFavorite){
-                                                    removeProjectFromFavorites();
-                                                    setIsFavorite(false);
-                                                } else {
-                                                    addProjectToFavorites();
-                                                    setIsFavorite(true);
-                                                }
-                                            }}/>
-                                    </View>
-                                </View>
-                                {
-                                    <TouchableOpacity onPress={() => navigation.navigate("Creator", {creator:creator})}>
-                                        <ProjectDetailKeyValueText projectKey={'Created By'} projectValue={creator.firstName+' '+creator.lastName}/>
-                                    </TouchableOpacity>
-                                }
+                                <Text
+                                    style={{fontSize: 34}}>{project.name}
+                                    <Icon
+                                        containerStyle={{paddingLeft:20}}
+                                        name={isFavorite ? 'favorite': 'favorite-border'}
+                                        type='material'
+                                        size={30}
+                                        color='#4b1e4d'
+                                        onPress={() => {
+                                            if(isFavorite){
+                                                removeProjectFromFavorites();
+                                                setIsFavorite(false);
+                                            } else {
+                                                addProjectToFavorites();
+                                                setIsFavorite(true);
+                                            }
+                                        }}/>
+                                </Text>
+                                <TouchableOpacity onPress={() => navigation.navigate("Creator", {creator:creator})}>
+                                    <ProjectDetailKeyValueText projectKey={'Created By'} projectValue={creator.firstName+' '+creator.lastName}/>
+                                </TouchableOpacity>
                                 <Divider width={20} color={'transparent'}/>
 
                                 <LinearProgress
@@ -310,25 +309,23 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                 <Text style={{fontSize: 18, color:'#4f555c'}}>{project.endDate}</Text>
                                 <Divider width={20} color={'transparent'}/>
                                 <Text style={{fontSize:22}}>Features</Text>
-                                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <View style={{flexDirection: 'row'}}>
-                                        <Icon name='explore'
-                                              type='material'
-                                              size={20}
-                                              color='#4f555c'/>
-                                        <Text style={ProjectCardStyleSheet.secondText}>
-                                            {project.type}
-                                        </Text>
-                                    </View>
-                                    <View style={{flexDirection: 'row'}}>
-                                        <Icon name='room'
-                                              type='material'
-                                              size={20}
-                                              color='#4f555c'/>
-                                        <Text style={ProjectCardStyleSheet.secondText}>
-                                            {project.location}
-                                        </Text>
-                                    </View>
+                                <View style={{flexDirection: 'row'}}>
+                                    <Icon name='explore'
+                                          type='material'
+                                          size={20}
+                                          color='#4f555c'/>
+                                    <Text style={ProjectCardStyleSheet.secondText}>
+                                        {project.type}
+                                    </Text>
+                                </View>
+                                <View style={{flexDirection: 'row'}}>
+                                    <Icon name='room'
+                                          type='material'
+                                          size={20}
+                                          color='#4f555c'/>
+                                    <Text style={ProjectCardStyleSheet.secondText}>
+                                        {project.location}
+                                    </Text>
                                 </View>
                                 <View style={{flexDirection: 'row'}}>
                                     <Rating

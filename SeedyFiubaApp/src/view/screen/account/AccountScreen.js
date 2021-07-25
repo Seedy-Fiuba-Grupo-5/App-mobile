@@ -87,6 +87,7 @@ const AccountScreen = ({navigation}) => {
                 }>
                 <AccountCarousel items={1}>
                     <AccountInformationCard
+                        id={user.id}
                         firstName={user.firstName}
                         lastName={user.lastName}
                         email={user.email}/>

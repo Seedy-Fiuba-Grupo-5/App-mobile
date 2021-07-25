@@ -10,7 +10,7 @@ const AccountAvatar = ({name}) => {
             size="xlarge"
             rounded
             title={avatarTitle(name)}
-            containerStyle={{marginTop:30, backgroundColor:'grey'}}
+            containerStyle={{marginTop:10, backgroundColor:'grey'}}
         />
     )
 }

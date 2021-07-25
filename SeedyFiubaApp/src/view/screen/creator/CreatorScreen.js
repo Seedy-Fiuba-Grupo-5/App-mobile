@@ -47,9 +47,11 @@ const CreatorScreen = ({navigation,route}) => {
             </Overlay>
             <View style={{flex: 1, alignContent: 'center'}}>
                 <View style={{flex: 3,margin:20}}>
-                    <AccountInformationCard firstName={creator.firstName}
-                                            lastName={creator.lastName}
-                                            email={creator.email}/>
+                    <AccountInformationCard
+                        id={creator.id}
+                        firstName={creator.firstName}
+                        lastName={creator.lastName}
+                        email={creator.email}/>
                 </View>
             </View>
         </>

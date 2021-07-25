@@ -9,7 +9,7 @@ import {ListItem} from "react-native-elements";
 const AccountProjectScreen = ({navigation}) => {
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [refreshing, setRefreshing] = React.useState(false);
+    const [refreshing, setRefreshing] = useState(false);
     const {id} = UseAuth();
     useEffect(() => {
         setIsLoading(true);

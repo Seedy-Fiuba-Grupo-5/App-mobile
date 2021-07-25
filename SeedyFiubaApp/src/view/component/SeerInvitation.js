@@ -78,7 +78,7 @@ const SeerInvitation = ({projectId}) => {
                                             <View>
                                                 {
                                                     isResponded?
-                                                        (<Text style={{alignSelf:'center', color:'#4b1e4d', fontSize:20}}>Reload</Text>):
+                                                        (<Text style={{alignSelf:'center', color:'#4b1e4d', fontSize:20}}>Reload to Show</Text>):
                                                         (
                                                             <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                                                                 <SeedyFiubaButton

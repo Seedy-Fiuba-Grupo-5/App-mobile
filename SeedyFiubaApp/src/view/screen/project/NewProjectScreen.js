@@ -94,6 +94,7 @@ const NewProjectScreen = () => {
                     }).catch((error) => {
                         setIsLoading(false);
                         console.log(error);
+                        showMessage('Failed To Create Project');
                     });
                 })
             })
@@ -182,10 +183,15 @@ const NewProjectScreen = () => {
                 valid = false;
                 break;
             }
-            if (fStage>2){
+            if (fStage>2) {
                 valid = false;
                 break;
             }
+            if (fStage<0.1) {
+                valid = false;
+                break;
+            }
+
         }
         return valid;
     }
