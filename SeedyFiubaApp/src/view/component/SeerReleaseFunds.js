@@ -29,7 +29,7 @@ const SeerReleaseFunds = ({stage, cost,projectId,wasReleased}) => {
         <View>
             <View style={{flexDirection:"row", justifyContent:'space-between', paddingBottom:5}}>
                 <Text style={{fontSize:20}}>Stage {stage+1}</Text>
-                <Text style={{fontSize:20}}> Amount: {parseFloat(cost).toFixed(2)} $ </Text>
+                <Text style={{fontSize:20}}> Amount: {parseFloat(cost).toFixed(4)} $ </Text>
             </View>
 
             {

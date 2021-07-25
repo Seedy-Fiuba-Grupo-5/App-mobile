@@ -79,7 +79,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const goal = (stageCost) => {
         let goal = 0;
         stageCost.forEach((value, index, values)=>{ goal = goal + parseFloat(value)});
-        return goal.toFixed(2);
+        return goal.toFixed(4);
     }
     const collected = (amount, goal) => {
         if (!amount || !goal) {

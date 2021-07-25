@@ -187,7 +187,7 @@ const NewProjectScreen = () => {
                 valid = false;
                 break;
             }
-            if (fStage<0.1) {
+            if (fStage<0.01) {
                 valid = false;
                 break;
             }
