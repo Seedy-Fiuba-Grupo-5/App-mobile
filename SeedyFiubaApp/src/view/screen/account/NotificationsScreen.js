@@ -19,8 +19,10 @@ const NotificationsScreen = ({navigation}) => {
     const {id, jwt} = UseAuth();
 
     useEffect(() => {
+        setIsLoading(true);
         ApiUser.getMessages(id, jwt)
             .then((data) => {
+                console.log(data);
                 setIsLoading(false);
                 setNotifications(data.allMessages);
             })
@@ -28,23 +30,21 @@ const NotificationsScreen = ({navigation}) => {
                 setIsLoading(false);
                 console.log(error);
             });
-        setIsLoading(true);
         setIsLoading(false);
     },[]);
 
     const onRefresh = useCallback(() => {
+        setRefreshing(true);
         ApiUser.getMessages(id, jwt)
             .then((data) => {
                 console.log(data.allMessages);
-                setIsLoading(false);
+                setRefreshing(false);
                 setNotifications(data.allMessages);
             })
             .catch((error) => {
-                setIsLoading(false);
+                setRefreshing(false);
                 console.log(error);
             });
-        setRefreshing(true);
-        setRefreshing(false);
     }, []);
 
     return(

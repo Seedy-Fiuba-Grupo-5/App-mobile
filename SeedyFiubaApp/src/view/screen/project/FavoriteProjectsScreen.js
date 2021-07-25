@@ -5,6 +5,7 @@ import Loading from "../../component/Loading";
 import ProjectCard from "../../component/project/ProjectCard";
 import UseAuth from "../../component/UseAuth";
 import ApiUser from "../../../model/ApiUser";
+import SeedyFiubaEmpty from "../../component/SeedyFiubaEmpty";
 
 const FavoriteProjectScreen = ({navigation}) => {
     const [projects, setProjects] = useState([]);
@@ -67,7 +68,7 @@ const FavoriteProjectScreen = ({navigation}) => {
                                 })
                             }
                             {projects.length === 0?
-                                <Text>You have no Favorite Project</Text> : null
+                                <SeedyFiubaEmpty title={'Without Favorite Projects'}/> : null
                             }
                             <Text/>
                         </ScrollView>

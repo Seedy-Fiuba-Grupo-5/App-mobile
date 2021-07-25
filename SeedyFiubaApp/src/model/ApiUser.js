@@ -134,7 +134,7 @@ class ApiUser {
         if(response.data.length > 0){
             return new Messages(response.data[0]);
         }
-        return [];
+        return {allMessages:[]};
     }
 }
 export default ApiUser
