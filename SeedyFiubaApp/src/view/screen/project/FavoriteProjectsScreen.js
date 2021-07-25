@@ -18,7 +18,6 @@ const FavoriteProjectScreen = ({navigation}) => {
             .then((data) => {
                 setIsLoading(false);
                 setProjects(data.allProjects);
-                console.log(data.allProjects)
             })
             .catch((error) => {
                 setIsLoading(false);

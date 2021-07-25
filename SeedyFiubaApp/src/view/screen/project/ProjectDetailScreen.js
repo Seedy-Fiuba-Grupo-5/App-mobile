@@ -25,6 +25,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const [project, setProject] = useState(new Project());
     const [payment, setPayment] = useState(new Payment());
     const [loading, setLoading] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
     const [visibleEdit, setVisibleEdit] = useState(false);
     const [visibleSeer, setVisibleSeer] = useState(false);
     const [visibleSupport, setVisibleSupport] = useState(false);
@@ -41,7 +42,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
 
 
     const addProjectToFavorites = () => {
-        ApiUser.addProjectToFavorites(project.id, id, jwt)
+        ApiUser.addProjectToFavorites(route.params.project.id, id, jwt)
             .then((status) => {
                 console.log(status)
             })
@@ -51,7 +52,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
     }
 
     const removeProjectFromFavorites = () => {
-        ApiUser.removeProjectFromFavorites(project.id, id, jwt)
+        ApiUser.removeProjectFromFavorites(route.params.project.id, id, jwt)
             .then((status) => {
                 console.log(status);
             })
@@ -79,13 +80,20 @@ const ProjectDetailScreen = ({navigation,route}) => {
         }
         return amount / goal;
     }
-    const getProject = (id) => {
+    const getProject = (projectid) => {
         setLoading(true);
-        ApiProject.project(id)
+        ApiProject.project(projectid)
             .then((data) => {
                 setLoading(false);
                 setCreator(data.user);
                 setPayment(data.payments);
+                for(let i = 0; i < data.favorites.length; ++i){
+                    if(id === data.favorites[i]){
+                        setIsFavorite(true);
+                        return;
+                    }
+                }
+                setIsFavorite(false);
             })
             .catch((error) => {
                 setLoading(false);
@@ -108,19 +116,17 @@ const ProjectDetailScreen = ({navigation,route}) => {
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        console.log("Busco project")
         ApiProject.project(route.params.project.id)
             .then((data) => {
                 setRefreshing(false);
                 setProject(data);
                 setCreator(data.user);
                 setPayment(data.payments);
-                console.log(data.favorites);
-                //esta condicion anda mal.
-                if(project.favorites.some(user => (user === id))){
-                    console.log('Esta en favoritos')
+                for(let i = 0; i < data.favorites.length; ++i){
+                    if(id === data.favorites[i]){
+                        setIsFavorite(true);
+                    }
                 }
-
             })
             .catch((error) => {
                 setRefreshing(false);
@@ -206,15 +212,17 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                         justifyContent: 'center'
                                     }}>
                                         <Icon
-                                            name={project.favorites.some(user => (user === id))? 'favorite': 'favorite-border'}
+                                            name={isFavorite ? 'favorite': 'favorite-border'}
                                             type='material'
                                             size={30}
                                             color='#4b1e4d'
                                             onPress={() => {
-                                                if(project.favorites.some(user => (user === id))){
+                                                if(isFavorite){
                                                     removeProjectFromFavorites();
+                                                    setIsFavorite(false);
                                                 } else {
                                                     addProjectToFavorites();
+                                                    setIsFavorite(true);
                                                 }
                                             }}/>
                                     </View>
