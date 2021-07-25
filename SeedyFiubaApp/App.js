@@ -40,7 +40,8 @@ Notifications.setNotificationHandler({
 const App = () => {
     LogBox.ignoreLogs([
         'Setting a timer for a long period of time',
-        'Non-serializable values were found in the navigation state']);
+        'Non-serializable values were found in the navigation state',
+        'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.']);
     Firebase.init();
 
     const [jwt, setJWT] = useState(null);

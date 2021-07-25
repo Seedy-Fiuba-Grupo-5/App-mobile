@@ -23,9 +23,12 @@ import UseAuth from "../../component/UseAuth";
 import Firebase from "../../../model/Firebase";
 import ApiProject from "../../../model/ApiProject";
 import Loading from "../../component/Loading";
+import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
+import ApiGoogle from "../../../model/ApiGoogle";
 
 const NewProjectScreen = () => {
     const [date, setDate] = useState(new Date());
+    const [locationId, setLocationId] = useState('');
     const [show, setShow] = useState(false);
     const [image, setImage] = useState(null);
     const [video, setVideo] = useState(null);
@@ -60,10 +63,12 @@ const NewProjectScreen = () => {
         return project;
     }
 
-    const createProjectHandler = (values,actions) => {
+    const createProjectHandler = async (values,actions) => {
         resetForm(actions);
         setIsLoading(true);
         let goalInfo = getGoal(values.goal);
+        let geometry =  await ApiGoogle.geometry(locationId);
+        console.log(geometry);
         ApiUser.createProject(id, {
             name: values.name,
             description: values.description,
@@ -76,8 +81,8 @@ const NewProjectScreen = () => {
             video: 'not_found',
             path: 'not_found',
             token: jwt,
-            lat:-38.416097,
-            lon:-63.616672,
+            lat: geometry.lat,
+            lon: geometry.lon,
             stagesCost: goalInfo.stagesCost
         })
             .then((data) => {
@@ -86,6 +91,9 @@ const NewProjectScreen = () => {
                     ApiProject.updateProject(data.id, jwt, url).then((data) => {
                         setIsLoading(false);
                         showMessage('The Project Was Successfully Created');
+                    }).catch((error) => {
+                        setIsLoading(false);
+                        console.log(error);
                     });
                 })
             })
@@ -126,6 +134,12 @@ const NewProjectScreen = () => {
         props.validateField('date');
         setDate(date);
         setShow(false);
+    };
+
+    const selectLocation = (location,locationId,props) => {
+        props.setFieldValue('location',location);
+        props.validateField('location');
+        setLocationId(locationId);
     };
 
     const onCancel = (date) => {
@@ -193,7 +207,7 @@ const NewProjectScreen = () => {
             <Loading customStyle={{paddingTop:0}}/>);
     }else{
         return (
-            <ScrollView keyboardShouldPersistTaps='handled'>
+            <ScrollView keyboardShouldPersistTaps={'handled'}>
                 <KeyboardAvoidingView
                     behavior={Platform.OS === "ios" ? "padding" : null}
                     keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
@@ -373,17 +387,68 @@ const NewProjectScreen = () => {
                                         {props.errors.date}
                                     </Text>
                                 </View>
-                                <Input value={props.values.location}
-                                       label={'Location'}
-                                       onChangeText={props.handleChange('location')}
-                                       onBlur={props.handleBlur('location')}
-                                       errorMessage={props.touched.location && props.errors.location}
-                                       leftIcon={<Icon name='place'
-                                                       type='material'
-                                                       size={20}
-                                                       color='#BEBEBE'/>}
-                                       containerStyle={CreateProjectStyle.inputContainer}
-                                />
+                                <View>
+                                    <Text style={{color:'#85929d',
+                                        fontWeight:'bold',
+                                        paddingLeft:46,
+                                        fontSize:16}}>Location</Text>
+                                    <Icon name='place'
+                                          containerStyle={{
+                                              position:'absolute',
+                                              left:47,
+                                              top:35
+                                          }}
+                                          type='material'
+                                          size={20}
+                                          color='#BEBEBE'/>
+
+                                    <GooglePlacesAutocomplete
+                                        placeholder=''
+                                        styles={{
+                                            textInput:{
+                                                backgroundColor:'transparent',
+                                                color:'black',
+                                                fontSize:18
+
+                                            },
+                                            textInputContainer:{
+                                                paddingLeft:18,
+                                                width: '75%',
+                                                alignSelf: 'center',
+                                                borderBottomWidth:1,
+                                                borderBottomColor:'#959ea7'
+
+                                            },
+                                            row:{
+                                                backgroundColor:'transparent',
+                                                borderColor:'#959ea7',
+                                                borderWidth:0.5
+                                            },
+                                            listView:{
+                                                width: '76%',
+                                                alignSelf: 'center'
+                                            },
+                                            poweredContainer:{
+                                                backgroundColor:'transparent',
+                                                borderColor:'#959ea7',
+                                                borderWidth:0.5
+                                            }
+                                        }}
+                                        onPress={(data, details = null) => {
+                                            selectLocation(data.description, data.place_id, props);
+                                            console.log(locationId);
+                                        }}
+                                        nearbyPlacesAPI='GoogleReverseGeocoding'
+                                        query={{
+                                            key: 'AIzaSyBjMkW8M-Xa-Z6uJGT-RNFAJBtD9CD-EAs',
+                                            language: 'en',
+                                            types: 'geocode'
+                                        }}
+                                    />
+                                    <Text style={CreateProjectStyle.errorText}>
+                                        {props.errors.location}
+                                    </Text>
+                                </View>
 
                                 <View>
                                     <Text style={{color:'#85929d',
