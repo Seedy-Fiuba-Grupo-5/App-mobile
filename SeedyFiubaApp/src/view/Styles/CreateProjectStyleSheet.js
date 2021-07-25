@@ -13,6 +13,10 @@ const CreateProjectStyle = StyleSheet.create({
         width: '80%',
         alignSelf: 'center'
     },
+    inputSearchContainer:{
+        width: '95%',
+        alignSelf: 'center'
+    },
     principalButton: {
         margin:5,
         backgroundColor: '#4b1e4d',

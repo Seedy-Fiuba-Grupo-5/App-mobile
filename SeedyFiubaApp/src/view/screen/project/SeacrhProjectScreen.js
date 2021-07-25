@@ -13,12 +13,17 @@ import UseAuth from "../../component/UseAuth";
 import Loading from "../../component/Loading";
 import FilterProjectsStyleSheet from "../../Styles/FilterProjectsStyleSheet";
 import SeedyFiubaEmpty from "../../component/SeedyFiubaEmpty";
+import {isNaN} from "formik";
 const SearchProjectScreen = ({navigation}) =>{
     const [text, setText] = useState('');
     const [visible, setVisible] = useState(false);
     const [type,setType] = useState('');
+    const [lat, setLat] = useState('');
+    const [lon, setLon] = useState('');
+    const [radius, setRadius] = useState('');
     const [hashtag,setHashtag] = useState('');
     const [invalidHashtag, setInvalidHashtag] = useState(false);
+    const [invalidLocation, setInvalidLocation] = useState(false);
     const [projects, setProjects] =useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const showModal = () => setVisible(true);
@@ -27,6 +32,9 @@ const SearchProjectScreen = ({navigation}) =>{
     const clearData = () => {
         setType('');
         setHashtag('');
+        setRadius('');
+        setLat('');
+        setLon('');
         setInvalidHashtag(false);
         setProjects([]);
     }
@@ -35,6 +43,12 @@ const SearchProjectScreen = ({navigation}) =>{
             setInvalidHashtag(true);
             return;
         }
+
+        if (!validLocation()) {
+            setInvalidLocation(true);
+            return;
+        }
+        setInvalidLocation(false);
         setInvalidHashtag(false);
         hideModal();
         search();
@@ -43,6 +57,19 @@ const SearchProjectScreen = ({navigation}) =>{
     const validHashtag = () => {
         if (!isEmpty(hashtag)){
             return hashtag.charAt(0) === '#'
+        }
+        return true;
+    }
+
+    const validLocation = () => {
+        let locations = [lat, lon, radius];
+        for (let location of locations) {
+            if (!isEmpty(location)) {
+                let fLocation = parseFloat(location);
+                if (isNaN(fLocation)) {
+                    return false;
+                }
+            }
         }
         return true;
     }
@@ -60,6 +87,19 @@ const SearchProjectScreen = ({navigation}) =>{
         if (!isEmpty(hashtag)) {
             params.hashtag = hashtag;
         }
+        
+        if (!isEmpty(lat)) {
+            params.lat = lat;
+        }
+
+        if (!isEmpty(lon)) {
+            params.lon = lon;
+        }
+
+        if (!isEmpty(radius)) {
+            params.radio = radius;
+        }
+
         setIsLoading(true);
         ApiProject.projects(params)
             .then((data)=>{
@@ -121,13 +161,13 @@ const SearchProjectScreen = ({navigation}) =>{
                 }
                 containerStyle={accountStyles.header}
             />
-            <Overlay isVisible={visible} onBackdropPress={hideModal} overlayStyle={{height:270,width:300}}>
+            <Overlay isVisible={visible} onBackdropPress={hideModal} overlayStyle={{height:400,width:300}}>
                 <View style={{paddingTop:10,paddingBottom:10}}>
                     <Text
                         style={{
                             color:'#85929d',
                             fontWeight:'bold',
-                            paddingLeft:34,
+                            paddingLeft:13,
                             paddingBottom:10,
                             fontSize:18}}>
                         Type
@@ -136,10 +176,10 @@ const SearchProjectScreen = ({navigation}) =>{
                         value={type}
                         style={{
                             inputAndroid: {
-                                width: '80%',
+                                width: '95%',
                                 alignSelf: 'center',
                                 paddingBottom:28,
-                                fontSize:35,
+                                fontSize:40,
                                 color:'black',
                             }
                         }}
@@ -163,13 +203,62 @@ const SearchProjectScreen = ({navigation}) =>{
                             {label: "Theater", value: "Theater"}
                         ]}
                     />
+                    <View>
+                        <Text
+                            style={{
+                                color:'#85929d',
+                                fontWeight:'bold',
+                                paddingLeft:13,
+                                paddingBottom:15,
+                                paddingTop:10,
+                                fontSize:18}}>
+                            Location
+                        </Text>
+                        <View
+                            style={{
+                                flexDirection:'row',
+                                justifyContent:'space-around'
+                            }}
+                        >
+                            <Input
+                                label={'Latitude'}
+                                labelStyle={{fontSize:15}}
+                                value={lat}
+                                keyboardType={'numeric'}
+                                onChangeText={(value)=>{setLat(value)}}
+                                errorMessage={invalidLocation && 'Invalid Location' }
+                                containerStyle={{width: '30%'}}
+                                inputStyle={{fontSize:14}}
+                            />
+                            <Input
+                                label={'Longitude'}
+                                labelStyle={{fontSize:15}}
+                                value={lon}
+                                keyboardType={'numeric'}
+                                onChangeText={(value)=>{setLon(value)}}
+                                errorMessage={invalidLocation && 'Invalid Location' }
+                                containerStyle={{width: '33%'}}
+                                inputStyle={{fontSize:14}}
+                            />
+                            <Input
+                                label={'Radius'}
+                                labelStyle={{fontSize:15}}
+                                value={radius}
+                                keyboardType={'numeric'}
+                                onChangeText={(value)=>{setRadius(value)}}
+                                errorMessage={invalidLocation && 'Invalid Location'}
+                                containerStyle={{width: '25%',alignSelf:'center'}}
+                                inputStyle={{fontSize:14}}
+                            />
+                        </View>
+
+                    </View>
                     <Text
                         style={{
                             color:'#85929d',
                             fontWeight:'bold',
-                            paddingLeft:34,
-                            paddingBottom:5,
-                            paddingTop:10,
+                            paddingLeft:13,
+                            paddingBottom:2,
                             fontSize:18}}>
                         Hashtag
                     </Text>
@@ -180,8 +269,9 @@ const SearchProjectScreen = ({navigation}) =>{
                                            type='material'
                                            size={20}
                                            color='#BEBEBE'/>}
-                           containerStyle={CreateProjectStyle.inputContainer}
+                           containerStyle={CreateProjectStyle.inputSearchContainer}
                     />
+
                 </View>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                     <SeedyFiubaButton
