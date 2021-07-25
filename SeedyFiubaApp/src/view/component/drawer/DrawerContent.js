@@ -75,12 +75,12 @@ const DrawerContent = (props) => {
                     labelStyle={drawerStyles.drawerText}/>
                 <DrawerItem
                     icon={({color, size}) => (
-                        <Icon name='bell-outline'
+                        <Icon name='inbox'
                               type='material-community'
                               size={size}
                               color={color}/>)
                     }
-                    label={'Notifications'}
+                    label={'Inbox'}
                     onPress={() => {
                         props.navigation.navigate('NotificationsScreen');
                     }}
