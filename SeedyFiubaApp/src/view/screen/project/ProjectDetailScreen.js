@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import {Divider, Header, Icon, Image, Overlay} from "react-native-elements";
+import {Divider, Header, Icon, Image, Overlay, Rating} from "react-native-elements";
 import {ActivityIndicator, Button, RefreshControl, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import ProjectDetailStyleSheet from "../../Styles/ProjectDetailStyleSheet";
 import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";
@@ -19,7 +19,11 @@ import Payment from "../../../model/Payment";
 import SeerSection from "../../component/SeerSection";
 import {Video} from "expo-av";
 import SupportProject from "../../component/project/SupportProject";
+import * as PropTypes from "prop-types";
+import RateProject from "../../component/project/RateProject";
 
+
+RateProject.propTypes = {projectId: PropTypes.any};
 const ProjectDetailScreen = ({navigation,route}) => {
     const [creator, setCreator] = useState(new Creator());
     const [project, setProject] = useState(new Project());
@@ -29,6 +33,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const [visibleEdit, setVisibleEdit] = useState(false);
     const [visibleSeer, setVisibleSeer] = useState(false);
     const [visibleSupport, setVisibleSupport] = useState(false);
+    const [visibleRate, setVisibleRate] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const {id, jwt} = UseAuth();
     const video = useRef(null);
@@ -39,6 +44,8 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const hideModalSeer = () => setVisibleSeer(false);
     const showModalSupport = () => setVisibleSupport(true);
     const hideModalSupport = () => setVisibleSupport(false);
+    const showModalRate = () => setVisibleRate(true);
+    const hideModalRate = () => setVisibleRate(false);
 
 
     const addProjectToFavorites = () => {
@@ -177,6 +184,9 @@ const ProjectDetailScreen = ({navigation,route}) => {
             </Overlay>
             <Overlay isVisible={visibleSupport} onBackdropPress={hideModalSupport} overlayStyle={{height:200,width:300}}>
                 <SupportProject projectId={project.id}/>
+            </Overlay>
+            <Overlay isVisible={visibleRate} onBackdropPress={hideModalRate} overlayStyle={{height:200,width:300}}>
+                <RateProject projectId={project.id} close={hideModalRate}/>
             </Overlay>
             {
                 loading?
@@ -320,6 +330,16 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                         </Text>
                                     </View>
                                 </View>
+                                <View style={{flexDirection: 'row'}}>
+                                    <Rating
+                                        readonly
+                                        startingValue={project.rating}
+                                    />
+                                </View>
+                                <SeedyFiubaButton
+                                    title='Rate'
+                                    onPress={showModalRate}
+                                    style={ProjectDetailStyleSheet.button}/>
                                 <Divider width={20} color={'transparent'}/>
 
                                 {

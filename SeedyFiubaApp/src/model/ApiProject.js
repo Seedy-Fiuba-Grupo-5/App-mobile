@@ -48,5 +48,13 @@ class ApiProject {
         return new Support(jsonData);
     }
 
+    static async rateProject(projectId,rating) {
+        const url = URL_LOCAL_GATEWAY + '/projects/' + projectId + '/rate';
+        const response = await axios.post(url, {
+            rating: rating
+        });
+        return response.data;
+    }
+
 }
 export default ApiProject

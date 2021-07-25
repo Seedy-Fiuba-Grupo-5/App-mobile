@@ -129,8 +129,12 @@ class ApiUser {
 
     static async getMessages(id, token) {
         const url = URL_LOCAL_GATEWAY + '/messages/'+id+"?token="+token;
+        console.log("Entre a get Messages, url: "+url);
         const response = await axios.get(url);
-        return new Messages(response.data[0]);
+        if(response.data.length > 0){
+            return new Messages(response.data[0]);
+        }
+        return [];
     }
 }
 export default ApiUser

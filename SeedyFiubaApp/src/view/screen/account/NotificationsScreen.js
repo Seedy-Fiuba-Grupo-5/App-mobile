@@ -1,6 +1,5 @@
 import Loading from "../../component/Loading";
-import {Image, RefreshControl, ScrollView, Text, TouchableOpacity, View} from "react-native";
-import ProjectCard from "../../component/project/ProjectCard";
+import {RefreshControl, ScrollView} from "react-native";
 import React, {useCallback, useEffect, useState} from "react";
 import UseAuth from "../../component/UseAuth";
 import ApiUser from "../../../model/ApiUser";
@@ -36,6 +35,7 @@ const NotificationsScreen = ({navigation}) => {
     const onRefresh = useCallback(() => {
         ApiUser.getMessages(id, jwt)
             .then((data) => {
+                console.log(data.allMessages);
                 setIsLoading(false);
                 setNotifications(data.allMessages);
             })
