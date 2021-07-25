@@ -102,18 +102,25 @@ const ProjectDetailScreen = ({navigation,route}) => {
     useEffect(() => {
         const payload = route.params.project;
         if(payload.id === project.id) return;
-        setProject(payload);
         getProject(payload.id);
+        setProject(payload);
     })
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
+        console.log("Busco project")
         ApiProject.project(route.params.project.id)
             .then((data) => {
                 setRefreshing(false);
                 setProject(data);
                 setCreator(data.user);
                 setPayment(data.payments);
+                console.log(data.favorites);
+                //esta condicion anda mal.
+                if(project.favorites.some(user => (user === id))){
+                    console.log('Esta en favoritos')
+                }
+
             })
             .catch((error) => {
                 setRefreshing(false);
@@ -152,21 +159,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                             color='#fff'
                             onPress={() => {
                                 showModalEdit();
-                            }}/>) :
-                        (<Icon
-                            name={project.favorites.some(user => (user === id))? 'favorite': 'favorite-border'}
-                            type='material'
-                            size={30}
-                            color='#fff'
-                            onPress={() => {
-                                if(project.favorites.some(user => (user === id))){
-                                    console.log("Soy fav");
-                                    removeProjectFromFavorites();
-                                } else {
-                                    console.log("NO soy fav");
-                                    addProjectToFavorites();
-                                }
-                            }}/>)
+                            }}/>) : null
                 }
                 containerStyle={accountStyles.header}
             />
@@ -205,7 +198,27 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                             style={ProjectDetailStyleSheet.ImageStyle}
                                             containerStyle={ProjectDetailStyleSheet.ImageContainerStyle}/>)
                                 }
-                                <Text style={{fontSize: 34}}>{project.name}</Text>
+                                <View style={{flexDirection: 'row'}}>
+                                    <Text style={{fontSize: 34}}>{project.name}</Text>
+                                    <View style={{
+                                        flex: 1,
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}>
+                                        <Icon
+                                            name={project.favorites.some(user => (user === id))? 'favorite': 'favorite-border'}
+                                            type='material'
+                                            size={30}
+                                            color='#4b1e4d'
+                                            onPress={() => {
+                                                if(project.favorites.some(user => (user === id))){
+                                                    removeProjectFromFavorites();
+                                                } else {
+                                                    addProjectToFavorites();
+                                                }
+                                            }}/>
+                                    </View>
+                                </View>
                                 {
                                     <TouchableOpacity onPress={() => navigation.navigate("Creator", {creator:creator})}>
                                         <ProjectDetailKeyValueText projectKey={'Created By'} projectValue={creator.firstName+' '+creator.lastName}/>
@@ -300,8 +313,8 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                     </View>
                                 </View>
                                 <Divider width={20} color={'transparent'}/>
-                                {
 
+                                {
                                     route.params.editable?
                                         (
                                             <SeedyFiubaButton

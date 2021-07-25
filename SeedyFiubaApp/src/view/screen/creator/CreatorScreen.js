@@ -43,7 +43,7 @@ const CreatorScreen = ({navigation,route}) => {
                 containerStyle={accountStyles.header}
             />
             <Overlay isVisible={visible} onBackdropPress={hideModal} overlayStyle={{height:200,width:300}}>
-                <CreatorMessage creatorId={creator.id}/>
+                <CreatorMessage creatorId={creator.id} close={hideModal}/>
             </Overlay>
             <View style={{flex: 1, alignContent: 'center'}}>
                 <View style={{flex: 3,margin:20}}>
