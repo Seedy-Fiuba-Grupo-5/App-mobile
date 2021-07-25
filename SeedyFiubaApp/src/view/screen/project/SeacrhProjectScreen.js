@@ -1,6 +1,6 @@
 import {Alert, RefreshControl, SafeAreaView, ScrollView, Text, TextInput, View} from "react-native";
 import React, {useEffect, useState} from 'react';
-import {Header, Icon, Overlay, SearchBar} from "react-native-elements";
+import {Header, Icon, Input, Overlay, SearchBar} from "react-native-elements";
 import accountStyles from "../../Styles/AccountStyleSheet";
 import ProjectEdit from "../../component/project/ProjectEdit";
 import CreateProjectStyle from "../../Styles/CreateProjectStyleSheet";
@@ -17,6 +17,8 @@ const SearchProjectScreen = ({navigation}) =>{
     const [text, setText] = useState('');
     const [visible, setVisible] = useState(false);
     const [type,setType] = useState('');
+    const [hashtag,setHashtag] = useState('');
+    const [invalidHashtag, setInvalidHashtag] = useState(false);
     const [projects, setProjects] =useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const showModal = () => setVisible(true);
@@ -24,12 +26,27 @@ const SearchProjectScreen = ({navigation}) =>{
     const {id} = UseAuth();
     const clearData = () => {
         setType('');
+        setHashtag('');
+        setInvalidHashtag(false);
         setProjects([]);
     }
     const searchData = () => {
+        if (!validHashtag()) {
+            setInvalidHashtag(true);
+            return;
+        }
+        setInvalidHashtag(false);
         hideModal();
         search();
     }
+
+    const validHashtag = () => {
+        if (!isEmpty(hashtag)){
+            return hashtag.charAt(0) === '#'
+        }
+        return true;
+    }
+
     const isEmpty = (data) => {
         return data === '' || data == null;
     }
@@ -38,6 +55,10 @@ const SearchProjectScreen = ({navigation}) =>{
         params.name = text;
         if (!isEmpty(type)) {
             params.type = type;
+        }
+
+        if (!isEmpty(hashtag)) {
+            params.hashtag = hashtag;
         }
         setIsLoading(true);
         ApiProject.projects(params)
@@ -100,8 +121,8 @@ const SearchProjectScreen = ({navigation}) =>{
                 }
                 containerStyle={accountStyles.header}
             />
-            <Overlay isVisible={visible} onBackdropPress={hideModal} overlayStyle={{height:200,width:300}}>
-                <View style={{paddingTop:10,paddingBottom:50}}>
+            <Overlay isVisible={visible} onBackdropPress={hideModal} overlayStyle={{height:270,width:300}}>
+                <View style={{paddingTop:10,paddingBottom:10}}>
                     <Text
                         style={{
                             color:'#85929d',
@@ -141,6 +162,25 @@ const SearchProjectScreen = ({navigation}) =>{
                             {label: "Technology", value: "Technology"},
                             {label: "Theater", value: "Theater"}
                         ]}
+                    />
+                    <Text
+                        style={{
+                            color:'#85929d',
+                            fontWeight:'bold',
+                            paddingLeft:34,
+                            paddingBottom:5,
+                            paddingTop:10,
+                            fontSize:18}}>
+                        Hashtag
+                    </Text>
+                    <Input value={hashtag}
+                           onChangeText={(value)=>{setHashtag(value)}}
+                           errorMessage={invalidHashtag && 'Invalid hashtag' }
+                           leftIcon={<Icon name='tag'
+                                           type='material'
+                                           size={20}
+                                           color='#BEBEBE'/>}
+                           containerStyle={CreateProjectStyle.inputContainer}
                     />
                 </View>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
