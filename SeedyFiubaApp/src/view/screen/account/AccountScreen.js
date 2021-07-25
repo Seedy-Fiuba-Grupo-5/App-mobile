@@ -11,6 +11,7 @@ import Loading from "../../component/Loading";
 import AccountWalletInformationCard from "../../component/account/AccountWalletInformationCard";
 import AccountCarousel from "../../component/account/AccountCarousel";
 import ProjectCard from "../../component/project/ProjectCard";
+import {ActivityIndicator} from "react-native-paper";
 
 const AccountScreen = ({navigation}) => {
     const {id,jwt} = UseAuth();
@@ -22,6 +23,7 @@ const AccountScreen = ({navigation}) => {
     }
     useEffect(
         () => {
+            setIsLoading(true)
             ApiUser.user(id,jwt)
                 .then((data) => {
                     setIsLoading(false);
@@ -62,31 +64,38 @@ const AccountScreen = ({navigation}) => {
                 }
             />
             {
-                isLoading ?
-                    (
-                        <Loading customStyle={{paddingTop: 0}}/>
-                    ) : (
-                        <ScrollView
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={refreshing}
-                                    onRefresh={onRefresh}
-                                    colors={['#4b1e4d']}
-                                />
-                            }>
-                            <AccountCarousel items={1}>
-                                <AccountInformationCard
-                                    firstName={user.firstName}
-                                    lastName={user.lastName}
-                                    email={user.email}/>
-                                <AccountWalletInformationCard
-                                    address={user.address}
-                                    balance={user.balance}
-                                    privateAddress={user.privateKey}/>
-                            </AccountCarousel>
-                        </ScrollView>
-                    )
+                isLoading &&
+                <View style={
+                            {
+                                justifyContent: "center",
+                                position:'absolute',
+                                elevation:1,
+                                width:'100%',
+                                height:'100%',
+                            }
+                        }>
+                    <ActivityIndicator size="Large" color="#4b1e4d"/>
+                </View>
             }
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        colors={['#4b1e4d']}
+                    />
+                }>
+                <AccountCarousel items={1}>
+                    <AccountInformationCard
+                        firstName={user.firstName}
+                        lastName={user.lastName}
+                        email={user.email}/>
+                    <AccountWalletInformationCard
+                        address={user.address}
+                        balance={user.balance}
+                        privateAddress={user.privateKey}/>
+                </AccountCarousel>
+            </ScrollView>
         </View>
     )
 }
