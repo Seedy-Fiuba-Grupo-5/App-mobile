@@ -3,11 +3,11 @@ import React from "react";
 import SeerReleaseFunds from "./SeerReleaseFunds";
 
 const SeerSection = ({stagesCost, projectId, stagesStates}) => {
-    console.log(stagesStates);
     return(
         <View>
             {
                 stagesCost.map((value, index, values) => {
+                    console.log(stagesStates[index]);
                     return (
                         <SeerReleaseFunds
                             key={index}
