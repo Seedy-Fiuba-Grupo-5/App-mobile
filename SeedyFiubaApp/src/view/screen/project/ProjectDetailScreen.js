@@ -19,10 +19,7 @@ import Payment from "../../../model/Payment";
 import SeerSection from "../../component/SeerSection";
 import {Video} from "expo-av";
 import SupportProject from "../../component/project/SupportProject";
-import * as PropTypes from "prop-types";
 
-
-RateProject.propTypes = {projectId: PropTypes.any};
 const ProjectDetailScreen = ({navigation,route}) => {
     const [creator, setCreator] = useState(new Creator());
     const [project, setProject] = useState(new Project());
@@ -47,12 +44,8 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const showModalRate = () => setVisibleRate(true);
     const hideModalRate = () => setVisibleRate(false);
 
-    const ratingCompleted = (rating) => {
-        console.log("Rating: "+rating);
-        setRating(rating);
-    }
-
     const rateProject = () => {
+        console.log("Entre");
         ApiProject.rateProject(id, project.id, rating)
             .then((data) => {
                 console.log(data);
@@ -109,6 +102,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                 setLoading(false);
                 setCreator(data.user);
                 setPayment(data.payments);
+                setProject(data);
                 for(let i = 0; i < data.favorites.length; ++i){
                     if(id === data.favorites[i]){
                         setIsFavorite(true);
@@ -344,8 +338,10 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                         <Rating
                                             type='star'
                                             tintColor='#F2F2F2'
-                                            startingValue={1}
-                                            onFinishRating={ratingCompleted}
+                                            startingValue={rating}
+                                            onFinishRating={(rating) => {
+                                                setRating(rating);
+                                            }}
                                         /> :
                                         <Rating
                                             readonly
@@ -373,8 +369,6 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                             onPress={showModalRate}
                                         />
                                     }
-
-
                                 </View>
                                 <Divider width={20} color={'transparent'}/>
 
