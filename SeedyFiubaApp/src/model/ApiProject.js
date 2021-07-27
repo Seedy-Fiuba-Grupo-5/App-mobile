@@ -48,9 +48,10 @@ class ApiProject {
         return new Support(jsonData);
     }
 
-    static async rateProject(projectId,rating) {
+    static async rateProject(userId, projectId,rating) {
         const url = URL_LOCAL_GATEWAY + '/projects/' + projectId + '/rate';
         const response = await axios.post(url, {
+            id_user: userId,
             rating: rating
         });
         return response.data;

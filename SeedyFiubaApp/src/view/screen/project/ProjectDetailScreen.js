@@ -20,7 +20,6 @@ import SeerSection from "../../component/SeerSection";
 import {Video} from "expo-av";
 import SupportProject from "../../component/project/SupportProject";
 import * as PropTypes from "prop-types";
-import RateProject from "../../component/project/RateProject";
 
 
 RateProject.propTypes = {projectId: PropTypes.any};
@@ -28,6 +27,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const [creator, setCreator] = useState(new Creator());
     const [project, setProject] = useState(new Project());
     const [payment, setPayment] = useState(new Payment());
+    const [rating, setRating] = useState(1);
     const [loading, setLoading] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const [visibleEdit, setVisibleEdit] = useState(false);
@@ -47,6 +47,21 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const showModalRate = () => setVisibleRate(true);
     const hideModalRate = () => setVisibleRate(false);
 
+    const ratingCompleted = (rating) => {
+        console.log("Rating: "+rating);
+        setRating(rating);
+    }
+
+    const rateProject = () => {
+        ApiProject.rateProject(id, project.id, rating)
+            .then((data) => {
+                console.log(data);
+                getProject(route.params.project.id);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
     const addProjectToFavorites = () => {
         ApiUser.addProjectToFavorites(route.params.project.id, id, jwt)
@@ -144,7 +159,6 @@ const ProjectDetailScreen = ({navigation,route}) => {
 
     }, []);
     const amountGoal = goal(payment.stagesCost);
-    console.log(payment.balance);
     const amountCollected = collected(payment.balance, amountGoal);
     return (
         <>
@@ -190,9 +204,6 @@ const ProjectDetailScreen = ({navigation,route}) => {
             </Overlay>
             <Overlay isVisible={visibleSupport} onBackdropPress={hideModalSupport} overlayStyle={{height:200,width:300}}>
                 <SupportProject projectId={project.id}/>
-            </Overlay>
-            <Overlay isVisible={visibleRate} onBackdropPress={hideModalRate} overlayStyle={{height:200,width:300}}>
-                <RateProject projectId={project.id} close={hideModalRate}/>
             </Overlay>
             {
                 loading?
@@ -327,16 +338,44 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                         {project.location}
                                     </Text>
                                 </View>
-                                <View style={{flexDirection: 'row'}}>
-                                    <Rating
-                                        readonly
-                                        startingValue={project.rating}
-                                    />
+                                <Divider width={20} color={'transparent'}/>
+                                <View style={{flexDirection: 'row', justifyContent: "center"}}>
+                                    {visibleRate ?
+                                        <Rating
+                                            type='star'
+                                            tintColor='#F2F2F2'
+                                            startingValue={1}
+                                            onFinishRating={ratingCompleted}
+                                        /> :
+                                        <Rating
+                                            readonly
+                                            startingValue={project.rating}
+                                            type='star'
+                                            tintColor='#F2F2F2'
+                                        />
+                                    }
+                                    {visibleRate ?
+                                        <Icon
+                                            name='send'
+                                            type='material'
+                                            size={30}
+                                            color='#4b1e4d'
+                                            onPress={() => {
+                                                rateProject()
+                                                hideModalRate();
+                                            }}
+                                        /> :
+                                        <Icon
+                                            name='add'
+                                            type='material'
+                                            size={30}
+                                            color='#4b1e4d'
+                                            onPress={showModalRate}
+                                        />
+                                    }
+
+
                                 </View>
-                                <SeedyFiubaButton
-                                    title='Rate'
-                                    onPress={showModalRate}
-                                    style={ProjectDetailStyleSheet.button}/>
                                 <Divider width={20} color={'transparent'}/>
 
                                 {
