@@ -1,16 +1,13 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {RefreshControl, ScrollView, Text, View} from "react-native";
 import AccountInformationCard from "../../component/account/AccountInformationCard";
-import AccountAvatar from "../../component/account/AccountAvatar";
 import UseAuth from "../../component/UseAuth";
 import ApiUser from "../../../model/ApiUser";
 import User from "../../../model/User";
 import CustomPrincipalHeader from "../../component/CustomPrincipalHeader";
 import {Icon} from "react-native-elements";
-import Loading from "../../component/Loading";
 import AccountWalletInformationCard from "../../component/account/AccountWalletInformationCard";
 import AccountCarousel from "../../component/account/AccountCarousel";
-import ProjectCard from "../../component/project/ProjectCard";
 import {ActivityIndicator} from "react-native-paper";
 
 const AccountScreen = ({navigation}) => {
@@ -94,7 +91,7 @@ const AccountScreen = ({navigation}) => {
                     <AccountWalletInformationCard
                         address={user.address}
                         balance={user.balance}
-                        privateAddress={user.privateKey}/>
+                        privateKey={user.privateKey}/>
                 </AccountCarousel>
             </ScrollView>
         </View>

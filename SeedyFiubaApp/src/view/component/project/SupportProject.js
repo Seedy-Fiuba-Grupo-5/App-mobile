@@ -10,7 +10,7 @@ import React, {useState} from "react";
 import UseAuth from "../UseAuth";
 import ApiProject from "../../../model/ApiProject";
 
-const SupportProject = ({projectId}) => {
+const SupportProject = ({projectId,onSuccess,onEnd}) => {
     const [isLoading, setIsLoading] = useState(false);
     const {id,jwt} = UseAuth();
     const validAmount = (val) => {
@@ -24,16 +24,21 @@ const SupportProject = ({projectId}) => {
     const supportProject = (values,actions) => {
         actions.resetForm();
         setIsLoading(true);
-        console.log(jwt);
         ApiProject.supportProject(projectId, jwt, id, values.amount)
             .then((data)=>{
                 setIsLoading(false);
-                console.log(data);
+                onSuccess();
                 Alert.alert('Successfully Supported');
+                onEnd();
             })
             .catch((error)=>{
                 setIsLoading(false);
-                console.log(error);
+                if (error.response.status !== undefined) {
+                    Alert.alert(error.response.data.status);
+                } else {
+                    Alert.alert('Something went wrong');
+                }
+                onEnd();
             })
     }
     return(
@@ -59,6 +64,7 @@ const SupportProject = ({projectId}) => {
                             <Text style={{paddingTop:1}}/>
                             <Input value={props.values.amount}
                                    label={'Amount'}
+                                   keyboardType={'numeric'}
                                    onChangeText={props.handleChange('amount')}
                                    onBlur={props.handleBlur('amount')}
                                    errorMessage={props.touched.amount && props.errors.amount}

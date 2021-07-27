@@ -10,7 +10,7 @@ import React, {useState} from "react";
 import UseAuth from "../UseAuth";
 import ApiUser from "../../../model/ApiUser";
 
-const InviteSeer = ({project}) => {
+const InviteSeer = ({project,onSuccess}) => {
     const [isLoading, setIsLoading] = useState(false);
     const {jwt} = UseAuth();
     const inviteSeer = (values) => {
@@ -57,6 +57,7 @@ const InviteSeer = ({project}) => {
                         <View>
                             <Text style={{paddingTop:1}}/>
                             <Input value={props.values.id}
+                                   keyboardType={'numeric'}
                                    label={'User Id'}
                                    onChangeText={props.handleChange('id')}
                                    onBlur={props.handleBlur('id')}

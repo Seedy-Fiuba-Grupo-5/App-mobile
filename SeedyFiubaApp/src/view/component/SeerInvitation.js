@@ -8,25 +8,23 @@ import Project from "../../model/Project";
 import LoadingText from "./LoadingText";
 import SeedyFiubaButton from "./SeedyFiubaButton";
 import ProjectEditStyleSheet from "../Styles/ProjectEditStyleSheet";
-import {Text, View} from "react-native";
-import Loading from "./Loading";
+import {View} from "react-native";
 
-const SeerInvitation = ({projectId}) => {
+const SeerInvitation = ({projectId, onSuccess}) => {
     const [project, setProject] = useState(new Project());
     const [isLoading, setIsLoading] = useState(true);
-    const [isResponded, setIsResponded] = useState(false);
     const [isLoadingButton, setIsLoadingButton] = useState(false);
     const {id, jwt} = UseAuth();
 
     const accept = () => {
         setIsLoadingButton(true);
         ApiUser.acceptSeer(id, jwt, projectId)
-            .then((data)=>{
+            .then((data) => {
                 setIsLoadingButton(false);
-                setIsResponded(true);
+                onSuccess();
                 console.log(data);
             })
-            .catch((error)=>{
+            .catch((error) => {
                 setIsLoadingButton(false);
                 console.log(error);
             })
@@ -34,12 +32,12 @@ const SeerInvitation = ({projectId}) => {
     const deny = () => {
         setIsLoadingButton(true);
         ApiUser.denySeer(id, jwt, projectId)
-            .then((data)=>{
+            .then((data) => {
                 setIsLoadingButton(false);
-                setIsResponded(true);
+                onSuccess();
                 console.log(data);
             })
-            .catch((error)=>{
+            .catch((error) => {
                 setIsLoadingButton(false);
                 console.log(error);
             })
@@ -58,66 +56,64 @@ const SeerInvitation = ({projectId}) => {
     }
     useEffect(() => {
         getProjects(setIsLoading);
-    },[]);
+    }, []);
     return (
-            <Card containerStyle={ProjectCardStyleSheet.projectCard}>
+        <Card containerStyle={ProjectCardStyleSheet.projectCard}>
 
-                {
-                    isLoading?
-                        (<LoadingText/>):
-                        (
-                            <View>
-                                <Card.Title
-                                    style={ProjectCardStyleSheet.title}>
-                                    Invitation to : {project.name}
-                                </Card.Title>
-                                {
-                                    isLoadingButton?
-                                        (<LoadingText/>):
-                                        (
-                                            <View>
-                                                {
-                                                    isResponded?
-                                                        (<Text style={{alignSelf:'center', color:'#4b1e4d', fontSize:20}}>Reload to Show</Text>):
-                                                        (
-                                                            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                                                                <SeedyFiubaButton
-                                                                    title='Accept'
-                                                                    onPress={()=>{accept()}}
-                                                                    style={{
-                                                                        margin:2,
-                                                                        backgroundColor: '#4b1e4d',
-                                                                        borderRadius: 15,
-                                                                        width: '70%',
-                                                                        alignSelf: 'center'
-                                                                    }}
-                                                                    titleStyle={ProjectEditStyleSheet.title}/>
+            {
+                isLoading ?
+                    (<LoadingText/>) :
+                    (
+                        <View>
+                            <Card.Title
+                                style={ProjectCardStyleSheet.title}>
+                                Invitation to : {project.name}
+                            </Card.Title>
+                            {
+                                isLoadingButton ?
+                                    (<LoadingText/>) :
+                                    (
+                                        <View>
+                                            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                                                <SeedyFiubaButton
+                                                    title='Accept'
+                                                    onPress={() => {
+                                                        accept()
+                                                    }}
+                                                    style={{
+                                                        margin: 2,
+                                                        backgroundColor: '#4b1e4d',
+                                                        borderRadius: 15,
+                                                        width: '70%',
+                                                        alignSelf: 'center'
+                                                    }}
+                                                    titleStyle={ProjectEditStyleSheet.title}/>
 
-                                                                <SeedyFiubaButton
-                                                                    title='Deny'
-                                                                    onPress={()=>{deny()}}
-                                                                    style={{
-                                                                        margin:2,
-                                                                        backgroundColor: '#86939e',
-                                                                        borderRadius: 15,
-                                                                        width: '75%',
-                                                                        alignSelf: 'center'
-                                                                    }}
-                                                                    titleStyle={ProjectEditStyleSheet.title}/>
-
-                                                            </View>
-                                                        )
-                                                }
+                                                <SeedyFiubaButton
+                                                    title='Deny'
+                                                    onPress={() => {
+                                                        deny()
+                                                    }}
+                                                    style={{
+                                                        margin: 2,
+                                                        backgroundColor: '#86939e',
+                                                        borderRadius: 15,
+                                                        width: '75%',
+                                                        alignSelf: 'center'
+                                                    }}
+                                                    titleStyle={ProjectEditStyleSheet.title}/>
 
                                             </View>
-                                        )
-                                }
-                            </View>
-                        )
-                }
+
+                                        </View>
+                                    )
+                            }
+                        </View>
+                    )
+            }
 
 
-            </Card>
+        </Card>
     )
 }
 

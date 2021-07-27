@@ -25,6 +25,8 @@ import ApiProject from "../../../model/ApiProject";
 import Loading from "../../component/Loading";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import ApiGoogle from "../../../model/ApiGoogle";
+import {GOOGLE_API_KEY} from '@env'
+import Geometry from "../../../model/Geometry";
 
 const NewProjectScreen = () => {
     const [date, setDate] = useState(new Date());
@@ -67,8 +69,7 @@ const NewProjectScreen = () => {
         resetForm(actions);
         setIsLoading(true);
         let goalInfo = getGoal(values.goal);
-        let geometry =  await ApiGoogle.geometry(locationId);
-        console.log(geometry);
+        let geometry =  await ApiGoogle.geometry(locationId).then(data=>{return data;}).catch(error => {console.log(error); return new Geometry()});
         ApiUser.createProject(id, {
             name: values.name,
             description: values.description,
@@ -446,7 +447,7 @@ const NewProjectScreen = () => {
                                         }}
                                         nearbyPlacesAPI='GoogleReverseGeocoding'
                                         query={{
-                                            key: 'AIzaSyBjMkW8M-Xa-Z6uJGT-RNFAJBtD9CD-EAs',
+                                            key: GOOGLE_API_KEY,
                                             language: 'en',
                                             types: 'geocode'
                                         }}

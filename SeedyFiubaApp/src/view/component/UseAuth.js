@@ -6,6 +6,16 @@ import * as Google from "expo-google-app-auth";
 import {ANDROID_CLIENT} from '@env'
 import UserInformation from "../../model/UserInformation";
 
+const saveUserData = (id, token) => {
+    UserInformation.setData('user',
+        {
+            id:id,
+            jwt:token
+        })
+        .then(data=>console.log(data))
+        .catch(error=>console.log(error));
+}
+
 const UseAuth = () => {
     const {jwt,id,setJWT,setId} = useContext(AuthContext);
     const [isLoading,setLoading] = useState(false);
@@ -20,37 +30,19 @@ const UseAuth = () => {
                 setLoading(true);
                 ApiUser.login(results.user.email, results.user.id)
                     .then((data) => {
+                        saveUserData(data.id, data.token);
                         setLoading(false);
                         setJWT(data.token);
                         setId(data.id);
                     })
                     .catch((error) => {
                         if (error.response.status === 404) {
-                            ApiUser.register(
+                            signUp(
                                 results.user.givenName,
                                 results.user.familyName,
                                 results.user.email,
-                                results.user.id)
-                                .then((data) => {
-                                    if (data) {
-                                        setLoading(false);
-                                        UserInformation.setData('user',{
-                                            id:data.id,
-                                            jwt:data.token
-                                        }).then(data=>console.log(data)).catch(error=>console.log(error));
-                                        setJWT(data.token);
-                                        setId(data.id);
-                                    }
-                                })
-                                .catch((error) => {
-                                    console.log(error);
-                                    setLoading(false);
-                                    if (error.response.status === 401) {
-                                        Alert.alert('Account with this email already exists');
-                                    } else {
-                                        Alert.alert('Something went wrong ');
-                                    }
-                                });
+                                results.user.id
+                            );
                         }
                     });
             }
@@ -77,11 +69,8 @@ const UseAuth = () => {
         setLoading(true);
         ApiUser.login(email,password)
             .then((data) => {
+                saveUserData(data.id, data.token);
                 setLoading(false);
-                UserInformation.setData('user', {
-                    id: data.id,
-                    jwt: data.token
-                }).then().catch();
                 setJWT(data.token);
                 setId(data.id);
             })
@@ -102,25 +91,21 @@ const UseAuth = () => {
                     }
                 }
             });
-    },[])
+    },[]);
+
     const signOut = useCallback(() => {
-        UserInformation.setData('user',{
-            id:null,
-            jwt:null
-        }).then().catch();
+        saveUserData(null, null);
         setJWT(null);
         setId(null);
     },[]);
+
     const signUp = useCallback((firstName, lastName, email, password) => {
         setLoading(true);
         ApiUser.register(firstName, lastName, email, password)
             .then((data) => {
                 if (data) {
+                    saveUserData(data.id, data.token);
                     setLoading(false);
-                    UserInformation.setData('user',{
-                        id:data.id,
-                        jwt:data.token
-                    }).then(data=>console.log(data)).catch(error=>console.log(error));
                     setJWT(data.token);
                     setId(data.id);
                 }

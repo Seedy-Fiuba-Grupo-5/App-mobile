@@ -38,6 +38,27 @@ Notifications.setNotificationHandler({
     }),
 });
 const App = () => {
+    const functionD = async () => {
+        if (Constants.isDevice) {
+            const {status: existingStatus} = await Notifications.getPermissionsAsync();
+            let finalStatus = existingStatus;
+            if (existingStatus !== 'granted') {
+                const {status} = await Notifications.requestPermissionsAsync();
+                finalStatus = status;
+            }
+            if (finalStatus !== 'granted') {
+                alert('Failed to get push token for push notification!');
+                return;
+            }
+            let token = (await Notifications.getExpoPushTokenAsync()).data;
+            console.log(token);
+        } else {
+            alert('Must use physical device for Push Notifications');
+        }
+    }
+
+    functionD();
+
     LogBox.ignoreLogs([
         'Setting a timer for a long period of time',
         'Non-serializable values were found in the navigation state',

@@ -9,34 +9,27 @@ import SeedyFiubaEmpty from "../../component/SeedyFiubaEmpty";
 
 const FavoriteProjectScreen = ({navigation}) => {
     const [projects, setProjects] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const {id} = UseAuth();
-
-    useEffect(() => {
-        setIsLoading(true);
+    const getProjects = (action) => {
+        action(true);
         ApiUser.favoriteProjects(id)
             .then((data) => {
-                setIsLoading(false);
+                action(false);
                 setProjects(data.allProjects);
             })
             .catch((error) => {
-                setIsLoading(false);
+                action(false);
                 console.log(error);
             });
+    }
+    useEffect(() => {
+        getProjects(setIsLoading);
     }, []);
 
     const onRefresh = useCallback(() => {
-        setRefreshing(true);
-        ApiUser.favoriteProjects(id)
-            .then((data) => {
-                setRefreshing(false);
-                setProjects(data.allProjects)
-            })
-            .catch((error) => {
-                setRefreshing(false);
-                console.log(error);
-            });
+        getProjects(setRefreshing);
     }, []);
 
     return (

@@ -21,6 +21,7 @@ import {Video} from "expo-av";
 import SupportProject from "../../component/project/SupportProject";
 
 const ProjectDetailScreen = ({navigation,route}) => {
+    const [updated, setUpdated] = useState(0);
     const [creator, setCreator] = useState(new Creator());
     const [project, setProject] = useState(new Project());
     const [payment, setPayment] = useState(new Payment());
@@ -121,7 +122,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
 
     useEffect(() => {
         getProject(route.params.project.id);
-    }, []);
+    }, [updated]);
 
     useEffect(() => {
         const payload = route.params.project;
@@ -197,7 +198,15 @@ const ProjectDetailScreen = ({navigation,route}) => {
                 <InviteSeer project={project}/>
             </Overlay>
             <Overlay isVisible={visibleSupport} onBackdropPress={hideModalSupport} overlayStyle={{height:200,width:300}}>
-                <SupportProject projectId={project.id}/>
+                <SupportProject
+                    projectId={project.id}
+                    onSuccess={()=>{
+                        setLoading(true);
+                        setTimeout(() => {
+                            setUpdated(value=>value+1);
+                        },10000);
+                    }}
+                    onEnd={()=>{hideModalSupport()}}/>
             </Overlay>
             {
                 loading?
@@ -392,6 +401,12 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                                                     stagesCost={payment.stagesCost}
                                                                     projectId={project.id}
                                                                     stagesStates={payment.stagesStates}
+                                                                    onSuccess={()=>{
+                                                                        setLoading(true);
+                                                                        setTimeout(() => {
+                                                                            setUpdated(value=>value+1);
+                                                                        },10000);
+                                                                    }}
                                                                 />
                                                             </>
                                                         ) : (

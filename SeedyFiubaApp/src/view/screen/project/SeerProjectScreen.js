@@ -9,7 +9,7 @@ import SeerProject from "../../component/SeerProject";
 
 const SeerProjectScreen = ({navigation}) => {
     const [projects, setProjects] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [refreshing, setRefreshing] = React.useState(false);
     const {id} = UseAuth();
     const projectDetail = (project)=>{
@@ -41,37 +41,38 @@ const SeerProjectScreen = ({navigation}) => {
     return (
         <>
             {
-                isLoading ?
-                    (<Loading customStyle={{paddingTop:0}}/>) :
-                    (
-                        <ScrollView
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={refreshing}
-                                    onRefresh={onRefresh}
-                                    colors={['#4b1e4d']}
-                                />
-                            }>
-
-                            {
-                                projects.length === 0?
-                                (
-                                    <SeedyFiubaEmpty title={'Without Projects'}/>
-                                ):(projects.map((project,index) => {
-                                    if (project[1]){
-                                        return (
-                                            <SeerProject key={index} projectId={project[0]} onPress={projectDetail}/>
-                                            )
-                                    }else {
-                                        return <SeerInvitation key={index} projectId={project[0]}/>
-                                    }
-                                    }))
-
-                            }
-                            <Text/>
-                        </ScrollView>
-                    )
+                isLoading &&
+                <Loading customStyle={{paddingTop:0,top:70,elevation:1 ,position:'absolute',backgroundColor:'white',width:'100%',height:'88%'}}/>
             }
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        colors={['#4b1e4d']}
+                    />
+                }>
+
+                {
+                    projects.length === 0?
+                        (
+                            <SeedyFiubaEmpty title={'Without Projects'}/>
+                        ):(projects.map((project,index) => {
+                            if (project[1]){
+                                return (
+                                    <SeerProject key={index} projectId={project[0]} onPress={projectDetail}/>
+                                )
+                            }else {
+                                return <SeerInvitation
+                                    key={index}
+                                    projectId={project[0]}
+                                    onSuccess={()=>getProjects(setIsLoading)}/>
+                            }
+                        }))
+
+                }
+                <Text/>
+            </ScrollView>
         </>
     )
 }

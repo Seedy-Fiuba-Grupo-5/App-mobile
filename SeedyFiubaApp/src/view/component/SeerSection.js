@@ -2,12 +2,11 @@ import {Text, View} from "react-native";
 import React from "react";
 import SeerReleaseFunds from "./SeerReleaseFunds";
 
-const SeerSection = ({stagesCost, projectId, stagesStates}) => {
+const SeerSection = ({stagesCost, projectId, stagesStates,onSuccess}) => {
     return(
         <View>
             {
                 stagesCost.map((value, index, values) => {
-                    console.log(stagesStates[index]);
                     return (
                         <SeerReleaseFunds
                             key={index}
@@ -15,6 +14,7 @@ const SeerSection = ({stagesCost, projectId, stagesStates}) => {
                             cost={value}
                             projectId={projectId}
                             wasReleased={stagesStates[index]}
+                            onSuccess={onSuccess}
                         />
                     )
                 })

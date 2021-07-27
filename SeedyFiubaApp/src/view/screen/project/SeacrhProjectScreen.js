@@ -135,14 +135,12 @@ const SearchProjectScreen = ({navigation}) =>{
                             backgroundColor:'transparent',
                             borderBottomColor: 'transparent',
                             borderTopColor: 'transparent',
+                            height:30,
                             padding:0
                         }}
-                        inputStyle={{color:'#fff'}}
+                        inputStyle={{color:'#fff',fontSize:25}}
                         inputContainerStyle={{
-                            backgroundColor:'transparent',
-                            borderColor:'#fff',
-                            borderWidth: 1,
-                            borderBottomWidth: 1,
+                            backgroundColor:'rgba(126,102,146,0.77)',
                             height:20,
                             padding:0
 

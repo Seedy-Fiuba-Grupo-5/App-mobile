@@ -7,7 +7,7 @@ import ApiProject from "../../model/ApiProject";
 import LoadingText from "./LoadingText";
 import ApiUser from "../../model/ApiUser";
 
-const SeerReleaseFunds = ({stage, cost,projectId,wasReleased}) => {
+const SeerReleaseFunds = ({stage, cost,projectId,wasReleased,onSuccess}) => {
     const [buttonDisable, setButtonDisable] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const {id,jwt} = UseAuth();
@@ -21,12 +21,17 @@ const SeerReleaseFunds = ({stage, cost,projectId,wasReleased}) => {
             .then((data)=>{
                 setIsLoading(false);
                 setButtonDisable(true);
+                onSuccess();
                 console.log(data);
                 Alert.alert('Successfully');
             })
             .catch((error)=>{
                 setIsLoading(false);
-                console.log(error);
+                if (error.response.status !== undefined) {
+                    Alert.alert(error.response.data.status);
+                } else {
+                    Alert.alert('Something went wrong');
+                }
             })
     }
     return(
