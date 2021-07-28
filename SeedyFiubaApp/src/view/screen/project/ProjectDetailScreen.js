@@ -26,6 +26,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const [project, setProject] = useState(new Project());
     const [payment, setPayment] = useState(new Payment());
     const [rating, setRating] = useState(1);
+    const [rated, setRated] = useState(false);
     const [loading, setLoading] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const [visibleEdit, setVisibleEdit] = useState(false);
@@ -46,10 +47,10 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const hideModalRate = () => setVisibleRate(false);
 
     const rateProject = () => {
-        console.log("Entre");
         ApiProject.rateProject(id, project.id, rating)
             .then((data) => {
                 console.log(data);
+                setRated(true);
                 getProject(route.params.project.id);
             })
             .catch((error) => {
@@ -98,6 +99,18 @@ const ProjectDetailScreen = ({navigation,route}) => {
     }
     const getProject = (projectid) => {
         setLoading(true);
+        ApiProject.getRating(id, projectid)
+            .then((data) => {
+                if(data.length > 0){
+                    setRated(true);
+                } else {
+                    setRated(false);
+                }
+            })
+            .catch((error) => {
+                setRated(true)
+                console.log(error);
+            });
         ApiProject.project(projectid)
             .then((data) => {
                 setLoading(false);
@@ -359,24 +372,26 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                             tintColor='#F2F2F2'
                                         />
                                     }
-                                    {visibleRate ?
+                                    {!rated && visibleRate ?
                                         <Icon
                                             name='send'
                                             type='material'
                                             size={30}
                                             color='#4b1e4d'
                                             onPress={() => {
-                                                rateProject()
+                                                rateProject();
                                                 hideModalRate();
                                             }}
-                                        /> :
+                                        /> : null
+                                    }
+                                    {!rated && !visibleRate ?
                                         <Icon
                                             name='add'
                                             type='material'
                                             size={30}
                                             color='#4b1e4d'
                                             onPress={showModalRate}
-                                        />
+                                        /> : null
                                     }
                                 </View>
                                 <Divider width={20} color={'transparent'}/>

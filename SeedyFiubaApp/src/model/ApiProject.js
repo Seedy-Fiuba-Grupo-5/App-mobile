@@ -57,5 +57,11 @@ class ApiProject {
         return response.data;
     }
 
+    static async getRating(userId, projectId) {
+        const url = URL_LOCAL_GATEWAY + '/projects/' + projectId + '/rate?id_user='+userId;
+        const response = await axios.get(url);
+        return response.data;
+    }
+
 }
 export default ApiProject
