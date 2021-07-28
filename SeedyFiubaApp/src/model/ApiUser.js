@@ -6,6 +6,7 @@ import Projects from "./Projects";
 import Creator from "./Creator";
 import Seer from "./Seer";
 import Messages from "./Messages";
+import Transactions from "./Transactions";
 
 class ApiUser {
 
@@ -129,12 +130,20 @@ class ApiUser {
 
     static async getMessages(id, token) {
         const url = URL_LOCAL_GATEWAY + '/messages/'+id+"?token="+token;
-        console.log("Entre a get Messages, url: "+url);
         const response = await axios.get(url);
         if(response.data.length > 0){
             return new Messages(response.data[0]);
         }
         return {allMessages:[]};
+    }
+
+    static async getTransactions(id) {
+        const url = URL_LOCAL_GATEWAY + '/transactions?fromType=user&fromPublicId='+id;
+        const response = await axios.get(url);
+        if(response.data.length > 0){
+            return new Transactions(response.data);
+        }
+        return {allTransactions:[]};
     }
 }
 export default ApiUser

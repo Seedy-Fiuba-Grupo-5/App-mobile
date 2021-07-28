@@ -28,6 +28,7 @@ import SeerProjectScreen from "./src/view/screen/project/SeerProjectScreen";
 import FavoriteProjectScreen from "./src/view/screen/project/FavoriteProjectsScreen";
 import NotificationsScreen from "./src/view/screen/account/NotificationsScreen";
 import ProjectCommentScreen from "./src/view/screen/project/ProjectCommentScreen";
+import MyTransactionsScreen from "./src/view/screen/account/MyTransactionsScreen";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
@@ -166,6 +167,16 @@ const App = () => {
                                             header:({scene})=>{
                                                 return (<CustomPrincipalHeader
                                                     title={'New Project'}
+                                                    navigation={scene.descriptor.navigation}/>)}
+                                        }}/>
+                                    <accountDrawer.Screen
+                                        name ='MyTransactions'
+                                        component={MyTransactionsScreen}
+                                        options={{
+                                            headerShown:true,
+                                            header:({scene})=>{
+                                                return (<CustomPrincipalHeader
+                                                    title={'My Transactions'}
                                                     navigation={scene.descriptor.navigation}/>)}
                                         }}/>
                                     <accountDrawer.Screen

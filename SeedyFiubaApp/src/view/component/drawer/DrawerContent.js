@@ -97,6 +97,18 @@ const DrawerContent = (props) => {
                         props.navigation.navigate('SeerProjects')
                     }}
                     labelStyle={drawerStyles.drawerText}/>
+                <DrawerItem
+                    icon={({color, size}) => (
+                        <Icon name='cash-multiple'
+                              type='material-community'
+                              size={size}
+                              color={color}/>)
+                    }
+                    label={'My Transactions'}
+                    onPress={() => {
+                        props.navigation.navigate('MyTransactions');
+                    }}
+                    labelStyle={drawerStyles.drawerText}/>
             </DrawerContentScrollView>
             <DrawerItem
                 icon={({color, size}) =>
