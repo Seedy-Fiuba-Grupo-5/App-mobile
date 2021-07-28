@@ -27,6 +27,7 @@ import Constants from 'expo-constants';
 import SeerProjectScreen from "./src/view/screen/project/SeerProjectScreen";
 import FavoriteProjectScreen from "./src/view/screen/project/FavoriteProjectsScreen";
 import NotificationsScreen from "./src/view/screen/account/NotificationsScreen";
+import ProjectCommentScreen from "./src/view/screen/project/ProjectCommentScreen";
 
 const authStack = createStackNavigator();
 const accountDrawer = createDrawerNavigator();
@@ -38,27 +39,6 @@ Notifications.setNotificationHandler({
     }),
 });
 const App = () => {
-    const functionD = async () => {
-        if (Constants.isDevice) {
-            const {status: existingStatus} = await Notifications.getPermissionsAsync();
-            let finalStatus = existingStatus;
-            if (existingStatus !== 'granted') {
-                const {status} = await Notifications.requestPermissionsAsync();
-                finalStatus = status;
-            }
-            if (finalStatus !== 'granted') {
-                alert('Failed to get push token for push notification!');
-                return;
-            }
-            let token = (await Notifications.getExpoPushTokenAsync()).data;
-            console.log(token);
-        } else {
-            alert('Must use physical device for Push Notifications');
-        }
-    }
-
-    functionD();
-
     LogBox.ignoreLogs([
         'Setting a timer for a long period of time',
         'Non-serializable values were found in the navigation state',
@@ -161,7 +141,7 @@ const App = () => {
                                             headerShown:true,
                                             header:({scene})=>{
                                                 return (<CustomPrincipalHeader
-                                                    title={'Notifications Screen'}
+                                                    title={'Inbox'}
                                                     navigation={scene.descriptor.navigation}/>)}
                                         }}
                                     />
@@ -176,6 +156,8 @@ const App = () => {
                                                           }}/>
                                     <accountDrawer.Screen name ='Creator'
                                                           component={CreatorScreen}/>
+                                    <accountDrawer.Screen name ='Comments'
+                                                          component={ProjectCommentScreen}/>
                                     <accountDrawer.Screen
                                         name ='NewProject'
                                         component={NewProjectScreen}

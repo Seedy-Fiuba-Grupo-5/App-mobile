@@ -5,6 +5,7 @@ import {Alert} from "react-native";
 import * as Google from "expo-google-app-auth";
 import {ANDROID_CLIENT} from '@env'
 import UserInformation from "../../model/UserInformation";
+import TokenNotification from "../../model/TokenNotification";
 
 const saveUserData = (id, token) => {
     UserInformation.setData('user',
@@ -12,8 +13,8 @@ const saveUserData = (id, token) => {
             id:id,
             jwt:token
         })
-        .then(data=>console.log(data))
-        .catch(error=>console.log(error));
+        .then()
+        .catch();
 }
 
 const UseAuth = () => {
@@ -25,9 +26,18 @@ const UseAuth = () => {
             androidClientId:ANDROID_CLIENT,
             scopes:['profile','email']
         }
-        Google.logInAsync(config).then((results) => {
+        Google.logInAsync(config).then(async (results) => {
             if (results.type === 'success') {
                 setLoading(true);
+                let expoToken = await TokenNotification.getToken()
+                    .then(data => {
+                        return data;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        return 'empty_token'
+                    });
+                console.log(expoToken);
                 ApiUser.login(results.user.email, results.user.id)
                     .then((data) => {
                         saveUserData(data.id, data.token);
@@ -65,9 +75,13 @@ const UseAuth = () => {
         },[]
     );
 
-    const signIn = useCallback((email, password) => {
+    const signIn = useCallback(async (email, password) => {
         setLoading(true);
-        ApiUser.login(email,password)
+        let expoToken = await TokenNotification.getToken()
+            .then(data=>{return data;})
+            .catch(error => {console.log(error); return 'empty_token'});
+        console.log(expoToken);
+        ApiUser.login(email, password)
             .then((data) => {
                 saveUserData(data.id, data.token);
                 setLoading(false);
@@ -76,16 +90,16 @@ const UseAuth = () => {
             })
             .catch((error) => {
                 setLoading(false);
-                switch (error.response.status){
-                    case 401:{
+                switch (error.response.status) {
+                    case 401: {
                         Alert.alert('Invalid Password');
                         break;
                     }
-                    case 404:{
+                    case 404: {
                         Alert.alert('Account doesnt exist');
                         break;
                     }
-                    default:{
+                    default: {
                         Alert.alert('Something went wrong');
                         break;
                     }

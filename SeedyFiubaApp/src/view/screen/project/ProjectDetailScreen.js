@@ -410,10 +410,17 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                                                 />
                                                             </>
                                                         ) : (
-                                                            <SeedyFiubaButton
-                                                                title='Support'
-                                                                onPress={() => {showModalSupport()}}
-                                                                style={ProjectDetailStyleSheet.button}/>
+                                                            <View style={{flexDirection:'row', justifyContent:'center'}}>
+                                                                <SeedyFiubaButton
+                                                                    title='Support'
+                                                                    onPress={() => {showModalSupport()}}
+                                                                    style={ProjectDetailStyleSheet.button}/>
+                                                                <SeedyFiubaButton
+                                                                    title='Comments'
+                                                                    onPress={() => navigation.navigate("Comments",{projectId:project.id})}
+                                                                    style={ProjectDetailStyleSheet.button}/>
+                                                            </View>
+
                                                         )
                                                 }
                                             </View>
