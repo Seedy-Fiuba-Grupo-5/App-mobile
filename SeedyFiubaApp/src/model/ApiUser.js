@@ -18,13 +18,14 @@ class ApiUser {
     }
 
 
-    static async register(firsName, lastName, email, password) {
+    static async register(firsName, lastName, email, password,expoToken) {
         const url = URL_LOCAL_GATEWAY + '/users';
         const response = await axios.post(url,{
             name : firsName,
             lastName : lastName,
             email : email,
-            password : password
+            password : password,
+            expo_token:expoToken
         });
         const jsonData = response.data;
         return new User(jsonData);
@@ -37,11 +38,12 @@ class ApiUser {
         return new Projects(jsonData);
     }
 
-    static async login(email,password) {
+    static async login(email,password,expoToken) {
         const url = URL_LOCAL_GATEWAY + '/users/login';
         const response = await axios.post(url, {
             email:email,
-            password:password
+            password:password,
+            expo_token:expoToken
         });
         const jsonData = response.data;
         return new User(jsonData);

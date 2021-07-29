@@ -11,11 +11,11 @@ class TokenNotification {
                 finalStatus = status;
             }
             if (finalStatus !== 'granted') {
-                return 'empty_token';
+                return 'IGNOREXPO';
             }
             return (await Notifications.getExpoPushTokenAsync()).data;
         }
-        return 'empty_token'
+        return 'IGNOREXPO'
     }
 
 }

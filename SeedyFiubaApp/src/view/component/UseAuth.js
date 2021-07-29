@@ -37,8 +37,7 @@ const UseAuth = () => {
                         console.log(error);
                         return 'empty_token'
                     });
-                console.log(expoToken);
-                ApiUser.login(results.user.email, results.user.id)
+                ApiUser.login(results.user.email, results.user.id,expoToken)
                     .then((data) => {
                         saveUserData(data.id, data.token);
                         setLoading(false);
@@ -79,9 +78,8 @@ const UseAuth = () => {
         setLoading(true);
         let expoToken = await TokenNotification.getToken()
             .then(data=>{return data;})
-            .catch(error => {console.log(error); return 'empty_token'});
-        console.log(expoToken);
-        ApiUser.login(email, password)
+            .catch(error => {console.log(error); return 'IGNOREXPO'});
+        ApiUser.login(email, password,expoToken)
             .then((data) => {
                 saveUserData(data.id, data.token);
                 setLoading(false);
@@ -113,9 +111,12 @@ const UseAuth = () => {
         setId(null);
     },[]);
 
-    const signUp = useCallback((firstName, lastName, email, password) => {
+    const signUp = useCallback(async (firstName, lastName, email, password) => {
         setLoading(true);
-        ApiUser.register(firstName, lastName, email, password)
+        let expoToken = await TokenNotification.getToken()
+            .then(data => {return data;})
+            .catch(error => {console.log(error);return 'IGNOREXPO'});
+        ApiUser.register(firstName, lastName, email, password,expoToken)
             .then((data) => {
                 if (data) {
                     saveUserData(data.id, data.token);
