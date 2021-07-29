@@ -3,6 +3,7 @@ import Projects from "./Projects";
 import {URL_LOCAL_GATEWAY} from '@env'
 import Project from "./Project";
 import Support from "./Support";
+import Transactions from "./Transactions";
 
 class ApiProject {
 
@@ -61,6 +62,15 @@ class ApiProject {
         const url = URL_LOCAL_GATEWAY + '/projects/' + projectId + '/rate?id_user='+userId;
         const response = await axios.get(url);
         return response.data;
+    }
+
+    static async getTransactions(id) {
+        const url = URL_LOCAL_GATEWAY + '/transactions?toType=project&toPublicId='+id;
+        const response = await axios.get(url);
+        if(response.data.length > 0){
+            return new Transactions(response.data);
+        }
+        return {allTransactions:[]};
     }
 
 }

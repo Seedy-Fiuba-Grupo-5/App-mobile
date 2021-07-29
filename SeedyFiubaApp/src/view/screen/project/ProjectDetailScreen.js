@@ -27,6 +27,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const [project, setProject] = useState(new Project());
     const [payment, setPayment] = useState(new Payment());
     const [myRating, setMyRating] = useState(0);
+    const [transactions, setTransactions] = useState(0);
     const [loading, setLoading] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const [visibleEdit, setVisibleEdit] = useState(false);
@@ -61,7 +62,6 @@ const ProjectDetailScreen = ({navigation,route}) => {
         getProject(route.params.project.id);
         getRating(route.params.project.id);
     }
-
 
     const removeProjectFromFavorites = () => {
         ApiUser.removeProjectFromFavorites(route.params.project.id, id, jwt)
@@ -105,9 +105,20 @@ const ProjectDetailScreen = ({navigation,route}) => {
                 console.log(error);
             });
     }
+    const getTransactions = (projectid) => {
+        ApiProject.getTransactions(projectid)
+            .then((data) => {
+                setTransactions(data.allTransactions.length);
+                console.log(data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
     const getProject = (projectid) => {
         setLoading(true);
         getRating(projectid);
+        getTransactions(projectid);
         ApiProject.project(projectid)
             .then((data) => {
                 setLoading(false);
@@ -388,7 +399,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                 <View>
                                     <Text key={0} style={{fontSize:22}}>Metrics</Text>
                                     <Text key={1} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>Total Favorites: {project.favorites.length}</Text>
-                                    <Text key={2} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>Total Transactions: {project.favorites.length}</Text>
+                                    <Text key={2} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>Total Transactions: {transactions}</Text>
                                 </View>
 
                                 {

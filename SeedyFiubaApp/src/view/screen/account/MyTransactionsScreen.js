@@ -1,10 +1,10 @@
 import Loading from "../../component/Loading";
-import {RefreshControl, ScrollView} from "react-native";
+import {RefreshControl, ScrollView, View} from "react-native";
 import React, {useCallback, useEffect, useState} from "react";
 import UseAuth from "../../component/UseAuth";
 import ApiUser from "../../../model/ApiUser";
 import ProjectCardStyleSheet from "../../Styles/ProjectCardStyleSheet";
-import {Card} from "react-native-elements";
+import {Card, Icon} from "react-native-elements";
 import SeedyFiubaEmpty from "../../component/SeedyFiubaEmpty";
 const MyTransactionsScreen = ({navigation}) => {
     const [transactions, setTransactions ] = useState([]);
@@ -15,7 +15,6 @@ const MyTransactionsScreen = ({navigation}) => {
     const getTransactions = () => {
         ApiUser.getTransactions(id)
             .then((data) => {
-                console.log(data);
                 setIsLoading(false);
                 setTransactions(data.allTransactions);
             })
@@ -76,7 +75,7 @@ const MyTransactionsScreen = ({navigation}) => {
                                                     <Card.FeaturedSubtitle numberOfLines={1}
                                                                            style={ProjectCardStyleSheet.description}>
                                                         To Project: {transaction.toPublicId}
-                                                    </Card.FeaturedSubtitle>
+                                                     </Card.FeaturedSubtitle>
                                                 </Card>
                                             )
                                         }
