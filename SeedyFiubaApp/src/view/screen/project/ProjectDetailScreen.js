@@ -19,14 +19,14 @@ import Payment from "../../../model/Payment";
 import SeerSection from "../../component/SeerSection";
 import {Video} from "expo-av";
 import SupportProject from "../../component/project/SupportProject";
+import RateProject from "../../component/project/RateProject";
 
 const ProjectDetailScreen = ({navigation,route}) => {
     const [updated, setUpdated] = useState(0);
     const [creator, setCreator] = useState(new Creator());
     const [project, setProject] = useState(new Project());
     const [payment, setPayment] = useState(new Payment());
-    const [rating, setRating] = useState(1);
-    const [rated, setRated] = useState(false);
+    const [myRating, setMyRating] = useState(0);
     const [loading, setLoading] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const [visibleEdit, setVisibleEdit] = useState(false);
@@ -46,18 +46,6 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const showModalRate = () => setVisibleRate(true);
     const hideModalRate = () => setVisibleRate(false);
 
-    const rateProject = () => {
-        ApiProject.rateProject(id, project.id, rating)
-            .then((data) => {
-                console.log(data);
-                setRated(true);
-                getProject(route.params.project.id);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
-
     const addProjectToFavorites = () => {
         ApiUser.addProjectToFavorites(route.params.project.id, id, jwt)
             .then((status) => {
@@ -67,6 +55,13 @@ const ProjectDetailScreen = ({navigation,route}) => {
                 console.log(error);
             });
     }
+
+    const closeRating = () => {
+        hideModalRate();
+        getProject(route.params.project.id);
+        getRating(route.params.project.id);
+    }
+
 
     const removeProjectFromFavorites = () => {
         ApiUser.removeProjectFromFavorites(route.params.project.id, id, jwt)
@@ -97,20 +92,22 @@ const ProjectDetailScreen = ({navigation,route}) => {
         }
         return amount / goal;
     }
-    const getProject = (projectid) => {
-        setLoading(true);
+    const getRating = (projectid) => {
         ApiProject.getRating(id, projectid)
             .then((data) => {
                 if(data.length > 0){
-                    setRated(true);
+                    setMyRating(data[0].rating);
                 } else {
-                    setRated(false);
+                    setMyRating(0);
                 }
             })
             .catch((error) => {
-                setRated(true)
                 console.log(error);
             });
+    }
+    const getProject = (projectid) => {
+        setLoading(true);
+        getRating(projectid);
         ApiProject.project(projectid)
             .then((data) => {
                 setLoading(false);
@@ -142,6 +139,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
         if(payload.id === project.id) return;
         getProject(payload.id);
         setProject(payload);
+        setVisibleRate(false);
     })
 
     const onRefresh = useCallback(() => {
@@ -164,8 +162,9 @@ const ProjectDetailScreen = ({navigation,route}) => {
                 setPayment(new Payment())
                 console.log(error);
             });
-
+        getRating(route.params.project.id);
     }, []);
+
     const amountGoal = goal(payment.stagesCost);
     const amountCollected = collected(payment.balance, amountGoal);
     return (
@@ -280,6 +279,15 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                     <ProjectDetailKeyValueText projectKey={'Goal'} projectValue={amountGoal+'$'}/>
                                 </View>
                                 <Divider width={20} color={'transparent'}/>
+                                <View style={{flexDirection: 'row', justifyContent: "center"}}>
+                                    <Rating
+                                        readonly
+                                        startingValue={project.rating}
+                                        type='star'
+                                        tintColor='#F2F2F2'
+                                    />
+                                </View>
+                                <Divider width={20} color={'transparent'}/>
                                 <Text key={0} style={{fontSize:22}}>Description</Text>
                                 <Text key={1} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>{project.description}</Text>
                                 {
@@ -355,46 +363,33 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                     </Text>
                                 </View>
                                 <Divider width={20} color={'transparent'}/>
+                                <Text key={10} style={{fontSize:22}}>My Rating</Text>
                                 <View style={{flexDirection: 'row', justifyContent: "center"}}>
-                                    {visibleRate ?
-                                        <Rating
-                                            type='star'
-                                            tintColor='#F2F2F2'
-                                            startingValue={rating}
-                                            onFinishRating={(rating) => {
-                                                setRating(rating);
-                                            }}
-                                        /> :
-                                        <Rating
-                                            readonly
-                                            startingValue={project.rating}
-                                            type='star'
-                                            tintColor='#F2F2F2'
-                                        />
-                                    }
-                                    {!rated && visibleRate ?
-                                        <Icon
-                                            name='send'
-                                            type='material'
-                                            size={30}
-                                            color='#4b1e4d'
-                                            onPress={() => {
-                                                rateProject();
-                                                hideModalRate();
-                                            }}
-                                        /> : null
-                                    }
-                                    {!rated && !visibleRate ?
-                                        <Icon
-                                            name='add'
-                                            type='material'
-                                            size={30}
-                                            color='#4b1e4d'
-                                            onPress={showModalRate}
-                                        /> : null
-                                    }
+                                    <Rating
+                                        type='star'
+                                        tintColor='#F2F2F2'
+                                        readonly
+                                        startingValue={myRating}
+                                    />
+                                    <Icon
+                                        name='edit'
+                                        type='material'
+                                        size={30}
+                                        color='#4b1e4d'
+                                        onPress={() => {
+                                            showModalRate();
+                                        }}
+                                    />
                                 </View>
+                                <Overlay isVisible={visibleRate} onBackdropPress={hideModalRate} overlayStyle={{height:200,width:300}}>
+                                    <RateProject projectId={project.id} close={closeRating}/>
+                                </Overlay>
                                 <Divider width={20} color={'transparent'}/>
+                                <View>
+                                    <Text key={0} style={{fontSize:22}}>Metrics</Text>
+                                    <Text key={1} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>Total Favorites: {project.favorites.length}</Text>
+                                    <Text key={2} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>Total Transactions: {project.favorites.length}</Text>
+                                </View>
 
                                 {
                                     route.params.editable?
