@@ -57,15 +57,15 @@ const ProjectCommentScreen =  ({navigation,route}) => {
                 <Input
                     value={comment}
                     onChangeText={(value)=>{setComment(value)}}
-                    containerStyle={{width: '82%',backgroundColor:'rgba(177,173,173,0.82)', borderRadius:15}}
-                    inputStyle={{fontSize:20}}
+                    containerStyle={{width: '82%',backgroundColor:'rgba(126,102,146,0.77)', borderRadius:15}}
+                    inputStyle={{fontSize:20,color:'#fff'}}
                 />
                 <Icon name='send'
                       type='material'
                       onPress={()=>{sendComment()}}
                       size={30}
                       containerStyle={{paddingTop:20,paddingLeft:5}}
-                      color='black'/>
+                      color='#4b1e4d'/>
             </View>
             <ScrollView >
                 {

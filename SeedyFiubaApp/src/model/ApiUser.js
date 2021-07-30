@@ -68,6 +68,16 @@ class ApiUser {
         return new User(jsonData);
     }
 
+    static async logout(id,token) {
+        const url = URL_LOCAL_GATEWAY + '/users/'+id;
+        const response = await axios.patch(url,{
+            expo_token:'IGNOREXPO',
+            token:token
+        });
+        const jsonData = response.data;
+        return new User(jsonData);
+    }
+
     static async seer(id) {
         const url = URL_LOCAL_GATEWAY + '/seers/'+id;
         const response = await axios.get(url);

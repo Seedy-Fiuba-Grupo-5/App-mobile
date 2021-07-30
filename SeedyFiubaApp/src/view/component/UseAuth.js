@@ -106,9 +106,25 @@ const UseAuth = () => {
     },[]);
 
     const signOut = useCallback(() => {
-        saveUserData(null, null);
-        setJWT(null);
-        setId(null);
+        setLoading(true);
+        ApiUser.logout(id, jwt)
+            .then((data) => {
+                if (data) {
+                    saveUserData(null, null);
+                    setLoading(false);
+                    setJWT(null);
+                    setId(null);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                setLoading(false);
+                if (error.response.status === 401) {
+                    Alert.alert('Account with this email already exists');
+                } else {
+                    Alert.alert('Something went wrong ');
+                }
+            });
     },[]);
 
     const signUp = useCallback(async (firstName, lastName, email, password) => {
