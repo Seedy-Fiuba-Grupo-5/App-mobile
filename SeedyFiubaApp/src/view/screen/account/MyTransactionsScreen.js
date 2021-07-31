@@ -27,6 +27,7 @@ const MyTransactionsScreen = ({navigation}) => {
 
     useEffect(() => {
         return navigation.addListener('focus', () => {
+            setIsLoading(true);
             getTransactions(setIsLoading);
         });
     }, [navigation]);
