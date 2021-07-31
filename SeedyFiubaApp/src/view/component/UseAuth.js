@@ -8,17 +8,16 @@ import UserInformation from "../../model/UserInformation";
 import TokenNotification from "../../model/TokenNotification";
 
 const saveUserData = (id, token) => {
-    UserInformation.setData('user',
-        {
-            id:id,
-            jwt:token
-        })
-        .then()
-        .catch();
+    UserInformation.setData2(id,token).then((value)=>{});
+}
+
+const deleteUserData = () => {
+    UserInformation.removeData()
+        .then((value)=>{});
 }
 
 const UseAuth = () => {
-    const {jwt,id,setJWT,setId} = useContext(AuthContext);
+    const {jwt,id,setJWT,setId,responseListener} = useContext(AuthContext);
     const [isLoading,setLoading] = useState(false);
 
     const signInGoogle = useCallback( () => {
@@ -35,7 +34,7 @@ const UseAuth = () => {
                     })
                     .catch(error => {
                         console.log(error);
-                        return 'empty_token'
+                        return 'IGNOREXPO'
                     });
                 ApiUser.login(results.user.email, results.user.id,expoToken)
                     .then((data) => {
@@ -110,7 +109,7 @@ const UseAuth = () => {
         ApiUser.logout(id, jwt)
             .then((data) => {
                 if (data) {
-                    saveUserData(null, null);
+                    deleteUserData();
                     setLoading(false);
                     setJWT(null);
                     setId(null);
@@ -118,8 +117,7 @@ const UseAuth = () => {
             })
             .catch((error) => {
                 console.log(error.response.body);
-                setLoading(false);
-                saveUserData(null, null);
+                deleteUserData();
                 setLoading(false);
                 setJWT(null);
                 setId(null);
@@ -151,7 +149,7 @@ const UseAuth = () => {
             });
 
     },[])
-    return {jwt,id,signIn,signOut,signUp,isLoading,signInGoogle,signOutGoogle}
+    return {jwt,id,signIn,signOut,signUp,isLoading,signInGoogle,signOutGoogle,responseListener}
 }
 
 export default UseAuth

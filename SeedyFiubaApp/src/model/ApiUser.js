@@ -7,6 +7,7 @@ import Creator from "./Creator";
 import Seer from "./Seer";
 import Messages from "./Messages";
 import Transactions from "./Transactions";
+import UserInformation from "./UserInformation";
 
 class ApiUser {
 
@@ -14,6 +15,7 @@ class ApiUser {
         const url = URL_LOCAL_GATEWAY + '/users/' + user_id +'/projects';
         const response = await axios.post(url, project);
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new Project(jsonData);
     }
 
@@ -28,6 +30,7 @@ class ApiUser {
             expo_token:expoToken
         });
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new User(jsonData);
     }
 
@@ -35,6 +38,7 @@ class ApiUser {
         const url = URL_LOCAL_GATEWAY  + '/users/' + user_id +'/projects';
         const response = await axios.get(url);
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new Projects(jsonData);
     }
 
@@ -46,6 +50,7 @@ class ApiUser {
             expo_token:expoToken
         });
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new User(jsonData);
     }
 
@@ -53,6 +58,7 @@ class ApiUser {
         const url = URL_LOCAL_GATEWAY + '/users/'+id;
         const response = await axios.get(url, {params:{token:token}});
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new Creator(jsonData);
     }
 
@@ -65,6 +71,7 @@ class ApiUser {
             token:token
         });
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new User(jsonData);
     }
 
@@ -75,6 +82,7 @@ class ApiUser {
             token:token
         });
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new User(jsonData);
     }
 
@@ -82,6 +90,7 @@ class ApiUser {
         const url = URL_LOCAL_GATEWAY + '/seers/'+id;
         const response = await axios.get(url);
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new Seer(jsonData);
     }
 
@@ -93,6 +102,7 @@ class ApiUser {
             accepted:true
         });
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new Seer(jsonData);
     }
 
@@ -104,6 +114,7 @@ class ApiUser {
                     project_id:projectId}
         });
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new Seer(jsonData);
     }
 
@@ -111,6 +122,7 @@ class ApiUser {
         const url = URL_LOCAL_GATEWAY + '/seers/'+id;
         const response = await axios.post(url, {token:token, project_id:projectId});
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new Seer(jsonData);
     }
 

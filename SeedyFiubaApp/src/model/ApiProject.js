@@ -5,6 +5,7 @@ import Project from "./Project";
 import Support from "./Support";
 import Transactions from "./Transactions";
 import Comments from "./Comments";
+import UserInformation from "./UserInformation";
 
 class ApiProject {
 
@@ -12,6 +13,7 @@ class ApiProject {
         const url = URL_LOCAL_GATEWAY + '/projects';
         const response = await axios.get(url,{params:params});
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new Projects(jsonData);
     }
 
@@ -22,13 +24,16 @@ class ApiProject {
             message:comment,
             token:token
         });
-        return response.data;
+        const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
+        return jsonData;
     }
 
     static async comments(projectId, userId, token) {
         const url = URL_LOCAL_GATEWAY + '/commentary/'+projectId+'?token='+token+'&userId='+userId;
         const response = await axios.get(url);
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new Comments(jsonData);
     }
 
@@ -36,6 +41,7 @@ class ApiProject {
         const url = URL_LOCAL_GATEWAY + '/projects/' + projectId;
         const response = await axios.get(url);
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new Project(jsonData);
     }
 
@@ -44,6 +50,7 @@ class ApiProject {
         const url = URL_LOCAL_GATEWAY + '/projects/' + projectId;
         const response = await axios.patch(url, project);
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new Project(jsonData);
     }
 
@@ -54,6 +61,7 @@ class ApiProject {
             amountEthers: amount
         });
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new Support(jsonData);
     }
 
@@ -64,6 +72,7 @@ class ApiProject {
             stageNumber: stage.toString()
         });
         const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
         return new Support(jsonData);
     }
 
@@ -73,13 +82,17 @@ class ApiProject {
             id_user: userId,
             rating: rating
         });
-        return response.data;
+        const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
+        return jsonData;
     }
 
     static async getRating(userId, projectId) {
         const url = URL_LOCAL_GATEWAY + '/projects/' + projectId + '/rate?id_user='+userId;
         const response = await axios.get(url);
-        return response.data;
+        const jsonData = response.data;
+        await UserInformation.setToken(jsonData);
+        return jsonData;
     }
 
     static async getTransactions(id) {

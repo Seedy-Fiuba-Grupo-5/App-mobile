@@ -1,4 +1,4 @@
-import {KeyboardAvoidingView, Platform, ScrollView, Text, View} from "react-native";
+import {KeyboardAvoidingView, Platform, ScrollView, Text, ToastAndroid, View} from "react-native";
 import {Formik} from "formik";
 import * as Yup from "yup";
 import {Icon, Input} from "react-native-elements";
@@ -15,12 +15,19 @@ const CreatorMessage = ({creatorId, close}) => {
     const {id, jwt} = UseAuth();
 
     const sendMessage = (message) => {
+        setIsLoading(true);
         ApiUser.sendMessage(id, jwt, message, creatorId)
             .then((status) => {
-                console.log(status)
+                setIsLoading(false);
+                ToastAndroid.show('Message was sent',ToastAndroid.SHORT);
+                console.log(status);
+                close();
             })
             .catch((error) => {
+                setIsLoading(false);
+                ToastAndroid.show('We cant send the message',ToastAndroid.SHORT);
                 console.log(error);
+                close();
             });
     }
     return(
@@ -63,7 +70,6 @@ const CreatorMessage = ({creatorId, close}) => {
                                         title='Send'
                                         onPress={() => {
                                             sendMessage(props.values.message);
-                                            close();
                                         }}
                                         style={ProjectEditStyleSheet.button}
                                         titleStyle={ProjectEditStyleSheet.title}

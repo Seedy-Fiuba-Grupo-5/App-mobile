@@ -1,16 +1,26 @@
 import React, {useCallback, useEffect, useState} from "react";
 import ApiProject from "../../../model/ApiProject";
-import {FlatList, RefreshControl, ScrollView, Text, View} from "react-native";
+import {FlatList, RefreshControl, ScrollView, Text} from "react-native";
 import Loading from "../../component/Loading";
 import ProjectCard from "../../component/project/ProjectCard";
 import UseAuth from "../../component/UseAuth";
-import ApiUser from "../../../model/ApiUser";
+import * as Notifications from "expo-notifications";
 
 const ProjectScreen = ({navigation}) => {
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
-    const {id} = UseAuth();
+    const {responseListener} = UseAuth();
+
+    useEffect(() => {
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+            navigation.navigate('NotificationsScreen');
+        });
+        return () => {
+            Notifications.removeNotificationSubscription(responseListener.current);
+        };
+    }, []);
+
     useEffect(() => {
         setIsLoading(true);
         ApiProject.projects()

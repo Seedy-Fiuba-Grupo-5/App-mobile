@@ -1,6 +1,15 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {Divider, Header, Icon, Image, Overlay, Rating} from "react-native-elements";
-import {ActivityIndicator, Button, RefreshControl, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {
+    ActivityIndicator,
+    Button,
+    RefreshControl,
+    ScrollView,
+    Text,
+    ToastAndroid,
+    TouchableOpacity,
+    View
+} from "react-native";
 import ProjectDetailStyleSheet from "../../Styles/ProjectDetailStyleSheet";
 import LinearProgress from "react-native-elements/dist/linearProgress/LinearProgress";
 import ProjectCardStyleSheet from "../../Styles/ProjectCardStyleSheet";
@@ -52,9 +61,11 @@ const ProjectDetailScreen = ({navigation,route}) => {
         ApiUser.addProjectToFavorites(route.params.project.id, id, jwt)
             .then((status) => {
                 console.log(status);
+                ToastAndroid.show('Added to Favorites',ToastAndroid.SHORT);
                 setFavoritesCount(value=>value+1);
             })
             .catch((error) => {
+                ToastAndroid.show('We cant add to Favorites',ToastAndroid.SHORT);
                 console.log(error);
             });
     }
@@ -69,10 +80,12 @@ const ProjectDetailScreen = ({navigation,route}) => {
         ApiUser.removeProjectFromFavorites(route.params.project.id, id, jwt)
             .then((status) => {
                 console.log(status);
+                ToastAndroid.show('Removed from Favorites',ToastAndroid.SHORT);
                 setFavoritesCount(value=>value-1);
             })
             .catch((error) => {
                 console.log(error);
+                ToastAndroid.show('We cant remove from Favorites',ToastAndroid.SHORT);
             });
     }
 
@@ -392,6 +405,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                     <Icon
                                         name='edit'
                                         type='material'
+                                        containerStyle={{paddingTop:5, paddingLeft:6}}
                                         size={30}
                                         color='#4b1e4d'
                                         onPress={() => {
@@ -399,7 +413,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                         }}
                                     />
                                 </View>
-                                <Overlay isVisible={visibleRate} onBackdropPress={hideModalRate} overlayStyle={{height:200,width:300}}>
+                                <Overlay isVisible={visibleRate} onBackdropPress={hideModalRate} overlayStyle={{height:100,width:300}}>
                                     <RateProject projectId={project.id} close={closeRating}/>
                                 </Overlay>
                                 <Divider width={20} color={'transparent'}/>

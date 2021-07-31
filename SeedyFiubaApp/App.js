@@ -13,17 +13,15 @@ import ProjectScreen from "./src/view/screen/project/ProjectScreen";
 import AccountProjectScreen from "./src/view/screen/project/AccountProjectScreen";
 import NewProjectScreen from "./src/view/screen/project/NewProjectScreen";
 import CustomPrincipalHeader from "./src/view/component/CustomPrincipalHeader";
-import {Image, LogBox, Platform, Text, View} from "react-native";
+import {Image, LogBox, View} from "react-native";
 import Firebase from "./src/model/Firebase";
 import ProjectDetailHeader from "./src/view/component/project/ProjectDetailHeader";
 import CreatorScreen from "./src/view/screen/creator/CreatorScreen";
-import CreatorHeader from "./src/view/component/creator/CreatorHeader";
 import UserInformation from "./src/model/UserInformation";
 import {ActivityIndicator} from "react-native-paper";
 import {Icon} from "react-native-elements";
 import SearchProjectScreen from "./src/view/screen/project/SeacrhProjectScreen";
 import * as Notifications from 'expo-notifications';
-import Constants from 'expo-constants';
 import SeerProjectScreen from "./src/view/screen/project/SeerProjectScreen";
 import FavoriteProjectScreen from "./src/view/screen/project/FavoriteProjectsScreen";
 import NotificationsScreen from "./src/view/screen/account/NotificationsScreen";
@@ -49,16 +47,15 @@ const App = () => {
     const [jwt, setJWT] = useState(null);
     const [id, setId] = useState(null);
     const [isLoading,setIsLoading] = useState(false);
+    const responseListener = useRef();
     useEffect(
         ()=>{
             setIsLoading(true);
-            UserInformation.getData('user')
+            UserInformation.getData2()
                 .then((value)=> {
                     setIsLoading(false);
-                    if (value) {
-                        setJWT(value.jwt);
-                        setId(value.id)
-                    }
+                    setJWT(value.jwt);
+                    setId(value.id);
                 })
                 .catch((error) => {
                     setIsLoading(false);
@@ -67,7 +64,7 @@ const App = () => {
         },[]
     )
     return (
-        <AuthContext.Provider value={{jwt,id,setJWT,setId}}>
+        <AuthContext.Provider value={{jwt,id,setJWT,setId,responseListener}}>
             {
                 isLoading?
                     (<View style={{paddingTop:200}}>

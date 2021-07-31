@@ -1,4 +1,4 @@
-import {View} from "react-native";
+import {ToastAndroid, View} from "react-native";
 import {Icon, Input, Rating} from "react-native-elements";
 import React, {useState} from "react";
 import UseAuth from "../UseAuth";
@@ -11,10 +11,12 @@ const RateProject = ({projectId,close}) => {
         ApiProject.rateProject(id, projectId, rating)
             .then((data) => {
                 console.log(data);
+                ToastAndroid.show('Feedback Sent',ToastAndroid.SHORT);
                 close();
             })
             .catch((error) => {
                 console.log(error);
+                ToastAndroid.show('We cant sent feedback',ToastAndroid.SHORT);
                 close();
             });
     }
@@ -33,6 +35,7 @@ const RateProject = ({projectId,close}) => {
                 <Icon
                     name='send'
                     type='material'
+                    containerStyle={{paddingTop:5,paddingLeft:10}}
                     size={30}
                     color='#4b1e4d'
                     onPress={() => {
