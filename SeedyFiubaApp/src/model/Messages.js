@@ -6,6 +6,7 @@ class Messages {
         messages.map((message) => {
             this.allMessages.push({
                 id: counter,
+                email: message.email,
                 id_1: message.id_1,
                 id_2: message.id_2,
                 text: message.text,

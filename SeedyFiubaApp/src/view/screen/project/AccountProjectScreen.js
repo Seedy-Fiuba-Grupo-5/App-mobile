@@ -11,18 +11,22 @@ const AccountProjectScreen = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const {id} = UseAuth();
+
     useEffect(() => {
-        setIsLoading(true);
-        ApiUser.projects(id)
-            .then((data) => {
-                setIsLoading(false);
-                setProjects(data.allProjects)
-            })
-            .catch((error) => {
-                setIsLoading(false);
-                console.log(error);
-            });
-    },[]);
+        return navigation.addListener('focus', () => {
+            setIsLoading(true);
+            ApiUser.projects(id)
+                .then((data) => {
+                    setIsLoading(false);
+                    setProjects(data.allProjects)
+                })
+                .catch((error) => {
+                    setIsLoading(false);
+                    console.log(error);
+                });
+        });
+    }, [navigation]);
+
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         ApiUser.projects(id)

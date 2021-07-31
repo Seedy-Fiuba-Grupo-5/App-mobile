@@ -1,5 +1,5 @@
 import Loading from "../../component/Loading";
-import {RefreshControl, ScrollView} from "react-native";
+import {RefreshControl, ScrollView, Text} from "react-native";
 import React, {useCallback, useEffect, useState} from "react";
 import UseAuth from "../../component/UseAuth";
 import ApiUser from "../../../model/ApiUser";
@@ -19,17 +19,19 @@ const NotificationsScreen = ({navigation}) => {
     const {id, jwt} = UseAuth();
 
     useEffect(() => {
-        ApiUser.getMessages(id, jwt)
-            .then((data) => {
-                console.log(data);
-                setIsLoading(false);
-                setNotifications(data.allMessages);
-            })
-            .catch((error) => {
-                setIsLoading(false);
-                console.log(error);
-            });
-    },[]);
+        return navigation.addListener('focus', () => {
+            ApiUser.getMessages(id, jwt)
+                .then((data) => {
+                    console.log(data);
+                    setIsLoading(false);
+                    setNotifications(data.allMessages);
+                })
+                .catch((error) => {
+                    setIsLoading(false);
+                    console.log(error);
+                });
+        });
+    }, [navigation]);
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
@@ -71,11 +73,12 @@ const NotificationsScreen = ({navigation}) => {
                                     }
                                 })
                                 .map((notification) => {
+                                    console.log(notification);
                                     return (
                                         <Card key={notification.id} containerStyle={ProjectCardStyleSheet.projectCard}>
                                             <Card.Title
                                                 style={ProjectCardStyleSheet.title}>
-                                                Message from: {notification.id_1}
+                                               From: {notification.email}
                                             </Card.Title>
                                             <Card.FeaturedSubtitle style={ProjectCardStyleSheet.description}>
                                                 Received on: {notification.date}
@@ -99,6 +102,7 @@ const NotificationsScreen = ({navigation}) => {
                                 }
                             )
                         }
+                        <Text/>
                     </ScrollView>
                 )
             }

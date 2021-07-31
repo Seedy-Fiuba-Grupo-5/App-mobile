@@ -31,9 +31,13 @@ const SeerProjectScreen = ({navigation}) => {
                 console.log(error);
             });
     }
+
     useEffect(() => {
-        getProjects(setIsLoading);
-    },[]);
+        return navigation.addListener('focus', () => {
+            getProjects(setIsLoading);
+        });
+    }, [navigation]);
+
     const onRefresh = useCallback(() => {
         getProjects(setRefreshing);
     }, []);

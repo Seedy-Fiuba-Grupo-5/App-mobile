@@ -27,6 +27,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const [project, setProject] = useState(new Project());
     const [payment, setPayment] = useState(new Payment());
     const [myRating, setMyRating] = useState(0);
+    const [favoritesCount, setFavoritesCount] = useState(0);
     const [transactions, setTransactions] = useState(0);
     const [loading, setLoading] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
@@ -50,7 +51,8 @@ const ProjectDetailScreen = ({navigation,route}) => {
     const addProjectToFavorites = () => {
         ApiUser.addProjectToFavorites(route.params.project.id, id, jwt)
             .then((status) => {
-                console.log(status)
+                console.log(status);
+                setFavoritesCount(value=>value+1);
             })
             .catch((error) => {
                 console.log(error);
@@ -67,6 +69,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
         ApiUser.removeProjectFromFavorites(route.params.project.id, id, jwt)
             .then((status) => {
                 console.log(status);
+                setFavoritesCount(value=>value-1);
             })
             .catch((error) => {
                 console.log(error);
@@ -124,6 +127,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                 setLoading(false);
                 setCreator(data.user);
                 setPayment(data.payments);
+                setFavoritesCount(data.favorites.length);
                 setProject(data);
                 for(let i = 0; i < data.favorites.length; ++i){
                     if(id === data.favorites[i]){
@@ -136,7 +140,8 @@ const ProjectDetailScreen = ({navigation,route}) => {
             .catch((error) => {
                 setLoading(false);
                 setCreator(new Creator());
-                setPayment(new Payment())
+                setPayment(new Payment());
+                setFavoritesCount(0);
                 console.log(error);
             });
     }
@@ -161,6 +166,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                 setProject(data);
                 setCreator(data.user);
                 setPayment(data.payments);
+                setFavoritesCount(data.favorites.length);
                 for(let i = 0; i < data.favorites.length; ++i){
                     if(id === data.favorites[i]){
                         setIsFavorite(true);
@@ -170,7 +176,8 @@ const ProjectDetailScreen = ({navigation,route}) => {
             .catch((error) => {
                 setRefreshing(false);
                 setCreator(new Creator());
-                setPayment(new Payment())
+                setPayment(new Payment());
+                setFavoritesCount(0);
                 console.log(error);
             });
         getRating(route.params.project.id);
@@ -398,7 +405,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                 <Divider width={20} color={'transparent'}/>
                                 <View>
                                     <Text key={0} style={{fontSize:22}}>Metrics</Text>
-                                    <Text key={1} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>Total Favorites: {project.favorites.length}</Text>
+                                    <Text key={1} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>Total Favorites: {favoritesCount}</Text>
                                     <Text key={2} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>Total Transactions: {transactions}</Text>
                                 </View>
 

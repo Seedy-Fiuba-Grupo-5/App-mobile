@@ -3,7 +3,7 @@
     "name": "SeedyFiubaApp",
     "slug": "SeedyFiubaApp",
     "description": "Taller de Programación 2 - Trabajo Practico",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {

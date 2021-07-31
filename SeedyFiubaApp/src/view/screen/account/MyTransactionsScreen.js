@@ -12,25 +12,28 @@ const MyTransactionsScreen = ({navigation}) => {
     const [refreshing, setRefreshing] = React.useState(false);
     const {id} = UseAuth();
 
-    const getTransactions = () => {
+
+    const getTransactions = (action) => {
         ApiUser.getTransactions(id)
             .then((data) => {
-                setIsLoading(false);
+                action(false);
                 setTransactions(data.allTransactions);
             })
             .catch((error) => {
-                setIsLoading(false);
+                action(false);
                 console.log(error);
             });
     }
 
     useEffect(() => {
-        getTransactions();
-    },[]);
+        return navigation.addListener('focus', () => {
+            getTransactions(setIsLoading);
+        });
+    }, [navigation]);
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        getTransactions();
+        getTransactions(setRefreshing);
     }, []);
 
     return(

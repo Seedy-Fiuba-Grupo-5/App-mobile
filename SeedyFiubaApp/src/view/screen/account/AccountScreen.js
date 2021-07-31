@@ -18,8 +18,9 @@ const AccountScreen = ({navigation}) => {
     const updateUser = (newUser) => {
         setUser(newUser);
     }
-    useEffect(
-        () => {
+
+    useEffect(() => {
+        return navigation.addListener('focus', () => {
             setIsLoading(true)
             ApiUser.user(id,jwt)
                 .then((data) => {
@@ -30,7 +31,8 @@ const AccountScreen = ({navigation}) => {
                     setIsLoading(false);
                     console.log(error);
                 });
-        },[]);
+        });
+    }, [navigation]);
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         ApiUser.user(id,jwt)

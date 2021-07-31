@@ -117,13 +117,12 @@ const UseAuth = () => {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                console.log(error.response.body);
                 setLoading(false);
-                if (error.response.status === 401) {
-                    Alert.alert('Account with this email already exists');
-                } else {
-                    Alert.alert('Something went wrong ');
-                }
+                saveUserData(null, null);
+                setLoading(false);
+                setJWT(null);
+                setId(null);
             });
     },[]);
 

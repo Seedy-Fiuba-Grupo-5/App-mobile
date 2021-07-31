@@ -4,6 +4,7 @@ import {URL_LOCAL_GATEWAY} from '@env'
 import Project from "./Project";
 import Support from "./Support";
 import Transactions from "./Transactions";
+import Comments from "./Comments";
 
 class ApiProject {
 
@@ -12,6 +13,23 @@ class ApiProject {
         const response = await axios.get(url,{params:params});
         const jsonData = response.data;
         return new Projects(jsonData);
+    }
+
+    static async sendComment(projectId, comment, userId, token) {
+        const url = URL_LOCAL_GATEWAY + '/commentary/'+projectId+'?token='+token+'&userId='+userId;
+        const response = await axios.post(url,{
+            user_id:userId,
+            message:comment,
+            token:token
+        });
+        return response.data;
+    }
+
+    static async comments(projectId, userId, token) {
+        const url = URL_LOCAL_GATEWAY + '/commentary/'+projectId+'?token='+token+'&userId='+userId;
+        const response = await axios.get(url);
+        const jsonData = response.data;
+        return new Comments(jsonData);
     }
 
     static async project(projectId) {

@@ -1,9 +1,12 @@
 import {Card} from "react-native-paper";
-import {Text, View} from "react-native";
+import {Text, TouchableOpacity, View, Clipboard, ToastAndroid} from "react-native";
 import React from "react";
 
 const AccountWalletInformationCard = ({styles,address,privateKey,balance}) => {
-
+    const copyToClipboard = () => {
+        Clipboard.setString(address);
+        ToastAndroid.show('Address Copied',ToastAndroid.SHORT);
+    }
     return (
         <Card style={[{borderRadius: 15, elevation: 5}, styles]}>
             <Card.Title  title="Wallet" titleStyle={{fontSize:25}}/>
@@ -14,7 +17,9 @@ const AccountWalletInformationCard = ({styles,address,privateKey,balance}) => {
                 </View>
                 <View style={{padding:2}}>
                     <Text style={{fontSize: 20, color: 'grey'}}>Address:</Text>
-                    <Text style={{fontSize: 20}}>{address}</Text>
+                    <TouchableOpacity onPress={copyToClipboard}>
+                        <Text style={{fontSize: 20}}>{address}</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={{padding:2}}>
                     <Text style={{fontSize: 20, color: 'grey'}}>Private Key:</Text>
