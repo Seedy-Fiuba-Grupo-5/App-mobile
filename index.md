@@ -9,6 +9,8 @@ El siguiente documento busca explicar a nuevos los usuarios el funcionamiento de
 5. [Creacion de Proyectos](#creacion-de-proyectos)
 6. [Creacion de Proyectos](#creacion-de-proyectos)
 7. [Edicion de Proyectos](#edicion-de-proyectos)
+8. [Perfil de usuario](#perfil-de-usuario)
+8. [Editar perfil de usuario](#editar-perfil-de-usuario)
 
 
 ## Registro e Inicio de Sesion
@@ -117,7 +119,7 @@ Tambien puedes visualizar el perfil de otros emprendedores clickeando el nombre 
 
 En este caso, la información asociada a su billetera estará oculta.
 
-### Editar perfil
+### Editar perfil de usuario
 Para editar nuestro perfil clickeamos en el `lapiz` que se encuentra en la esquina superior derecha de la vista de nuestro perfil. Entonces veremos el siguiente formulario modificable:
 
 ![editar_perfil](./assets/editar_perfil_usuario.jpg)
