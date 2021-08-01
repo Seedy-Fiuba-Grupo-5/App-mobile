@@ -210,3 +210,13 @@ Para editar nuestro perfil clickeamos en el `lapiz` que se encuentra en la esqui
 
 El campo **Email** no puede ser actualizado con un email ya existente en el sistema.
 
+### Transacciones
+Para ver la historia de nuestros patrocinios vamos a **My Transactions**.
+
+<img src="https://github.com/Seedy-Fiuba-Grupo-5/App-mobile/blob/gh-pages/assets/transacciones.jpg" width="720" height="1080">
+
+El campo **State** puede tomar los siguientes valores:
+- `Done`:  La transacción fue exitosa.
+- `Mining`: La transacción aún se esta minando.
+- `Failed`: La transacción fallo por un error inesperado.
+- `Not enough balance`: La transacción fallo porque nuestra billetera no tenia suficientes fondos para cubrir el costo total de la transacción.
