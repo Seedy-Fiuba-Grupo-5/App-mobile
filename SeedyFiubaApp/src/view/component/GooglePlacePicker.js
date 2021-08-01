@@ -1,6 +1,7 @@
 import React from 'react';
 import {View} from "react-native";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
+import {GOOGLE_API_KEY} from '@env'
 
 const GooglePlacePicker  = (props) => {
     return(
@@ -38,12 +39,13 @@ const GooglePlacePicker  = (props) => {
                     getDefaultValue={() => ''}
 
                     onPress={(data, details) => {
-                        this.setAddressText(data.description);
-                        props.setFieldValue('location', data.description);
+                        props.formikProps.setFieldValue('location', data.description);
                     }}
+
                     query={{
-                        key: 'GOOGLE API KEY',
+                        key: GOOGLE_API_KEY,
                         language: 'en',
+                        types: '(cities)',
                     }}
                 />
             </View>

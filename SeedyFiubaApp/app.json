@@ -2,7 +2,8 @@
   "expo": {
     "name": "SeedyFiubaApp",
     "slug": "SeedyFiubaApp",
-    "version": "1.0.0",
+    "description": "Taller de Programación 2 - Trabajo Practico",
+    "version": "1.0.9",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -24,7 +25,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "prueba.apk"
+      "package": "host.exp.exponent"
     },
     "web": {
       "favicon": "./assets/favicon.png"
