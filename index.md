@@ -78,7 +78,7 @@ esta cantidad estara entre 1 a 5 cinco estrellas.
 
 * **Agregar como Favorito:** Presionando el corazon el usuario marcara el proyecto como 
 favorito.
-* 
+
   ![proyecto_favorito](./assets/proyecto_favorito.png)
 
 #### Comentar Proyecto
@@ -156,6 +156,24 @@ Una vez que completaron todos los campos y presiono "Create" recibira una alerta
 si el proyecto fue creado o no.
 
 Si fue creado correctamente podra dirigirse a las seccion **My Projects** donde vera su proyecto.
+
+
+### Busqueda de Proyecto
+
+Presionando la "lupa" en la pantalla principal, nos redirige a una nueva pantalla de busqueda
+en esta pantalla podremos buscar por titulo ademas de poder aplicar distintos filtros.
+
+![buscar_proyecto](./assets/buscar_proyecto.png)
+
+#### Filtros de Busqueda
+
+Para facilitar la busqueda de proyectos, tenemos los siguientes filtros:
+
+* **Type:** Se busca por los distintos tipos de proyectos que estan disponibles en la plataforma
+* **Location:** Se busca a partir de la latitud y longitud de la ubicacion del proyecto
+* **Hashtags:** Se busca a partir de los hashtags que tienen los proyectos
+
+![buscar_proyecto](./assets/filtro_proyecto.png)
 
 
 ### Perfil de usuario
