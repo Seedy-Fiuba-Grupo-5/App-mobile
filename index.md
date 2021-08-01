@@ -180,40 +180,40 @@ Para facilitar la busqueda de proyectos, tenemos los siguientes filtros:
 #### Propio
 Para visualizar nuestro perfil de usuario vamos a **Account** y observaremos la siguiente pantalla:
 
-<img src="https://github.com/Seedy-Fiuba-Grupo-5/App-mobile/blob/gh-pages/assets/perfil_usuario.jpg" width="720" height="1080">
+<img src="./assets/perfil_usuario.jpg" width="720" height="1160">
 
 ##### Billetera
 
 Si deslizamos la pantalla hacia la izquierda, podremos ver la información asociada a nuestra billetera:
 
-<img src="https://github.com/Seedy-Fiuba-Grupo-5/App-mobile/blob/gh-pages/assets/billetera_usuario.jpg" width="720" height="1080">
+<img src="./assets/billetera_usuario.jpg" width="720" height="1160">
 
 Los campos **address** y **privateKey** pueden copiarse clickeando los mismos.
 
 El boton `(+)` nos abrirá nuestro buscador web por defecto y nos redirigirá a una página donde podremos cargar saldo a partir de la **address** de nuestra billetera.
 
-<img src="https://github.com/Seedy-Fiuba-Grupo-5/App-mobile/blob/gh-pages/assets/chainlink_faucet.jpg" width="720" height="1080">
+<img src="./assets/chainlink_faucet.jpg" width="720" height="1160">
 
 Una vez introducida nuestra nuestra **address**, completado el _captcha_ y clickeando en el boton `Send me 0.1 Test ETH`, podremos volver a la aplicación y refrescar la vista de nuestra billetera (deslizando la pantalla hacia abajo) para visualizar nuestro nuevo saldo.
 
 #### Emprendedor
 Tambien puedes visualizar el perfil de otros emprendedores clickeando el nombre que se encuentra al lado del campo **created by** en la vista de uno de sus proyectos. 
 
-<img src="https://github.com/Seedy-Fiuba-Grupo-5/App-mobile/blob/gh-pages/assets/created_by_emprendedor.jpg" width="720" height="1080">
+<img src="./assets/created_by_emprendedor.jpg" width="720" height="1160">
 
 En este caso, la información asociada a su billetera estará oculta.
 
 ### Editar perfil de usuario
 Para editar nuestro perfil clickeamos en el `lapiz` que se encuentra en la esquina superior derecha de la vista de nuestro perfil. Entonces veremos el siguiente formulario modificable:
 
-<img src="https://github.com/Seedy-Fiuba-Grupo-5/App-mobile/blob/gh-pages/assets/editar_perfil_usuario.jpg" width="720" height="1080">
+<img src="./assets/editar_perfil_usuario.jpg" width="720" height="1160">
 
 El campo **Email** no puede ser actualizado con un email ya existente en el sistema.
 
 ### Transacciones
 Para ver la historia de nuestros patrocinios vamos a **My Transactions**.
 
-<img src="https://github.com/Seedy-Fiuba-Grupo-5/App-mobile/blob/gh-pages/assets/transacciones.jpg" width="720" height="1080">
+<img src="./assets/transacciones.jpg" width="720" height="1160">
 
 El campo **State** puede tomar los siguientes valores:
 - `Done`:  La transacción fue exitosa.
