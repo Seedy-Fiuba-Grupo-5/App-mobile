@@ -17,7 +17,7 @@ El siguiente documento busca explicar a nuevos los usuarios el funcionamiento de
 
 Para comenzar a interactuar con la plataforma necesita registrase en la misma,
 para eso presionamos el texto "Sign Up".
-        
+
 ![inicio_de_sesion](./assets/inicio_de_sesion.png)
 
 Lo anterior abrira una nueva ventana donde completara todos sus datos. 
@@ -162,33 +162,33 @@ Si fue creado correctamente podra dirigirse a las seccion **My Projects** donde 
 #### Propio
 Para visualizar nuestro perfil de usuario vamos a **Account** y observaremos la siguiente pantalla:
 
-![perfil_usuario](./assets/perfil_usuario.jpg)
+<img src="https://github.com/Seedy-Fiuba-Grupo-5/App-mobile/blob/gh-pages/assets/perfil_usuario.jpg" width="720" height="1080">
 
 ##### Billetera
 
 Si deslizamos la pantalla hacia la izquierda, podremos ver la información asociada a nuestra billetera:
 
-![billetera_usuario](./assets/billetera_usuario.jpg)
+<img src="https://github.com/Seedy-Fiuba-Grupo-5/App-mobile/blob/gh-pages/assets/billetera_usuario.jpg" width="720" height="1080">
 
 Los campos **address** y **privateKey** pueden copiarse clickeando los mismos.
 
 El boton `(+)` nos abrirá nuestro buscador web por defecto y nos redirigirá a una página donde podremos cargar saldo a partir de la **address** de nuestra billetera.
 
-![chainlink_faucet](./assets/chainlink_faucet.jpg)
+<img src="https://github.com/Seedy-Fiuba-Grupo-5/App-mobile/blob/gh-pages/assets/chainlink_faucet.jpg" width="720" height="1080">
 
 Una vez introducida nuestra nuestra **address**, completado el _captcha_ y clickeando en el boton `Send me 0.1 Test ETH`, podremos volver a la aplicación y refrescar la vista de nuestra billetera (deslizando la pantalla hacia abajo) para visualizar nuestro nuevo saldo.
 
 #### Emprendedor
 Tambien puedes visualizar el perfil de otros emprendedores clickeando el nombre que se encuentra al lado del campo **created by** en la vista de uno de sus proyectos. 
 
-![created_by_emprendedor](./assets/created_by_emprendedor.jpg)
+<img src="https://github.com/Seedy-Fiuba-Grupo-5/App-mobile/blob/gh-pages/assets/created_by_emprendedor.jpg" width="720" height="1080">
 
 En este caso, la información asociada a su billetera estará oculta.
 
 ### Editar perfil de usuario
 Para editar nuestro perfil clickeamos en el `lapiz` que se encuentra en la esquina superior derecha de la vista de nuestro perfil. Entonces veremos el siguiente formulario modificable:
 
-![editar_perfil](./assets/editar_perfil_usuario.jpg)
+<img src="https://github.com/Seedy-Fiuba-Grupo-5/App-mobile/blob/gh-pages/assets/editar_perfil_usuario.jpg" width="720" height="1080">
 
 El campo **Email** no puede ser actualizado con un email ya existente en el sistema.
 
