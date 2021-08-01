@@ -90,4 +90,37 @@ Si fue creado correctamente podra dirigirse a las seccion **My Projects** donde 
 
 ### Edicion de Proyectos
 
+### Perfil de usuario
+#### Propio
+Para visualizar nuestro perfil de usuario vamos a **Account** y observaremos la siguiente pantalla:
+
+![perfil_usuario](./assets/perfil_usuario.jpg)
+
+##### Billetera
+
+Si deslizamos la pantalla hacia la izquierda, podremos ver la información asociada a nuestra billetera:
+
+![billetera_usuario](./assets/billetera_usuario.jpg)
+
+Los campos **address** y **privateKey** pueden copiarse clickeando los mismos.
+
+El boton `(+)` nos abrirá nuestro buscador web por defecto y nos redirigirá a una página donde podremos cargar saldo a partir de la **address** de nuestra billetera.
+
+![chainlink_faucet](./assets/chainlink_faucet.jpg)
+
+Una vez introducida nuestra nuestra **address**, completado el _captcha_ y clickeando en el boton `Send me 0.1 Test ETH`, podremos volver a la aplicación y refrescar la vista de nuestra billetera (deslizando la pantalla hacia abajo) para visualizar nuestro nuevo saldo.
+
+#### Emprendedor
+Tambien puedes visualizar el perfil de otros emprendedores clickeando el nombre que se encuentra al lado del campo **created by** en la vista de uno de sus proyectos. 
+
+![created_by_emprendedor](./assets/created_by_emprendedor.jpg)
+
+En este caso, la información asociada a su billetera estará oculta.
+
+### Editar perfil
+Para editar nuestro perfil clickeamos en el `lapiz` que se encuentra en la esquina superior derecha de la vista de nuestro perfil. Entonces veremos el siguiente formulario modificable:
+
+![editar_perfil](./assets/editar_perfil_usuario.jpg)
+
+El campo **Email** no puede ser actualizado con un email ya existente en el sistema.
 
