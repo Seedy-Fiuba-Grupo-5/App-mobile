@@ -175,6 +175,33 @@ Para facilitar la busqueda de proyectos, tenemos los siguientes filtros:
 
 ![buscar_proyecto](./assets/filtro_proyecto.png)
 
+### Consulta Privadas
+
+#### Enviar Mensaje
+
+Para enviar un mensaje a otro usuario tendra que dirigirse a su perfil, ahi encontrara en la barra de
+direcciones un boton que le permitira enviar un mensaje
+
+![buscar_proyecto](./assets/perfil_usuario.png)
+
+Esto abrira una ventana emergente donde podra colocar su mensaje
+
+![buscar_proyecto](./assets/enviar_mensaje.png)
+
+Una vez enviado el mensaje recibira una alerta con el estado de la misma
+
+#### Recibir Mensaje
+
+Sera notificado cuando reciba un nuevo mensaje.
+
+![buscar_proyecto](./assets/notificar_mensaje.png)
+
+Si presiona la notificacion sera redirigido a la pantalla de "Inbox" donde se encontraran todos
+los mensajes que recibio, ademas podra responder cualquier mensaje
+
+![buscar_proyecto](./assets/mensajes.png)
+
+
 
 ### Perfil de usuario
 #### Propio
