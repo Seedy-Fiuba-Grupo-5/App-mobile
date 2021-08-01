@@ -18,8 +18,17 @@ const AccountEditScreen = ({navigation,route}) => {
                 Alert.alert('Information Edited');
             })
             .catch((error) => {
-                console.log(error);
-                Alert.alert('Something went wrong');
+                switch (error.response.status){
+                    case 409: {
+                        Alert.alert('Email already exist');
+                        break;
+                    }
+                    default:{
+                        Alert.alert('Something went wrong');
+                        break;
+                    }
+
+                }
             });
     }
     return (

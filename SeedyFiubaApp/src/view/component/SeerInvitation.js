@@ -8,7 +8,7 @@ import Project from "../../model/Project";
 import LoadingText from "./LoadingText";
 import SeedyFiubaButton from "./SeedyFiubaButton";
 import ProjectEditStyleSheet from "../Styles/ProjectEditStyleSheet";
-import {View} from "react-native";
+import {Alert, View} from "react-native";
 
 const SeerInvitation = ({projectId, onSuccess}) => {
     const [project, setProject] = useState(new Project());
@@ -26,7 +26,17 @@ const SeerInvitation = ({projectId, onSuccess}) => {
             })
             .catch((error) => {
                 setIsLoadingButton(false);
-                console.log(error);
+                switch (error.response.status){
+                    case 409: {
+                        Alert.alert('This project has already reviewer');
+                        break;
+                    }
+                    default:{
+                        Alert.alert('Something went wrong');
+                        break;
+                    }
+
+                }
             })
     }
     const deny = () => {
@@ -39,7 +49,17 @@ const SeerInvitation = ({projectId, onSuccess}) => {
             })
             .catch((error) => {
                 setIsLoadingButton(false);
-                console.log(error);
+                switch (error.response.status){
+                    case 409: {
+                        Alert.alert('Something went wrong');
+                        break;
+                    }
+                    default:{
+                        Alert.alert('Something went wrong');
+                        break;
+                    }
+
+                }
             })
     }
 

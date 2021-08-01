@@ -319,6 +319,32 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                     />
                                 </View>
                                 <Divider width={20} color={'transparent'}/>
+                                <Text style={{fontSize:22}}>Detail Information</Text>
+                                <View style={{flexDirection: 'row'}}>
+                                    <Text style={{
+                                        color: '#1e1d1d',
+                                        fontSize: 18,
+                                        paddingRight:10
+                                    }}>
+                                        ID:
+                                    </Text>
+                                    <Text style={ProjectCardStyleSheet.secondText}>
+                                        {project.id}
+                                    </Text>
+                                </View>
+                                <View style={{flexDirection: 'row'}}>
+                                    <Text style={{
+                                        color: '#1e1d1d',
+                                        fontSize: 18,
+                                        paddingRight:10
+                                    }}>
+                                        Status:
+                                    </Text>
+                                    <Text style={ProjectCardStyleSheet.secondText}>
+                                        {payment.state}
+                                    </Text>
+                                </View>
+                                <Divider width={20} color={'transparent'}/>
                                 <Text key={0} style={{fontSize:22}}>Description</Text>
                                 <Text key={1} style={{fontSize: 18, color:'#4f555c', paddingBottom:20}}>{project.description}</Text>
                                 {
@@ -378,6 +404,7 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                 <View style={{flexDirection: 'row'}}>
                                     <Icon name='explore'
                                           type='material'
+                                          containerStyle={{paddingRight:5, paddingTop:2}}
                                           size={20}
                                           color='#4f555c'/>
                                     <Text style={ProjectCardStyleSheet.secondText}>
@@ -385,12 +412,23 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                     </Text>
                                 </View>
                                 <View style={{flexDirection: 'row'}}>
-                                    <Icon name='room'
+                                    <Icon name='public'
                                           type='material'
+                                          containerStyle={{paddingRight:5, paddingTop:2}}
                                           size={20}
                                           color='#4f555c'/>
                                     <Text style={ProjectCardStyleSheet.secondText}>
                                         {project.location}
+                                    </Text>
+                                </View>
+                                <View style={{flexDirection: 'row'}}>
+                                    <Icon name='room'
+                                          type='material'
+                                          containerStyle={{paddingRight:5, paddingTop:2}}
+                                          size={20}
+                                          color='#4f555c'/>
+                                    <Text style={ProjectCardStyleSheet.secondText}>
+                                        {project.lat} / {project.lon}
                                     </Text>
                                 </View>
                                 <Divider width={20} color={'transparent'}/>
@@ -436,9 +474,6 @@ const ProjectDetailScreen = ({navigation,route}) => {
                                                     route.params.seer?
                                                         (
                                                             <>
-                                                                <Text style={{fontSize:22}}>State Project</Text>
-                                                                <Text style={{fontSize: 18, color:'#4f555c'}}>{payment.state}</Text>
-                                                                <Divider width={20} color={'transparent'}/>
                                                                 <SeerSection
                                                                     stagesCost={payment.stagesCost}
                                                                     projectId={project.id}

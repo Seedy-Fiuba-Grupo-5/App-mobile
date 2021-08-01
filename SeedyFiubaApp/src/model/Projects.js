@@ -16,6 +16,8 @@ class Projects {
                 video:project.video,
                 favorites:project.favorites,
                 rating:project.rating,
+                lat:project.lat,
+                lon:project.lon
             });
         })
     }

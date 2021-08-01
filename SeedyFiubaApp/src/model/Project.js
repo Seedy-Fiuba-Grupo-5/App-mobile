@@ -19,6 +19,8 @@ class Project{
             this.createdOn='';
             this.favorites = [];
             this.rating = 0;
+            this.lat = 1;
+            this.lon = 1;
         }else {
             this.id = project.id;
             this.name = project.name;
@@ -35,6 +37,8 @@ class Project{
             this.createdOn = project.createdOn;
             this.favorites = project.favorites;
             this.rating = project.rating;
+            this.lat = project.lat;
+            this.lon = project.lon;
         }
     }
 }

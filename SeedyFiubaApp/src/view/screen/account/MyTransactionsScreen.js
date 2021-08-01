@@ -1,5 +1,5 @@
 import Loading from "../../component/Loading";
-import {RefreshControl, ScrollView, View} from "react-native";
+import {RefreshControl, ScrollView, Text, View} from "react-native";
 import React, {useCallback, useEffect, useState} from "react";
 import UseAuth from "../../component/UseAuth";
 import ApiUser from "../../../model/ApiUser";
@@ -69,17 +69,20 @@ const MyTransactionsScreen = ({navigation}) => {
                                                         style={ProjectCardStyleSheet.title}>
                                                         {transaction.updatedAt.split('T')[0]} {transaction.updatedAt.split('T')[1].split('.')[0]}
                                                     </Card.Title>
-                                                    <Card.FeaturedSubtitle style={ProjectCardStyleSheet.description}>
-                                                        Amount of Ethers: {transaction.amountEthers}
-                                                    </Card.FeaturedSubtitle>
-                                                    <Card.FeaturedSubtitle numberOfLines={1}
-                                                                           style={ProjectCardStyleSheet.description}>
-                                                        Transaction State: {transaction.transactionState}
-                                                    </Card.FeaturedSubtitle>
-                                                    <Card.FeaturedSubtitle numberOfLines={1}
-                                                                           style={ProjectCardStyleSheet.description}>
-                                                        To Project: {transaction.toPublicId}
-                                                     </Card.FeaturedSubtitle>
+                                                    <View style={{padding:2}}>
+                                                        <Text style={{fontSize: 20, color: 'grey'}}>State:</Text>
+                                                        <Text style={{fontSize: 22}}>{transaction.transactionState}</Text>
+                                                    </View>
+                                                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                                                        <View style={{flexDirection:'row'}}>
+                                                            <Text style={{fontSize: 20, color: 'grey'}}>Ethers:</Text>
+                                                            <Text style={{fontSize: 22, paddingLeft:10}}>{transaction.amountEthers}</Text>
+                                                        </View>
+                                                        <View style={{flexDirection:'row'}}>
+                                                            <Text style={{fontSize: 20, color: 'grey'}}>Project Id:</Text>
+                                                            <Text style={{fontSize: 22, paddingLeft:10}}>{transaction.toPublicId}</Text>
+                                                        </View>
+                                                    </View>
                                                 </Card>
                                             )
                                         }
@@ -88,6 +91,7 @@ const MyTransactionsScreen = ({navigation}) => {
                             {transactions.length === 0?
                                 <SeedyFiubaEmpty title={'Without any Transactions'}/> : null
                             }
+                            <Text/>
                         </ScrollView>
                     )
             }

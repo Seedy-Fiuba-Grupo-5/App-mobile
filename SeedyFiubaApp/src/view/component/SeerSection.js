@@ -5,6 +5,7 @@ import SeerReleaseFunds from "./SeerReleaseFunds";
 const SeerSection = ({stagesCost, projectId, stagesStates,onSuccess}) => {
     return(
         <View>
+            <Text style={{fontSize:22,paddingBottom:10}}>Release funds</Text>
             {
                 stagesCost.map((value, index, values) => {
                     return (

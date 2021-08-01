@@ -5,9 +5,9 @@ import * as Linking from 'expo-linking';
 import {Icon} from "react-native-elements";
 
 const AccountWalletInformationCard = ({styles,address,privateKey,balance}) => {
-    const copyToClipboard = () => {
-        Clipboard.setString(address);
-        ToastAndroid.show('Address Copied',ToastAndroid.SHORT);
+    const copyToClipboard = (text, message) => {
+        Clipboard.setString(text);
+        ToastAndroid.show(message,ToastAndroid.SHORT);
     }
 
     const openUrl = () => {
@@ -39,13 +39,15 @@ const AccountWalletInformationCard = ({styles,address,privateKey,balance}) => {
                 </View>
                 <View style={{padding:2}}>
                     <Text style={{fontSize: 20, color: 'grey'}}>Address:</Text>
-                    <TouchableOpacity onPress={copyToClipboard}>
+                    <TouchableOpacity onPress={()=>{copyToClipboard(address,'Address Copied')}}>
                         <Text style={{fontSize: 20}}>{address}</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{padding:2}}>
                     <Text style={{fontSize: 20, color: 'grey'}}>Private Key:</Text>
-                    <Text style={{fontSize: 20}}>{privateKey}</Text>
+                    <TouchableOpacity onPress={()=>{copyToClipboard(privateKey,'Private key Copied')}}>
+                        <Text style={{fontSize: 20}}>{privateKey}</Text>
+                    </TouchableOpacity>
                 </View>
             </Card.Content>
         </Card>

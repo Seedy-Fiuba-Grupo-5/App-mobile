@@ -17,9 +17,9 @@ class UserInformation{
 
     static async setData2(id,jwt){
         try {
-            let id = JSON.stringify(id);
+            let userId = JSON.stringify(id);
             let token = JSON.stringify(jwt);
-            await AsyncStorage.setItem('userId', id);
+            await AsyncStorage.setItem('userId', userId);
             await AsyncStorage.setItem('userToken', token);
             return true;
         } catch (e) {
@@ -44,6 +44,8 @@ class UserInformation{
         try {
             let id = await AsyncStorage.getItem('userId');
             let jwt = await AsyncStorage.getItem('userToken');
+            console.log(id);
+            console.log(jwt);
             return {
                 id:JSON.parse(id),
                 jwt:JSON.parse(jwt),
