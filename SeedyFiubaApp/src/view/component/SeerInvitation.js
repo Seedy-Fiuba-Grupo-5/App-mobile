@@ -45,6 +45,7 @@ const SeerInvitation = ({projectId, onSuccess}) => {
             .then((data) => {
                 setIsLoadingButton(false);
                 onSuccess();
+                console.log('Denyyyyyyy');
                 console.log(data);
             })
             .catch((error) => {
@@ -75,8 +76,9 @@ const SeerInvitation = ({projectId, onSuccess}) => {
             });
     }
     useEffect(() => {
+        setIsLoading(true);
         getProjects(setIsLoading);
-    }, []);
+    }, [projectId]);
     return (
         <Card containerStyle={ProjectCardStyleSheet.projectCard}>
 
