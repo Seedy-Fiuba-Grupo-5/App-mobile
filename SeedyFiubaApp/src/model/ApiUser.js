@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {URL_LOCAL_GATEWAY} from '@env'
+import {URL_LOCAL_USER} from '@env'
 import User from "./User";
 import Project from "./Project";
 import Projects from "./Projects";
@@ -29,6 +29,9 @@ class ApiUser {
             password : password,
             expo_token:expoToken
         });
+        if (response.status !== 201) {
+            return false;
+        }
         const jsonData = response.data;
         await UserInformation.setToken(jsonData);
         return new User(jsonData);
@@ -49,6 +52,9 @@ class ApiUser {
             password:password,
             expo_token:expoToken
         });
+        if (response.status !== 200) {
+            return false;
+        }
         const jsonData = response.data;
         await UserInformation.setToken(jsonData);
         return new User(jsonData);

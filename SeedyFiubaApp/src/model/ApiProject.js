@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Projects from "./Projects";
-import {URL_LOCAL_GATEWAY} from '@env'
+import {URL_LOCAL} from '@env'
 import Project from "./Project";
 import Support from "./Support";
 import Transactions from "./Transactions";

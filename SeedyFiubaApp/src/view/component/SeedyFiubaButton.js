@@ -1,4 +1,4 @@
-import loginStyle from "../Styles/AuthStyleSheet";
+import styles from "../Styles/StyleSheet";
 import {Button} from "react-native-elements";
 import React from "react";
 
