@@ -11,26 +11,24 @@ El siguiente documento busca explicar a nuevos los usuarios el funcionamiento de
 7. [Edicion de Proyectos](#edicion-de-proyectos)
 
 
-## Registro
+## Registro e Inicio de Sesion
 
 Para comenzar a interactuar con la plataforma necesita registrase en la misma,
 para eso presionamos el texto "Sign Up".
         
-    image1
+![inicio_de_sesion](./assets/inicio_de_sesion.png)
 
 Lo anterior abrira una nueva ventana donde completara todos sus datos. 
 
-    image2
+![registro](./assets/registro.png)
 
 Una vez hecho esto presionamos el boton "Sign Up" si el registro fue existoso podra hacer 
 uso de la plataforma.
 
-## Inicio de Sesion
+![google](./assets/google.png)
 
 Si ya tenemos una cuenta, llenamos los datos solicitados y presionamos "Sign In",
 Tambien podemos iniciar sesion utilizando nuestra cuenta de Google.
-
-    image3
 
 Si el inicio de sesion fue exitoso podra hacer uso de la plataforma.
 
@@ -39,14 +37,14 @@ Si el inicio de sesion fue exitoso podra hacer uso de la plataforma.
 Despues de iniciar sesion o registrarse la pantalla principal mostrara todos los proyectos
 que se encuentran disponibles en la plataforma
 
-    imagen4
+![google](./assets/pantalla_principal.png)
 
 ## Menu
 
 Tendra disponible un menu, que lo ayudara a navegar por las distintas pantallas de la
 aplicacion, para acceder a este menu solo presione el boton de hamburguesa
 
-    imagen5
+![google](./assets/menu.png)
 
 * **Main:** Podremos ver todos los proyectos de la plataforma
 * **Account:** Veremos toda la informacion de usuario, esto incluye sus datos personales e 
@@ -61,11 +59,22 @@ aplicacion, para acceder a este menu solo presione el boton de hamburguesa
 
 
 ## Proyectos
+### Visualizacion del Proyecto
+
+Presionando cualquier proyecto en la pantalla principal, observaremos todos los
+datos del mismo.
+
+![google](./assets/proyecto.png)
+
+* **Calificar Proyecto:** 
+* **Comentar Proyecto:**
+* **Apoyar Proyecto:**
+
 ### Creacion de Proyectos
 
 Para crear un proyecto vamos a **Create Project** y observaremos el siguiente formulario
 
-        image 6
+![google](./assets/crear_proyecto.png)
 
 #### Algunos Campos
 * **Goal:** La meta propuesta puede ser divida en etapas, para poder difinir una nueva etapa
