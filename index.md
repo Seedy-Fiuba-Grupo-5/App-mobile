@@ -30,10 +30,10 @@ Lo anterior abrira una nueva ventana donde completara todos sus datos.
 Una vez hecho esto presionamos el boton "Sign Up" si el registro fue existoso podra hacer 
 uso de la plataforma.
 
-![google](./assets/google.png)
-
 Si ya tenemos una cuenta, llenamos los datos solicitados y presionamos "Sign In",
 Tambien podemos iniciar sesion utilizando nuestra cuenta de Google.
+
+![google](./assets/google.png)
 
 Si el inicio de sesion fue exitoso podra hacer uso de la plataforma.
 
@@ -139,8 +139,8 @@ al usuario como veedor poder liberar los fondos de las distintas etapas de un pr
 
 ![agregar_seer](./assets/campos_seer.png)
 
-Por cada etapa aceptada recibira una alerta informando el estado del mismo, Al aceptar una etapa las anteriores
-sera aceptadas automaticamente
+Por cada etapa aceptada recibira una alerta informando el estado del mismo, Al aceptar una etapa las etapas anteriores
+seran aceptadas automaticamente
 
 ### Creacion de Proyectos
 
