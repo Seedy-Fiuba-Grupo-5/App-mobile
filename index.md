@@ -2,15 +2,18 @@
 El siguiente documento busca explicar a nuevos los usuarios el funcionamiento de la aplicacion para mobiles.
 
 ## Tabla de Contenidos
-1. [Registro](#registro)
-2. [Inicio de Sesion](#inicio-de-sesion)
-3. [Pantalla de Inicio](#pantalla-de-inicio)
-4. [Menu](#menu)
-5. [Visualizacion del Proyecto](#visualizacion-del-proyecto)
-6. [Creacion de Proyectos](#creacion-de-proyectos)
-7. [Edicion de Proyectos](#edicion-de-proyectos)
-8. [Perfil de usuario](#perfil-de-usuario)
-8. [Editar perfil de usuario](#editar-perfil-de-usuario)
+1. [Registro e Inicio de Sesion](#registro-e-inicio-de-sesion)
+2. [Pantalla de Inicio](#pantalla-de-inicio)
+3. [Menu](#menu)
+4. [Visualizacion del Proyecto](#visualizacion-del-proyecto)
+5. [Visualizacion del Proyecto Propio](#visualizacion-del-proyecto-propio)
+6. [Visualizacion del Proyecto como Veedor](#visualizacion-del-proyecto-como-veedor)
+7. [Creacion de Proyectos](#creacion-de-proyectos)
+8. [Consulta Privadas](#Consulta-privadas)
+9. [Busqueda de Proyecto](#busqueda-de-proyecto)
+10. [Perfil de usuario](#perfil-de-usuario)
+11. [Editar perfil de usuario](#editar-perfil-de-usuario)
+12. [Transacciones](#transacciones)
 
 
 ## Registro e Inicio de Sesion
